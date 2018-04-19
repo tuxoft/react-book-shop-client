@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`default button 1`] = `
+<styled.button>
+  Button
+</styled.button>
+`;
+
+exports[`primary button 1`] = `
+<styled.button
+  primary={true}
+>
+  Button
+</styled.button>
+`;
+
+exports[`small button 1`] = `
+<styled.button
+  small={true}
+>
+  Button
+</styled.button>
+`;
