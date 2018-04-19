@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
-import ThemeProvider from 'react-theme-provider';
 import logo from './logo.svg';
 import './App.css';
 import SearchInput from "./components/simpleComponents/searchInput/index";
 import Button from "./components/simpleComponents/Button";
+import shopTheme from "./constants/shopTheme";
+import { ThemeProvider } from "styled-components";
 class App extends Component {
   render() {
     return (
+        <ThemeProvider  theme={shopTheme}>
       <div className="App">
-          <ThemeProvider  theme={shopTheme}>
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>
@@ -18,8 +19,8 @@ class App extends Component {
         </p>
         <SearchInput placeholder="Вводи значение" onChange={(val)=>{console.log("val", val.target.value)}}/>
       <Button> В корзину </Button>
-          </ThemeProvider>
       </div>
+        </ThemeProvider>
     );
   }
 }
