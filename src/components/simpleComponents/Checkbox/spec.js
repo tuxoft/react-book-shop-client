@@ -1,8 +1,20 @@
 import React from "react";
-import Input from "./index";
-import { shallow } from "enzyme";
+import Checkbox from "./index";
+import { shallow, mount } from "enzyme";
 
-it("input", () => {
-  const input = shallow(<Input />);
-  expect(input).toMatchSnapshot();
+it("checkbox", () => {
+  const onClick = jest.fn();
+  const cb = shallow(<Checkbox labelText={'text'} onClick={onClick}/>);
+  expect(cb).toMatchSnapshot();
+});
+it("checkbox handler", () => {
+     let expected = true;
+     const onClickHandler =(val) =>{
+         expect(val).toBe(expected);
+     };
+    const cb = mount(<Checkbox labelText={'text'} onClick={onClickHandler}/>);
+    cb.simulate('click', {target:{}});
+    expected = false;
+    cb.simulate('click', {target:{}});
+
 });

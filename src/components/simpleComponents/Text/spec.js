@@ -1,30 +1,46 @@
 import React from "react";
-import Button from "./index";
 import { shallow, mount } from "enzyme";
+import {ThemeProvider} from 'styled-components';
 
-it("renders text", () => {
-  const button = mount(<Button>Button</Button>);
-  expect(button.text()).toBe("Button");
+import shopTheme from '../../../constants/shopTheme';
+import {SimpleText,BoldText,ColoredText,ColoredBoldText,UnderlinedText} from "./index";
+
+it("renders simple", () => {
+    const text = mount(
+    <ThemeProvider theme = {shopTheme}>
+      <SimpleText>Text</SimpleText>
+    </ThemeProvider>);
+  expect(text).toMatchSnapshot()
 });
 
-it("renders text", () => {
-  const onClickHandler = jest.fn();
-  const button = mount(<Button onClick={onClickHandler}>Button</Button>);
-  button.simulate("click");
-  expect(onClickHandler).toHaveBeenCalled();
+it("renders bold", () => {
+    const text = mount(
+    <ThemeProvider theme = {shopTheme}>
+      <BoldText>Text</BoldText>
+    </ThemeProvider>);
+    expect(text).toMatchSnapshot()
 });
 
-it("default button", () => {
-  const button = shallow(<Button>Button</Button>);
-  expect(button).toMatchSnapshot();
+it("renders colored", () => {
+    const text = mount(
+     <ThemeProvider theme = {shopTheme}>
+      <ColoredText>Text</ColoredText>
+    </ThemeProvider>);
+    expect(text).toMatchSnapshot()
 });
 
-it("primary button", () => {
-  const button = shallow(<Button primary>Button</Button>);
-  expect(button).toMatchSnapshot();
+it("renders coloredBold", () => {
+    const text = mount(
+        <ThemeProvider theme = {shopTheme}>
+          <ColoredBoldText>Text</ColoredBoldText>
+        </ThemeProvider>);
+    expect(text).toMatchSnapshot()
 });
 
-it("small button", () => {
-  const button = shallow(<Button small>Button</Button>);
-  expect(button).toMatchSnapshot();
+it("renders underlined", () => {
+    const text = mount(
+        <ThemeProvider theme = {shopTheme}>
+          <UnderlinedText>Text</UnderlinedText>
+        </ThemeProvider>);
+    expect(text).toMatchSnapshot()
 });

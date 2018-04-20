@@ -1,6 +1,6 @@
 import React from "react";
 import Input from "./index";
-import { shallow } from "enzyme";
+import { shallow, mount } from "enzyme";
 
 it("input", () => {
   const input = shallow(<Input />);

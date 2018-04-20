@@ -1,23 +1,151 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`default button 1`] = `
-<styled.button>
-  Button
-</styled.button>
+exports[`renders bold 1`] = `
+<ThemeProvider
+  theme={
+    Object {
+      "colors": Object {
+        "DARK_COLOR": "#2598c6",
+        "GRAY_COLOR": "#A3AAB1",
+        "THEME_COLOR": "#69c3e8",
+      },
+    }
+  }
+>
+  <BoldText>
+    <styled.div>
+      <div
+        className="sc-bwzfXH locxlO"
+      >
+        <styled.div>
+          <div
+            className="sc-bdVaJa eMFQSc"
+          >
+            Text
+          </div>
+        </styled.div>
+      </div>
+    </styled.div>
+  </BoldText>
+</ThemeProvider>
 `;
 
-exports[`primary button 1`] = `
-<styled.button
-  primary={true}
+exports[`renders colored 1`] = `
+<ThemeProvider
+  theme={
+    Object {
+      "colors": Object {
+        "DARK_COLOR": "#2598c6",
+        "GRAY_COLOR": "#A3AAB1",
+        "THEME_COLOR": "#69c3e8",
+      },
+    }
+  }
 >
-  Button
-</styled.button>
+  <ColoredText>
+    <styled.div>
+      <div
+        className="sc-htpNat ihLMWb"
+      >
+        <styled.div>
+          <div
+            className="sc-bdVaJa eMFQSc"
+          >
+            Text
+          </div>
+        </styled.div>
+      </div>
+    </styled.div>
+  </ColoredText>
+</ThemeProvider>
 `;
 
-exports[`small button 1`] = `
-<styled.button
-  small={true}
+exports[`renders coloredBold 1`] = `
+<ThemeProvider
+  theme={
+    Object {
+      "colors": Object {
+        "DARK_COLOR": "#2598c6",
+        "GRAY_COLOR": "#A3AAB1",
+        "THEME_COLOR": "#69c3e8",
+      },
+    }
+  }
 >
-  Button
-</styled.button>
+  <ColoredBoldText>
+    <styled.div>
+      <div
+        className="sc-bwzfXH locxlO"
+      >
+        <styled.div>
+          <div
+            className="sc-htpNat ihLMWb"
+          >
+            <styled.div>
+              <div
+                className="sc-bdVaJa eMFQSc"
+              >
+                Text
+              </div>
+            </styled.div>
+          </div>
+        </styled.div>
+      </div>
+    </styled.div>
+  </ColoredBoldText>
+</ThemeProvider>
+`;
+
+exports[`renders simple 1`] = `
+<ThemeProvider
+  theme={
+    Object {
+      "colors": Object {
+        "DARK_COLOR": "#2598c6",
+        "GRAY_COLOR": "#A3AAB1",
+        "THEME_COLOR": "#69c3e8",
+      },
+    }
+  }
+>
+  <SimpleText>
+    <styled.div>
+      <div
+        className="sc-bdVaJa eMFQSc"
+      >
+        Text
+      </div>
+    </styled.div>
+  </SimpleText>
+</ThemeProvider>
+`;
+
+exports[`renders underlined 1`] = `
+<ThemeProvider
+  theme={
+    Object {
+      "colors": Object {
+        "DARK_COLOR": "#2598c6",
+        "GRAY_COLOR": "#A3AAB1",
+        "THEME_COLOR": "#69c3e8",
+      },
+    }
+  }
+>
+  <UnderlinedText>
+    <styled.div>
+      <div
+        className="sc-bxivhb bFxTZR"
+      >
+        <styled.div>
+          <div
+            className="sc-bdVaJa eMFQSc"
+          >
+            Text
+          </div>
+        </styled.div>
+      </div>
+    </styled.div>
+  </UnderlinedText>
+</ThemeProvider>
 `;
