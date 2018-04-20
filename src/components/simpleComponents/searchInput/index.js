@@ -1,14 +1,25 @@
 import React from "react";
 import * as styles from "./styles";
-import {FaSearch} from 'react-icons/lib/fa/';
 
-const SearchInput = (props) => (
-    <styles.InputWrapper {...props}>
+const SearchInput = (props) => {
+    const FaSearch = props.picture;
+    return (
+    <styles.InputWrapper >
+        {(props.leftPicture && FaSearch) ?
+            <styles.Button onClick={props.leftPictureClick} leftSide>
+                <FaSearch/>
+            </styles.Button> : null}
+
         <styles.Input
-            {...props}
+            {...props.inputProps}
+            leftPicture = {props.leftPicture}
+            rightPicture = {props.rightPicture}
         />
-        <FaSearch/>
-    </styles.InputWrapper>
-);
+        {(props.rightPicture && FaSearch) ?
+            <styles.Button onClick={props.rightPictureClick} rightSide>
+                <FaSearch/>
+            </styles.Button> : null}
+    </styles.InputWrapper>)
+};
 
 export default SearchInput;

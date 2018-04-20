@@ -1,40 +1,18 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Switch, Redirect, Route, withRouter } from "react-router-dom";
-
-const ProtectedRoute = ({ component: Component, render, ...restProps }) => {
-  return (
-    <Route
-      {...restProps}
-      render={(props) => {
-        return restProps.isAuthenticated ? (
-          Component ? (
-            <Component {...props} />
-          ) : (
-            render(props)
-          )
-        ) : (
-          <Redirect to="/login" />
-        );
-      }}
-    />
-  );
-};
+import HeaderBody from "../components/header/index";
 
 const Routes = (props) =>
   props.isInitialized ? (
     <Switch>
-     <ProtectedRoute
-        exact
-        path="/sessions"
-        render={(props) => <div className="App"/>}
-        {...props}
-      />
+        <Route exact path="/" component={HeaderBody}/>
     </Switch>
   ) : null;
 
 const mapStateToProps = ({ app }) => ({
-  app: app
+    isInitialized: true,
+    isAuthenticated: true
 });
 
 export default withRouter(connect(mapStateToProps)(Routes));

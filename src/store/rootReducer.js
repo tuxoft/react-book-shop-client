@@ -1,8 +1,10 @@
 import { combineReducers } from "redux";
 import app from "./app/reducers";
+import flash from "./flash/reducers";
 
 const rootReducer = combineReducers({
-  app
+  app,
+  flash
 });
 
 export default rootReducer;
