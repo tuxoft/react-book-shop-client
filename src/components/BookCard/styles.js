@@ -77,15 +77,15 @@ export const ButtonWrapper = styled.div`
 `;
 export const Control = styled(ButtonComponent).attrs({ type: "button" })`
     height: 30px;
-    background: #8bc53f;
+    background: #9bd53a;
     font-size: 14px;
     margin: 0 auto;
-    min-width: 108px;
+    min-width: 110px;
     white-space: nowrap;
     color: #fff;
     padding: 0 20px;
     display: block;
-    border-radius: 3px;
+    border-radius: 5px;
     cursor: pointer;
     box-sizing: border-box;
 `;
