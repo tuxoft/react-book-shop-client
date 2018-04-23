@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`checkbox 1`] = `
+<CheckboxComponent
+  isChecked={false}
+  labelText="text"
+  onClick={[Function]}
+/>
+`;
