@@ -1,12 +1,12 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Switch, Redirect, Route, withRouter } from "react-router-dom";
-import HeaderBody from "../components/header/index";
+import MainPage from "../components/MainPage/index";
 
 const Routes = (props) =>
   props.isInitialized ? (
     <Switch>
-        <Route exact path="/" component={HeaderBody}/>
+        <Route exact path="/" component={MainPage}/>
     </Switch>
   ) : null;
 
