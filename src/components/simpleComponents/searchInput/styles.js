@@ -4,6 +4,9 @@ export const InputWrapper = styled.div`
   width: 500px;
   height: 40px;
   border-radius: 3px;
+  ${props => (props.short) && `
+    width: 200px;
+  `}  
 `;
 
 export const Input = styled.input.attrs({ type: "text" })`

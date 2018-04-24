@@ -4,7 +4,7 @@ import * as styles from "./styles";
 const SearchInput = (props) => {
     const FaSearch = props.picture;
     return (
-    <styles.InputWrapper >
+    <styles.InputWrapper short={props.short}>
         {(props.leftPicture && FaSearch) ?
             <styles.Button onClick={props.leftPictureClick} leftSide>
                 <FaSearch/>
