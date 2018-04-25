@@ -44,9 +44,10 @@ const FooterBody = (props) => (
                 <SearchInput
                     inputProps={{
                         placeholder: "E-mail",
-                        onChange: (val)=>{props.onChangeText(val)},
+                        onChange: (val)=>{props.onChangeText(val.target.value)},
+                        value: props.email
                     }} short/>
-                <styles.Button onClick={()=>{props.onSubscription}}>Подписаться</styles.Button>
+                <styles.Button onClick={props.onSubscription}>Подписаться</styles.Button>
                 </styles.SubscribeWrapper>
             </styles.MailBlock>
         </styles.ColWrapper>

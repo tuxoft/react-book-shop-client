@@ -2,11 +2,13 @@ import React from "react";
 import HeaderBody from "../header/index";
 import BookCard from "../BookCard/index";
 import FooterBody from "../Footer/index";
+import Screen from "../../components/Screen";
 import shopTheme from "../../constants/shopTheme";
-import { ThemeProvider } from "styled-components";
+
 
 const MainPage = (props) => (
-    <ThemeProvider  theme={shopTheme}>
+
+        <Screen>
     <div className="App">
         <HeaderBody/>
         <BookCard {...{
@@ -20,7 +22,8 @@ const MainPage = (props) => (
         <FooterBody onChangeText={(val)=>{console.log(val);}}
                     onSubscription={(val)=>{console.log(val);}}/>
     </div>
-    </ThemeProvider>
+        </Screen>
+
 );
 
 export default MainPage;

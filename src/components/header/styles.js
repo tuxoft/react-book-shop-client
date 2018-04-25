@@ -30,13 +30,22 @@ export const LogoWrapper = styled.div`
 `;
 
 export const BucketWrapper = styled.div`
-    width: 160px;
+    width: 170px;
     height: 100px;
     display: flex;
     flex-wrap: wrap;
     align-content:stretch;
     align-items: center;
     justify-content: space-around;    
+`;
+
+export const BucketInfoWrapper = styled.div`
+    display: inline-block;
+    width: 95px;
+    color: #fff;
+    font-size: 14px;
+    vertical-align: top;
+    margin-left: 5px;
 `;
 
 export const ImageBucket = styled.img`
@@ -50,7 +59,7 @@ export const Image = styled.img`
 `;
 
 export const TextLink = styled((props) => <Link {...props} />)`
-  color: #000;
+  color: #fff;
   text-decoration: none;
 `;
 
