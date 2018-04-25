@@ -1,16 +1,17 @@
 import { delay } from "redux-saga";
 import { all, call, take, put, takeLatest } from "redux-saga/effects";
 import * as flashActions from "../store/flash/actions";
-import * as actionsSubscribe from "../store/searchBooks/actions";
+import * as actionsSearchBooks from "../store/searchBooks/actions";
 
 // WORKERS
 function* fetchSearchBooks(action) {
     try {
+        console.log("Вы ищете "+ action.payload.value,);
         yield put(
             flashActions.showFlash(
                 "Вы ищете "+ action.payload.value,
                 "danger",
-                false,
+                true,
             ),
         );
     } catch (error) {
@@ -26,7 +27,7 @@ function* fetchSearchBooks(action) {
 
 // WATCHERS
 function* searchBooksFlow() {
-    yield takeLatest(actionsSubscribe.SEARCH_BOOKS, fetchSearchBooks);
+    yield takeLatest(actionsSearchBooks.SEARCH_BOOKS, fetchSearchBooks);
 }
 
 export default function* searchBooks() {

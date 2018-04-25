@@ -2,23 +2,23 @@ import React from "react";
 import * as styles from "./styles";
 
 
-const BookCard = (props) => (
+const BookCard = ({book}) => (
     <styles.CardWrapper>
 
-        <styles.ImageLink to={"/books/" + props.id}>
-            <styles.Image src={props.url}/>
+        <styles.ImageLink to={"/books/" + book.id}>
+            <styles.Image src={book.url}/>
         </styles.ImageLink>
 
         <styles.Description>
-            <styles.TextLink to={"/books/" + props.id}>{props.name}</styles.TextLink>
+            <styles.TextLink to={"/books/" + book.id}>{book.name}</styles.TextLink>
             <styles.AutorLabel>
-                {props.autor}
+                {book.autor}
             </styles.AutorLabel>
             <styles.PriceLabel>
-                Цена: <styles.PriceValue>{props.price}</styles.PriceValue>
+                Цена: <styles.PriceValue>{book.price}</styles.PriceValue>
             </styles.PriceLabel>
             <styles.ButtonWrapper>
-                <styles.Control onClick={() => {props.onInBox(props.id)}}>В корзину</styles.Control>
+                <styles.Control onClick={() => {book.onInBox(book.id)}}>В корзину</styles.Control>
             </styles.ButtonWrapper>
         </styles.Description>
 

@@ -1,7 +1,7 @@
 import * as actions from "./actions";
 
 const initialState = {
-    itemsCount: 1,
+    itemsCount: 0,
     itemsReservCount: 0,
 };
 

@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import * as searchBooksActions from "../../store/searchBooks/actions";
 import HeaderBody from "../../components/header";
 import { getSearchValue } from "../../store/searchBooks/selectors";
-import { getBuscketItems, getBuscketReservItems } from "../../store/buscket/selectors";
+import { getBuscketItems, getBuscketReservItems } from "../../store/bucket/selectors";
 
 class Footer extends Component {
 
@@ -23,8 +23,6 @@ class Footer extends Component {
         <HeaderBody
             {...this.state}
             {...this.props}
-            onChangeText={(val)=>{this.onChangeText(val)}}
-            onSubscription={(val)=>{console.log(this.props.email);}}
             email = {this.props.email}
             menuItems={
                 [

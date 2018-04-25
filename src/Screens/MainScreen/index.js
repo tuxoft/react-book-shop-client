@@ -16,7 +16,7 @@ class MainScreen extends Component {
     return (
       <Screen>
           <Header/>
-          <BookCard {...{
+          <BookCard book={{
               url:"http://placehold.it/140x140",
               name: "Пепе - длиный чулок",
               id: 1,

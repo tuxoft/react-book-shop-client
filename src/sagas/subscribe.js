@@ -6,11 +6,12 @@ import * as actionsSubscribe from "../store/subscribe/actions";
 // WORKERS
 function* fetchSubscribe(action) {
     try {
+        console.log("Вы подписаны "+ action.payload.email,);
         yield put(
             flashActions.showFlash(
                 "Вы подписаны "+ action.payload.email,
                 "danger",
-                false,
+                true,
             ),
         );
     } catch (error) {

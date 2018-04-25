@@ -12,13 +12,18 @@ class Footer extends Component {
       this.props.actions.subscribe.setEmail(val);
   };
 
+    subscribeEmail = () => {
+        console.log(this.props.email);
+        this.props.actions.subscribe.subscribeEmail(this.props.email);
+    };
+
   render() {
     return (
         <FooterBody
             {...this.state}
             {...this.props}
-            onChangeText={(val)=>{this.onChangeText(val)}}
-            onSubscription={(val)=>{console.log(this.props.email);}}
+            onChangeText={this.onChangeText}
+            onSubscription={this.subscribeEmail}
         />
     );
   }
