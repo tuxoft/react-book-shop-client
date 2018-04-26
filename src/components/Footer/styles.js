@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 export const FooterWrapper = styled.div`
+    width: 100%;
     margin-top: 25px;
     padding-top: 35px;
     font-size: 14px;
