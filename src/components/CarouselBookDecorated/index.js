@@ -3,7 +3,7 @@ import * as styles from "./styles";
 import Carousel from 'nuka-carousel';
 import {FaArrowCircleLeft,  FaArrowCircleRight } from 'react-icons/lib/fa/';
 
-const CarouselDecorated = ({ children, ...restProps }) => (
+const CarouselBookDecorated = ({ children, ...restProps }) => (
   <styles.CarouselWrapper {...restProps}>
       <Carousel
           cellAlign="left"
@@ -27,4 +27,4 @@ const CarouselDecorated = ({ children, ...restProps }) => (
   </styles.CarouselWrapper>
 );
 
-export default CarouselDecorated;
+export default CarouselBookDecorated;
