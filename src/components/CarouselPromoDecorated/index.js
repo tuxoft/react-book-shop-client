@@ -9,6 +9,7 @@ const CarouselPromoDecorated = ({ children, ...restProps }) => (
           cellAlign="left"
           dragging={false}
           wrapAround={false}
+          framePadding="0px 0px 0px 0px"
           renderCenterLeftControls={({ previousSlide }) => (
               <styles.ArrowWrapper><FaArrowLeft onClick={previousSlide} size={50} color="#f0f0f0"/></styles.ArrowWrapper>
           )}

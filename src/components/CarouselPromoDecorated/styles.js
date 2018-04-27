@@ -7,7 +7,7 @@ export const ArrowWrapper = styled.div`
 export const CarouselWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  height: 300px;
+  margin-top: 10px;
   width: 700px;
   align-items: center;
   justify-content: center;
