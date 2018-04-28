@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Switch, Redirect, Route, withRouter } from "react-router-dom";
-import MainScreen from "../Screens/MainScreen/index";
+import MainScreen from "../../Screens/MainScreen/index";
 
 const ProtectedRoute = ({ component: Component, render, ...restProps }) => {
     return (
@@ -23,6 +23,7 @@ const ProtectedRoute = ({ component: Component, render, ...restProps }) => {
 };
 
 const Routes = (props) =>
+
   props.isInitialized ? (
     <Switch>
         <ProtectedRoute
