@@ -30,6 +30,7 @@ const HomeBody = ({promoPictures, newBooks, goodBooks, tradeBooks}) => (
                 <styles.InfoImage src="http://placehold.it/290x220"/>
                 <styles.InfoText>
                     <styles.BlueLabel>Лучшие книги</styles.BlueLabel>
+                    <br/>
                     <styles.Label>25 апреля – Международный день ДНК.</styles.Label>
                 </styles.InfoText>
             </styles.InfoBlock>
@@ -37,6 +38,7 @@ const HomeBody = ({promoPictures, newBooks, goodBooks, tradeBooks}) => (
                 <styles.InfoImage src="http://placehold.it/290x220"/>
                 <styles.InfoText>
                     <styles.BlueLabel>Лучшие книги</styles.BlueLabel>
+                    <br/>
                     <styles.Label>25 апреля – Международный день ДНК.</styles.Label>
                 </styles.InfoText>
             </styles.InfoBlock>
@@ -44,6 +46,7 @@ const HomeBody = ({promoPictures, newBooks, goodBooks, tradeBooks}) => (
                 <styles.InfoImage src="http://placehold.it/290x220"/>
                 <styles.InfoText>
                     <styles.BlueLabel>Лучшие книги</styles.BlueLabel>
+                    <br/>
                     <styles.Label>25 апреля – Международный день ДНК.</styles.Label>
                 </styles.InfoText>
             </styles.InfoBlock>

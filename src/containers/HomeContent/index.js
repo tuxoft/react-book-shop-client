@@ -1,37 +1,29 @@
 import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import * as searchBooksActions from "../../store/searchBooks/actions";
+import * as booksActions from "../../store/books/actions";
 import HomeBody from "../../components/Home";
-import { getSearchValue } from "../../store/searchBooks/selectors";
-import { getBuscketItems, getBuscketReservItems } from "../../store/bucket/selectors";
+import * as booksSelectors from "../../store/books/selectors";
+
 
 class Home extends Component {
 
-  onChangeText = (val) => {
-      console.log(val.target.value);
-      this.props.actions.searchBooks.setSearchValue(val.target.value);
-  };
+    componentDidMount() {
+        this.props.actions.books.fetchNewBooks("new");
+        this.props.actions.books.fetchTradeBooks("trade");
+        this.props.actions.books.fetchGoodBooks("good");
+    }
 
-    onSearch = () => {
-        console.log(this.props.searchValue);
-        this.props.actions.searchBooks.seachBooks(this.props.searchValue);
+    onInBox = (id) => {
+        console.log("book add in box",this.props.id);
+        //this.props.actions.bucket.addBookToItems(id);
     };
 
   render() {
       let newBooks = [];
       let promoPictures=[];
       for(let i = 1; i<10; i++){
-          newBooks.push({
-              url: "http://placehold.it/140x140",
-              name: "Пепе - длиный чулок "+i,
-              id: i,
-              autor: "Гоголь А. Н.",
-              price: 100500,
-              onInBox: (id) => {
-                  alert(id)
-              },
-          });
+          newBooks.push();
           promoPictures.push({
               url: "/promo",
               pictureUrl: "http://placehold.it/1000x400/ffffff/c0392b/&text=slide"+i
@@ -39,25 +31,25 @@ class Home extends Component {
       }
     return (
         <HomeBody
-            newBooks={newBooks}
-            goodBooks={newBooks}
-            tradeBooks={newBooks}
+            newBooks={this.props.newBooks}
+            goodBooks={this.props.newBooks}
+            tradeBooks={this.props.newBooks}
             promoPictures={promoPictures}
         />
     );
   }
 }
 
-const mapStateToProps = ({ searchBooks, buscket }) => ({
-  searchValue: getSearchValue(searchBooks),
-  boxItemsCount: getBuscketItems(buscket),
-  boxItemsReservCount: getBuscketReservItems(buscket),
+const mapStateToProps = ({ searchBooks, books }) => ({
+    newBooks: booksSelectors.getNewBooks(books),
+    goodBooks: booksSelectors.getGoodBooks(books),
+    tradeBooks: booksSelectors.getTradeBooks(books),
 });
 
 const mapDispatchToProps = (dispatch,ownProps) => ({
     actions: {
         ...ownProps.actions,
-        searchBooks: bindActionCreators(searchBooksActions, dispatch)
+        books: bindActionCreators(booksActions, dispatch)
     },
 });
 
