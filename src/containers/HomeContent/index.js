@@ -29,6 +29,7 @@ class Home extends Component {
               pictureUrl: "http://placehold.it/1000x400/ffffff/c0392b/&text=slide"+i
           });
       }
+      console.log("books", this.props.newBooks);
     return (
         <HomeBody
             newBooks={this.props.newBooks}

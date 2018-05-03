@@ -7,7 +7,7 @@ import CarouselPromoDecorated from "../../components/CarouselPromoDecorated";
 const HomeBody = ({promoPictures, newBooks, goodBooks, tradeBooks}) => (
     <styles.HomeWrapper>
         <CarouselPromoDecorated>
-            {promoPictures.map((promo, indx)=><styles.TextLink key={"promoPicture"+indx} to={promo.url?promo.url:"/"}><img src={promo.pictureUrl}/></styles.TextLink>)}
+            {promoPictures.map((promo, indx)=><styles.TextLink key={"promoPicture"+indx} to={promo.url?promo.url:"/"}><img alt="promo" src={promo.pictureUrl}/></styles.TextLink>)}
 
         </CarouselPromoDecorated>
 
