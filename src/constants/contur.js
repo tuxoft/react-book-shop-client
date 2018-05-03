@@ -1,5 +1,7 @@
 class Contur {
-    API = "localhost:9876";
+    static get = () => ({
+        API: "http://local.portal.rzhd.ml",
+    });
 }
 
 export default Contur;
