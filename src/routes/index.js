@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { Switch, Redirect, Route, withRouter } from "react-router-dom";
 import MainScreen from "../Screens/MainScreen/index";
+import SearchScreen from "../Screens/SearchScreen/index";
 
 const ProtectedRoute = ({ component: Component, render, ...restProps }) => {
     return (
@@ -35,6 +36,18 @@ const Routes = (props) =>
             exact
             path="/home"
             render={(props) => <MainScreen {...props} />}
+            {...props}
+        />
+        <ProtectedRoute
+            exact
+            path="/search"
+            render={(props) => <SearchScreen {...props} />}
+            {...props}
+        />
+        <ProtectedRoute
+            exact
+            path="/search/:query"
+            render={(props) => <SearchScreen {...props} />}
             {...props}
         />
     </Switch>

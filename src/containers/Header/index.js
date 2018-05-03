@@ -6,7 +6,7 @@ import HeaderBody from "../../components/header";
 import { getSearchValue } from "../../store/searchBooks/selectors";
 import { getBuscketItems, getBuscketReservItems } from "../../store/bucket/selectors";
 
-class Footer extends Component {
+class Header extends Component {
 
   onChangeText = (val) => {
       console.log(val.target.value);
@@ -60,4 +60,4 @@ const mapDispatchToProps = (dispatch,ownProps) => ({
     },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Footer);
+export default connect(mapStateToProps, mapDispatchToProps)(Header);
