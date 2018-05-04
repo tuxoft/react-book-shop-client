@@ -4,19 +4,18 @@ import * as styles from "./styles";
 const SearchInput = (props) => {
     const FaSearch = props.picture;
     return (
-    <styles.InputWrapper short={props.short}>
+    <styles.InputWrapper {...props}>
         {(props.leftPicture && FaSearch) ?
-            <styles.Button onClick={props.leftPictureClick} leftSide>
+            <styles.Button onClick={props.leftPictureClick} leftSide {...props}>
                 <FaSearch/>
             </styles.Button> : null}
 
         <styles.Input
             {...props.inputProps}
-            leftPicture = {props.leftPicture}
-            rightPicture = {props.rightPicture}
+            {...props}
         />
         {(props.rightPicture && FaSearch) ?
-            <styles.Button onClick={props.rightPictureClick} rightSide>
+            <styles.Button onClick={props.rightPictureClick} rightSide {...props}>
                 <FaSearch/>
             </styles.Button> : null}
     </styles.InputWrapper>)

@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
+import { withLastLocation } from "react-router-last-location";
 import * as searchBooksActions from "../../store/searchBooks/actions";
+import * as booksActions from "../../store/books/actions";
 import HeaderBody from "../../components/header";
 import { getSearchValue } from "../../store/searchBooks/selectors";
 import { getBuscketItems, getBuscketReservItems } from "../../store/bucket/selectors";
@@ -15,7 +17,7 @@ class Header extends Component {
 
     onSearch = () => {
         console.log(this.props.searchValue);
-        this.props.actions.searchBooks.seachBooks(this.props.searchValue);
+        this.props.history.push("/search/"+this.props.searchValue);
     };
 
   render() {
@@ -56,8 +58,9 @@ const mapStateToProps = ({ searchBooks, buscket }) => ({
 const mapDispatchToProps = (dispatch,ownProps) => ({
     actions: {
         ...ownProps.actions,
+        books: bindActionCreators(booksActions, dispatch),
         searchBooks: bindActionCreators(searchBooksActions, dispatch)
     },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default withLastLocation(connect(mapStateToProps, mapDispatchToProps)(Header));

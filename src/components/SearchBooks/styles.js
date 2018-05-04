@@ -24,6 +24,15 @@ export const LeftSide = styled.div`
     align-items: start;
 `;
 
+export const CenterSide = styled.div`
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 55%;
+    align-items: start;
+`;
+
 export const InfoBlock = styled((props) => <Link {...props} />)`
     border-radius: 5px;
     box-sizing: border-box;
@@ -46,10 +55,11 @@ export const InfoText = styled.div`
 
 export const RowWrapper = styled.div`
     display: flex;
-    flex-direction: row;
-    justify-content: center;
-    width: 100%;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    width: 55%;
     align-items: center;
+    align-content: center;
 `;
 
 export const InfoImage = styled.img`
@@ -72,6 +82,7 @@ export const BlueLabel = styled.span`
     font-size: 18px;
     font-weight: 700;
     color: #26a9e0;
+    text-transform: uppercase;
 `;
 
 export const Label = styled.span`

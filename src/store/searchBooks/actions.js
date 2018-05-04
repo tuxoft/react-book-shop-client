@@ -7,7 +7,7 @@ export const setSearchValue = (value) => ({
 });
 
 export const SEARCH_BOOKS = "SEARCH_BOOKS";
-export const seachBooks = (value) => ({
+export const searchBooks = (value) => ({
     type: SEARCH_BOOKS,
     payload: {
         value

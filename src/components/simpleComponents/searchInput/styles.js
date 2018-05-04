@@ -7,12 +7,14 @@ export const InputWrapper = styled.div`
   ${props => (props.short) && `
     width: 200px;
   `}  
+  ${props => (props.long) && `
+    width: 100%;
+  `}  
 `;
 
 export const Input = styled.input.attrs({ type: "text" })`
   background-color: #fff;
-  border: 1px solid #b2b2b2;
-  border: 0;
+  border: 0px solid #b2b2b2;
   padding: 0 10px;  
   height: 40px;
   width: 80%;
@@ -29,6 +31,9 @@ export const Input = styled.input.attrs({ type: "text" })`
   ${props => (props.leftPicture && props.rightPicture) && `
     border-radius: 0 0 0 0;
   `}
+  ${props => (props.border) && `
+    box-shadow: 0 0 5px 0 rgba(0,0,0,.3);
+  `}
 `;
 
 export const Button = styled.button`
@@ -42,7 +47,9 @@ export const Button = styled.button`
   ${props => props.leftSide && `
     border-radius: 5px 0 0 5px;
   `}
-  
+  ${props => (props.border) && `
+    box-shadow: 0 0 5px 0 rgba(0,0,0,.3);
+  `}
 `;
 
 export const ControlLabel = styled.span`

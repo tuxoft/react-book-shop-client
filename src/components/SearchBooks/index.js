@@ -1,30 +1,35 @@
 import React from "react";
 import * as styles from "./styles";
+import {FaSearch} from 'react-icons/lib/fa/';
 import BookCard from "../../components/BookCard/index";
 import SearchInput from "../simpleComponents/searchInput/index";
 
-const SearchBooks = ({ searchBooks, searchValue}) => (
+const SearchBooks = ({ searchBooks, searchValue, onSearch, onChangeSearch}) => (
     <styles.HomeWrapper>
 
-        <styles.LeftSide><styles.BlueLabel >Поиск по сайту</styles.BlueLabel></styles.LeftSide>
+        <styles.CenterSide>
+            <styles.BlueLabel >Поиск по сайту</styles.BlueLabel>
+        </styles.CenterSide>
 
-        <styles.LeftSide>
+        <styles.CenterSide>
             <SearchInput
+            long
+            border
             inputProps={{
                 placeholder: "Вводи поисковое значение",
-                onChange: props.onChangeSearch,
-                value: props.searchValue
+                onChange: onChangeSearch,
+                value: searchValue
             }}
             rightPictureClick={() => {
-                props.onSearch()
+                onSearch()
             }}
             rightPicture
             picture={FaSearch}/>
-        </styles.LeftSide>
+        </styles.CenterSide>
 
-        <styles.LeftSide>
-            {newBooks.map((book, indx)=><BookCard key={"newBook"+indx} book={book}/>)}
-        </styles.LeftSide>
+        <styles.RowWrapper>
+            {searchBooks.map((book, indx)=><BookCard key={"searchBooks"+indx} book={book}/>)}
+        </styles.RowWrapper>
 
     </styles.HomeWrapper>
 );

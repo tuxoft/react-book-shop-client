@@ -18,7 +18,7 @@ class SearchScreen extends Component {
         return (
             <Screen horizontalCenter verticalCenter>
                 <Header/>
-                <SearchBooks/>
+                <SearchBooks {...this.props}/>
                 <Footer/>
             </Screen>
         );
