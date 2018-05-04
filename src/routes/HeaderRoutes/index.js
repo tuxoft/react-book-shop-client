@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Switch, Redirect, Route, withRouter } from "react-router-dom";
-import Header from "../../components/header";
+import Header from "../../containers/Header";
 
 
 const HeaderRoutes = (props) =>
