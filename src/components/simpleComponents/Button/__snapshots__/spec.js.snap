@@ -1,23 +1,23 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`default button 1`] = `
-<styled.button>
+<Button>
   Button
-</styled.button>
+</Button>
 `;
 
 exports[`primary button 1`] = `
-<styled.button
+<Button
   primary={true}
 >
   Button
-</styled.button>
+</Button>
 `;
 
 exports[`small button 1`] = `
-<styled.button
+<Button
   small={true}
 >
   Button
-</styled.button>
+</Button>
 `;
