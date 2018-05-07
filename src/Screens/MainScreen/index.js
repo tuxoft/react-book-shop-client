@@ -1,12 +1,11 @@
 import React, {Component} from "react";
 import {bindActionCreators} from "redux";
-import Axios from "axios";
-import {connect} from "react-redux";
-import FooterRoutes from "../../routes/FooterRoutes";
-import HeaderRoutes from "../../routes/HeaderRoutes";
-import Screen from "../../components/Screen";
-import ContentRoutes from "../../routes/ContentRoutes";
 
+import {connect} from "react-redux";
+import Footer from "../../containers/Footer";
+import Header from "../../containers/Header";
+import Screen from "../../components/Screen";
+import HomeContent from "../../containers/HomeContent";
 
 
 import * as flashActions from "../../store/flash/actions";
@@ -15,12 +14,11 @@ class MainScreen extends Component {
 
     render() {
 
-
         return (
             <Screen horizontalCenter verticalCenter>
-                <HeaderRoutes {...this.props}/>
-                <ContentRoutes {...this.props}/>
-                <FooterRoutes {...this.props}/>
+                <Header {...this.props}/>
+                <HomeContent {...this.props}/>
+                <Footer{...this.props}/>
             </Screen>
         );
     }

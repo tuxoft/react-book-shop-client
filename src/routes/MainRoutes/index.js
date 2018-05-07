@@ -8,7 +8,6 @@ import SearchScreen from "../../Screens/SearchScreen/index";
 
 const Routes = (props) =>
 
-  props.isInitialized ? (
     <Switch>
         <Route
             exact
@@ -34,8 +33,8 @@ const Routes = (props) =>
             render={(props) => <SearchScreen {...props} />}
             {...props}
         />
+
     </Switch>
-  ) : null;
 
 const mapStateToProps = ({ app }) => ({
     isInitialized: true,
