@@ -5,6 +5,11 @@ export const getNewBooks = (state) => {
     });
 };
 
+export const getBigBook = (state) => {
+    console.log("getBook", state);
+    return state.book;
+};
+
 export const getTradeBooks = (state) => {
     return state.tradeBooks.map((book)=>{
         return getBook(book)

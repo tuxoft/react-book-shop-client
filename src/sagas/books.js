@@ -76,6 +76,24 @@ function* fetchSearchBooks(action) {
     }
 }
 
+// WORKERS
+function* fetchBook(action) {
+    try {
+        console.log("fetchBook ", action.payload.id);
+        const book = yield call(Api.books.id, action.payload.id);
+        yield put(booksActions.setSearchBooks(book.data));
+    } catch (error) {
+        console.log("fetchBook error", error);
+        yield put(
+            flashActions.showFlash(
+                "Ошибка! Данные не получены",
+                "danger",
+                true,
+            ),
+        );
+    }
+}
+
 // WATCHERS
 function* fetchNewBooksFlow() {
     yield takeLatest(booksActions.BOOKS_NEW, fetchNewBooks);
@@ -89,12 +107,16 @@ function* fetchGoodBooksFlow() {
 function* fetchSearchBooksFlow() {
     yield takeLatest(booksActions.BOOKS_SEARCH, fetchSearchBooks);
 }
+function* fetchBookFlow() {
+    yield takeLatest(booksActions.GET_BOOK, fetchBook);
+}
 
 export default function* books() {
   yield all([
       fetchNewBooksFlow(),
       fetchTradeBooksFlow(),
       fetchGoodBooksFlow(),
+      fetchBookFlow(),
       fetchSearchBooksFlow()
   ]);
 }

@@ -1,5 +1,6 @@
 import React from "react";
 import * as styles from "./styles";
+import InBoxButton from "../../containers/InBoxButton";
 
 
 const BookCard = ({book}) => (
@@ -18,7 +19,7 @@ const BookCard = ({book}) => (
                 Цена: <styles.PriceValue>{book.price}</styles.PriceValue>
             </styles.PriceLabel>
             <styles.ButtonWrapper>
-                <styles.Control onClick={() => {book.onInBox(book.id)}}>В корзину</styles.Control>
+                <InBoxButton bookId={book.id}/>
             </styles.ButtonWrapper>
         </styles.Description>
 

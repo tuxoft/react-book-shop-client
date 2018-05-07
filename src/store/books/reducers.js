@@ -5,6 +5,7 @@ const initialState = {
     tradeBooks:[],
     goodBooks:[],
     searchBooks:[],
+    book: {}
 };
 
 const books = (state = initialState, action) => {
@@ -20,6 +21,9 @@ const books = (state = initialState, action) => {
       }
       case actions.SET_BOOKS_SEARCH: {
           return setSearchBooks(state, action);
+      }
+      case actions.SET_BOOK: {
+          return setBook(state, action);
       }
     default: {
       return state;
@@ -59,4 +63,11 @@ const setSearchBooks = (state, action) => {
     };
 };
 
+//SET_BOOK
+const setBook = (state, action) => {
+    return {
+        ...state,
+        book: action.payload.book
+    };
+};
 export default books;

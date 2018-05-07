@@ -61,3 +61,19 @@ export const setSearchBooks = (books) => ({
         books
     }
 });
+
+export const GET_BOOK = "GET_BOOK";
+export const fetchBook = (id) => ({
+    type: GET_BOOK,
+    payload: {
+        id
+    }
+});
+
+export const SET_BOOK = "SET_BOOK";
+export const setBook = (book) => ({
+    type: SET_BOOK,
+    payload: {
+        book
+    }
+});
