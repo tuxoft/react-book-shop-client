@@ -14,10 +14,10 @@ const BookBigCard = ({book, block}) => (
             <styles.Description>
                 <styles.NameBookLabel>{book.title}</styles.NameBookLabel>
                 <styles.Row>
-                {book.authors && book.authors.map((autor, indx) => (
-                    <styles.AutorLabel key={"author" + indx}>
-                        {autor.autor.lastName ? autor.autor.lastName : ""} {autor.autor.firstName ? autor.autor.firstName : ""} {autor.autor.middleName ? autor.autor.middleName : ""}
-                    </styles.AutorLabel>))}
+                    {book.authors && book.authors.map((author, indx) => (
+                        <styles.AutorLabel key={"author" + indx}>
+                            {author.author.lastName ? author.author.lastName : ""} {author.author.firstName ? author.author.firstName : ""} {author.author.middleName ? author.author.middleName : ""}
+                        </styles.AutorLabel>))}
                 </styles.Row>
                 <styles.PriceLabel>ID товара: {book.id}</styles.PriceLabel>
                 <styles.PriceLabel>Серия: {book.bookSeries && book.bookSeries.name}</styles.PriceLabel>
@@ -36,19 +36,19 @@ const BookBigCard = ({book, block}) => (
                     <styles.PriceValue>{book.price}</styles.PriceValue>
                 </styles.PriceLabel>
                 <styles.ButtonWrapper>
-                    <InBoxButton/>
+                    <InBoxButton bookId={book.id}/>
                 </styles.ButtonWrapper>
+
+
+                {block === 'description' &&
+                <styles.Text>
+                    {book.subtitle}
+                </styles.Text>}
+
+                {block === 'review' &&
+                <styles.Text></styles.Text>}
+
             </styles.Description>
-        </styles.Row>
-
-        <styles.Row>
-            {block == 'description' &&
-            <styles.Description>
-                {book.subtitle}
-            </styles.Description>}
-
-            {block == 'review' &&
-            <styles.Description></styles.Description>}
         </styles.Row>
 
     </styles.CardWrapper>

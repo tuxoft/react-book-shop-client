@@ -18,11 +18,12 @@ class BookBigCard extends Component {
         }
     }
     render() {
-        console.log("searchBooks", this.props.searchBooks);
+        console.log("BookBigCard", this.props.book);
         return (
             <BookBigCardComponent
                 {...this.state}
                 {...this.props}
+                block={this.props.match.params.block}
             />
         );
     }

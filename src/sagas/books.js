@@ -81,7 +81,7 @@ function* fetchBook(action) {
     try {
         console.log("fetchBook ", action.payload.id);
         const book = yield call(Api.books.id, action.payload.id);
-        yield put(booksActions.setSearchBooks(book.data));
+        yield put(booksActions.setBook(book.data));
     } catch (error) {
         console.log("fetchBook error", error);
         yield put(

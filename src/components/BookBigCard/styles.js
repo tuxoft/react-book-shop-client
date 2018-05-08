@@ -10,17 +10,29 @@ export const CardWrapper = styled.div`
     justify-content: flex-end;
     width: 80%;
     text-align: center;
-    border-color: #fff;
-    box-shadow: 0 0 5px 0 rgba(0,0,0,.3);
     vertical-align: top;
-    box-sizing: border-box;
-    border: 1px solid #ccc;
-    border-radius: 5px;
     padding: 4px 4px 10px;
     text-decoration: none;
-    color: #333;
     background: #fff;
     position: relative;
+`;
+
+export const Row = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-bottom: 20px;
+`;
+
+export const ImageBlock = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: center;    
+    border-color: #fff;
+    box-shadow: 0 0 5px 0 rgba(0,0,0,.3);    
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    width: 30%;
 `;
 
 export const ImageLink = styled(Link)`
@@ -31,17 +43,23 @@ export const ImageLink = styled(Link)`
 `;
 
 export const Image = styled.img`
-    max-width: 140px;
-    max-height: 224px;
-    width: auto;
-    height: auto;
     margin-bottom: 8px;
+    width: 100%;
+    height: 100%;
 `;
 
 export const Description = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: flex-start;
+    margin-left: 50px;
+    width: 70%;
+`;
+export const Text = styled.div`
     display: block;
-    height: 120px;
-    padding: 0;
+    text-indent: 20px;
+    margin-top: 20px;
 `;
 
 export const TextLink = styled((props) => <Link {...props} />)`
@@ -56,13 +74,10 @@ export const TextLink = styled((props) => <Link {...props} />)`
 `;
 
 export const NameBookLabel = styled.div`
-    display: block;
-    font-size: 15px;
+    color: #26a9e0;
+    font-size: 21px;
     line-height: 1.2;
-    font-weight: 700;
-    color: inherit;
-    overflow: hidden;
-    height: 37px;
+    margin-bottom: 5px;
 `;
 
 export const AutorLabel = styled.div`
