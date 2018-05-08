@@ -1,7 +1,7 @@
 import React from "react";
 import * as styles from "./styles";
 import {FaSearch} from 'react-icons/lib/fa/';
-import SearchInput from "../simpleComponents/searchInput/index";
+import SearchInput from "../simpleComponents/SearchInput/index";
 import HeaderMenu from "../HeaderMenu/index";
 import {Link} from "react-router-dom";
 

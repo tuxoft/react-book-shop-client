@@ -2,7 +2,7 @@ import React from "react";
 import * as styles from "./styles";
 import {FaSearch} from 'react-icons/lib/fa/';
 import BookCard from "../../components/BookCard/index";
-import SearchInput from "../simpleComponents/searchInput/index";
+import SearchInput from "../simpleComponents/SearchInput/index";
 
 const SearchBooks = ({ searchBooks, searchValue, onSearch, onChangeSearch}) => (
     <styles.HomeWrapper>

@@ -3,7 +3,7 @@ import * as styles from "./styles";
 import {FaBook } from 'react-icons/lib/fa/';
 import {TiShoppingCart} from 'react-icons/lib/ti/';
 import {MdEmail} from 'react-icons/lib/md/';
-import SearchInput from "../simpleComponents/searchInput/index";
+import SearchInput from "../simpleComponents/SearchInput/index";
 
 const FooterBody = (props) => (
     <styles.FooterWrapper>

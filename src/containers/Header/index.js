@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { withLastLocation } from "react-router-last-location";
 import * as searchBooksActions from "../../store/searchBooks/actions";
 import * as booksActions from "../../store/books/actions";
-import HeaderBody from "../../components/header";
+import HeaderBody from "../../components/Header";
 import { getSearchValue } from "../../store/searchBooks/selectors";
 import { getBuscketItems, getBuscketReservItems } from "../../store/bucket/selectors";
 
