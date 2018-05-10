@@ -4,6 +4,7 @@ import { Switch, Redirect, Route, withRouter } from "react-router-dom";
 import MainScreen from "../../Screens/MainScreen/index";
 import SearchScreen from "../../Screens/SearchScreen/index";
 import BookScreen from "../../Screens/BookScreen/index";
+import CartScreen from "../../Screens/CartScreen/index";
 
 
 
@@ -44,6 +45,18 @@ const Routes = (props) =>
             exact
             path="/book/:id/:block"
             render={(props) => <BookScreen {...props} />}
+            {...props}
+        />
+        <Route
+            exact
+            path="/cart"
+            render={(props) => <Redirect to={"/cart/cart"} {...props} />}
+            {...props}
+        />
+        <Route
+            exact
+            path="/cart/:block"
+            render={(props) => <CartScreen {...props} />}
             {...props}
         />
 

@@ -1,7 +1,9 @@
 import books from "./books";
+import cart from "./cart";
 
 const Api = {
-    books
+    books,
+    cart
 };
 
 export default Api;

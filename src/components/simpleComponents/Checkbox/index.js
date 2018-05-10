@@ -10,7 +10,7 @@ const checkboxChecked = require("../../../assets/images/checkbox-selected.png");
 const CheckboxComponent = ({isChecked, onClick, labelText}) =>(
     <styles.CheckboxWrapper onClick = {() =>{onClick(!isChecked)}}>  {/* нужно инвертирование, т.к. state предыдущий*/}
         <styles.CheckboxImage src = {isChecked ? checkboxChecked : checkboxNonChecked}/>
-        <SimpleText>{labelText}</SimpleText>
+        {labelText && <SimpleText>{labelText}</SimpleText>}
     </styles.CheckboxWrapper>
 );
 
