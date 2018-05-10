@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="80d075cf-3d62-41b1-bcfb-0377c4da6cf7" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/api/menu.js" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/sagas/menu.js" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/store/menu/actions.js" />
@@ -149,6 +150,11 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="develop" />
+      </map>
+    </option>
   </component>
   <component name="GradleLocalSettings">
     <option name="externalProjectsViewState">
@@ -771,12 +777,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1525672789607</updated>
-      <workItem from="1525672790995" duration="19416000" />
+      <workItem from="1525672790995" duration="19425000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="19416000" />
+    <option name="totallyTimeSpent" value="19425000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1912" y="-8" width="1936" height="1056" extended-state="6" />
@@ -1093,7 +1099,7 @@
         <state relative-caret-position="183">
           <caret line="22" column="2" lean-forward="false" selection-start-line="22" selection-start-column="2" selection-end-line="22" selection-end-column="2" />
           <folding>
-            <element signature="e#0#26#0" expanded="true" />
+            <element signature="e#0#26#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1127,7 +1133,7 @@
         <state relative-caret-position="119">
           <caret line="7" column="6" lean-forward="false" selection-start-line="7" selection-start-column="6" selection-end-line="7" selection-end-column="6" />
           <folding>
-            <element signature="e#0#26#0" expanded="true" />
+            <element signature="e#0#26#0" expanded="false" />
           </folding>
         </state>
       </provider>
