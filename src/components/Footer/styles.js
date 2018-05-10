@@ -12,6 +12,7 @@ export const FooterWrapper = styled.div`
     flex-direction: row;
     align-items: center;
     justify-content: space-around;
+    z-index: 1;
 `;
 
 export const ColWrapper = styled.div`

@@ -5,6 +5,7 @@ import subscribe from "./subscribe/reducers";
 import searchBooks from "./searchBooks/reducers";
 import buscket from "./bucket/reducers";
 import books from "./books/reducers";
+import menu from "./menu/reducers";
 
 const rootReducer = combineReducers({
   app,
@@ -12,7 +13,8 @@ const rootReducer = combineReducers({
   subscribe,
   searchBooks,
   buscket,
-  books
+  books,
+  menu
 });
 
 export default rootReducer;

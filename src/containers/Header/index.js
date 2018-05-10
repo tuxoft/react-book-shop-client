@@ -32,10 +32,19 @@ class Header extends Component {
                         head: "Книги",
                         subItems: [{
                             name: "Жанр",
-                            link: "/"
+                            links: [
+                              {
+                                title: "Художественная литература",
+                                link: "/"
+                              },
+                              {
+                                title: "Фантастика",
+                                link: "/"
+                              }
+                            ]
                         }, {
                             name: "Подборки",
-                            link: "/"
+                            links: []
                         }]
                     },
                     {head: "Канцтовары"},

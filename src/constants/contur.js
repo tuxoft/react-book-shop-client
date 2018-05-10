@@ -1,6 +1,6 @@
 class Contur {
     static get = () => ({
-        API: "http://local.portal.rzhd.ml",
+        API: "http://local.book.shop",
     });
 }
 

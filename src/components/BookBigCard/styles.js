@@ -60,6 +60,7 @@ export const Text = styled.div`
     display: block;
     text-indent: 20px;
     margin-top: 20px;
+    text-align: justify;
 `;
 
 export const TextLink = styled((props) => <Link {...props} />)`
