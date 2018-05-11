@@ -10,6 +10,7 @@ export const MenuSubItemWrapper = styled.div`
     box-shadow: rgba(0, 0, 0, 0.3) 0px 2px 2px 0px;    
     padding: 10px;
     flex-direction: row;
+    background-color: white;
 `;
 
 export const MenuBoldText = styled.b`

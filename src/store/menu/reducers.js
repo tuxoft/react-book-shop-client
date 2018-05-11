@@ -1,8 +1,10 @@
 import * as actions from "./actions";
 
 const initialState = {
-    itemsCount: 0,
-    itemsReservCount: 0,
+    menu: {
+      top: null,
+      footer: null
+    }
 };
 
 const menu = (state = initialState, action) => {

@@ -8,7 +8,7 @@ import Api from "../api";
 function* fetchMenu(action) {
     try {
         console.log("fetchMenu ", action.payload.value);
-        const menu = yield call(Api.menu.get, action.payload.value);
+        const menu = yield call(Api.menu.getMenu, action.payload.value);
         yield put(menuActions.setMenu(menu.data));
     } catch (error) {
         console.log("fetchMenu error", error);

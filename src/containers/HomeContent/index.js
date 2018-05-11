@@ -2,10 +2,8 @@ import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import * as booksActions from "../../store/books/actions";
-import * as menuActions from "../../store/menu/actions";
 import HomeBody from "../../components/Home";
 import * as booksSelectors from "../../store/books/selectors";
-import * as menuSelectors from "../../store/menu/selectors";
 
 
 class Home extends Component {
@@ -14,7 +12,6 @@ class Home extends Component {
         this.props.actions.books.fetchNewBooks("new");
         this.props.actions.books.fetchTradeBooks("trade");
         this.props.actions.books.fetchGoodBooks("good");
-        this.props.actions.menu.fetchMenu();
     }
 
     onInBox = (id) => {
@@ -45,18 +42,16 @@ class Home extends Component {
   }
 }
 
-const mapStateToProps = ({ searchBooks, books, menu }) => ({
+const mapStateToProps = ({ searchBooks, books }) => ({
     newBooks: booksSelectors.getNewBooks(books),
     goodBooks: booksSelectors.getGoodBooks(books),
-    tradeBooks: booksSelectors.getTradeBooks(books),
-    menu: menuSelectors.getMenu(menu)
+    tradeBooks: booksSelectors.getTradeBooks(books)
 });
 
 const mapDispatchToProps = (dispatch,ownProps) => ({
     actions: {
         ...ownProps.actions,
-        books: bindActionCreators(booksActions, dispatch),
-        menu: bindActionCreators(menuActions, dispatch)
+        books: bindActionCreators(booksActions, dispatch)
     },
 });
 
