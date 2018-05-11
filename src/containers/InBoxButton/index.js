@@ -24,7 +24,10 @@ class InBoxButton extends Component {
 
     onInBox = (bookId) => {
         console.log("book add in box", this.props.bookId);
-        this.props.actions.bucket.addBookToItems(bookId);
+        this.props.actions.bucket.addBookToCart({
+            id: bookId,
+            count: 1,
+        });
     };
 
     render() {

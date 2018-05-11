@@ -8,23 +8,25 @@ export default {
     },
     put: (params) => {
         const ENDPOINT = Contur.get().API;
-        return axios.post(
+        return axios.put(
             ENDPOINT + "/api/cart",
-            {params: params}
+            null,
+            {params}
         );
     },
     post: (params) => {
         const ENDPOINT = Contur.get().API;
         return axios.post(
             ENDPOINT + "/api/cart",
-            {params: params}
+            null,
+            {params}
         );
     },
     delete: (params) => {
         const ENDPOINT = Contur.get().API;
-        return axios.post(
+        return axios.delete(
             ENDPOINT + "/api/cart",
-            {params: params}
+            params
         );
     },
 };

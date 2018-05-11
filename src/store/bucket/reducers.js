@@ -1,17 +1,13 @@
 import * as actions from "./actions";
 
 const initialState = {
-    itemsCount: 0,
-    itemsReservCount: 0,
+    cart: {}
 };
 
 const buscket = (state = initialState, action) => {
   switch (action.type) {
-    case actions.BUSKET_ADD_BOOK_TO_ITEMS: {
-      return addItems(state, action);
-    }
-    case actions.BUSKET_ADD_BOOK_TO_RESERV_ITEMS: {
-      return addReservItems(state, action);
+    case actions.SET_CART: {
+      return setCart(state, action);
     }
     default: {
       return state;
@@ -19,20 +15,12 @@ const buscket = (state = initialState, action) => {
   }
 };
 
-// BUSKET_ADD_BOOK_TO_ITEMS
-const addItems = (state, action) => {
+// SET_CART
+const setCart = (state, action) => {
   return {
     ...state,
-      itemsCount: state.itemsCount+1
+      cart: action.payload.value
   };
-};
-
-// BUSKET_ADD_BOOK_TO_RESERV_ITEMS
-const addReservItems = (state, action) => {
-    return {
-        ...state,
-        itemsReservCount: state.itemsReservCount+1
-    };
 };
 
 export default buscket;

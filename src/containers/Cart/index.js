@@ -1,42 +1,48 @@
 import React, {Component} from "react";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
-import * as booksActions from "../../store/books/actions";
+import * as cartActions from "../../store/bucket/actions";
 import CartComponet from "../../components/Cart";
-import * as booksSelectors from "../../store/books/selectors";
+import * as cartSelectors from "../../store/bucket/selectors";
 
 
 class Cart extends Component {
 
     componentDidMount() {
-        this.props.actions.books.fetchBook(this.props.match.params.id);
+        this.props.actions.cart.getCart(this.props.match.params.id);
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.match.params.id !== this.props.match.params.id) {
-            this.props.actions.books.fetchBook(nextProps.match.params.id);
-        }
-    }
+    setBookCount = (id, count) => {
+        console.log("setBookCount", id, count);
+        if(count<0)return;
+        this.props.actions.cart.setBookInCart({
+            id: id,
+            count: count,
+        });
+    };
+
     render() {
-        console.log("Cart", this.props.book);
+        console.log("Cart", this.props.cart);
         return (
             <CartComponet
                 {...this.state}
                 {...this.props}
                 block={this.props.match.params.block}
+                setBookCount={this.setBookCount}
             />
         );
     }
 }
 
-const mapStateToProps = ({searchBooks, books}) => ({
-    book: booksSelectors.getBigBook(books),
+const mapStateToProps = ({ buscket }) => ({
+    cart: cartSelectors.getCart(buscket),
+    boxItemsCount: cartSelectors.getCartItemsCount(buscket),
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
     actions: {
         ...ownProps.actions,
-        books: bindActionCreators(booksActions, dispatch),
+        cart: bindActionCreators(cartActions, dispatch),
     },
 });
 

@@ -1,7 +1,7 @@
-export const getBuscketItems = (state) => {
-  return state.itemsCount;
+export const getCartItemsCount = (state) => {
+  return state.cart.cartItemList?state.cart.cartItemList.length:0;
 };
 
-export const getBuscketReservItems = (state) => {
-    return state.itemsReservCount;
+export const getCart = (state) => {
+    return state.cart;
 };

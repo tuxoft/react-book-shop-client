@@ -176,3 +176,33 @@ export const CartOrderItemDescriptionRightInfoPrice = styled.div`
     align-content: start;
     width: 100px;
 `;
+
+export const Input = styled.input.attrs({ type: "text" })`
+    width: 40px;
+    margin: 0 5px;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 31px;
+    vertical-align: top;
+    color: #333;
+    height: 30px;
+    box-sizing: border-box;
+    border: 1px solid #b3b3b3;
+    border-radius: 3px;
+    background-color: #fff;
+    text-align: center;
+`;
+
+export const Button = styled.div`
+    cursor: pointer;
+    width: 30px;
+    font-size: 30px;
+    line-height: 25px;
+    color: #b3b3b3;
+    height: 30px;
+    box-sizing: border-box;
+    border: 1px solid #b3b3b3;
+    border-radius: 3px;
+    background-color: #fff;
+    text-align: center;
+`;

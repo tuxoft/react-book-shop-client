@@ -6,7 +6,7 @@ import * as searchBooksActions from "../../store/searchBooks/actions";
 import * as booksActions from "../../store/books/actions";
 import HeaderBody from "../../components/Header";
 import { getSearchValue } from "../../store/searchBooks/selectors";
-import { getBuscketItems, getBuscketReservItems } from "../../store/bucket/selectors";
+import { getCartItemsCount } from "../../store/bucket/selectors";
 
 class Header extends Component {
 
@@ -51,8 +51,7 @@ class Header extends Component {
 
 const mapStateToProps = ({ searchBooks, buscket }) => ({
   searchValue: getSearchValue(searchBooks),
-  boxItemsCount: getBuscketItems(buscket),
-  boxItemsReservCount: getBuscketReservItems(buscket),
+  boxItemsCount: getCartItemsCount(buscket),
 });
 
 const mapDispatchToProps = (dispatch,ownProps) => ({
