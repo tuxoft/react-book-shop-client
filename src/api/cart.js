@@ -29,4 +29,10 @@ export default {
             params
         );
     },
+    deleteAll: (value) => {
+        const ENDPOINT = Contur.get().API;
+        return axios.delete(
+            ENDPOINT + "/api/cart/list?"+value.ids,
+        );
+    },
 };

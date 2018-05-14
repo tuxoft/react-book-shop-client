@@ -7,9 +7,9 @@ const checkboxNonChecked = require("../../../assets/images/checkbox.png");
 const checkboxChecked = require("../../../assets/images/checkbox-selected.png");
 
 
-const CheckboxComponent = ({isChecked, onClick, labelText}) =>(
+const CheckboxComponent = ({isChecked, isCheckedControl, isChecked2, onClick, labelText}) =>(
     <styles.CheckboxWrapper onClick = {() =>{onClick(!isChecked)}}>  {/* нужно инвертирование, т.к. state предыдущий*/}
-        <styles.CheckboxImage src = {isChecked ? checkboxChecked : checkboxNonChecked}/>
+        <styles.CheckboxImage src = {(isCheckedControl?isChecked:isChecked2) ? checkboxChecked : checkboxNonChecked}/>
         {labelText && <SimpleText>{labelText}</SimpleText>}
     </styles.CheckboxWrapper>
 );
@@ -19,12 +19,12 @@ class Checkbox extends  Component {
     constructor (props){
        super(props);
        this.state = {
-           isChecked: false
+           isChecked2: false
        }
     }
     toggleChecked(){
         this.setState({
-            isChecked: !this.state.isChecked
+            isChecked2: !this.state.isChecked2
         });
     }
     render (){
@@ -33,7 +33,10 @@ class Checkbox extends  Component {
                                       this.props.onClick(e);
                                       this.toggleChecked();
                                   }}
-                                  labelText = {this.props.labelText}/>)
+                                  labelText = {this.props.labelText}
+                                  isChecked = {this.props.isChecked}
+                                  isCheckedControl = {this.props.isCheckedControl}
+        />)
     }
 }
 Checkbox.propTypes = {

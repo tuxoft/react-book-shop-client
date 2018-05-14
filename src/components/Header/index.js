@@ -25,10 +25,9 @@ const HeaderBody = (props) => (
                 rightPicture
                 picture={FaSearch}/>
             <styles.BucketWrapper>
-                <styles.TextLink to={`/box`}><styles.ImageBucket src="http://placehold.it/65x60"/></styles.TextLink>
+                <styles.TextLink to={`/cart`}><styles.ImageBucket src="http://placehold.it/65x60"/></styles.TextLink>
                 <styles.BucketInfoWrapper>
-                    <styles.TextLink to={`/box`}><b>Корзина: {props.boxItemsCount} </b></styles.TextLink>
-                    <styles.TextLink to={`/box/reserv`}>Резерв: {props.boxItemsReservCount}</styles.TextLink>
+                    <styles.TextLink to={`/cart`}><b>Корзина: {props.boxItemsCount} </b></styles.TextLink>
                 </styles.BucketInfoWrapper>
             </styles.BucketWrapper>
 

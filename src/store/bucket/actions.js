@@ -22,6 +22,14 @@ export const deleteBookFromCart = (value) => ({
     }
 });
 
+export const DELETE_BOOK_FROM_CART_ALL = "DELETE_BOOK_FROM_CART_ALL";
+export const deleteBookFromCartAll = (value) => ({
+    type: DELETE_BOOK_FROM_CART_ALL,
+    payload: {
+        value
+    }
+});
+
 export const GET_CART = "GET_CART";
 export const getCart = (value) => ({
     type: GET_CART,

@@ -4,8 +4,15 @@ import {Link} from "react-router-dom";
 import ButtonComponent from "../simpleComponents/Button";
 
 export const CartWrapper = styled.div`
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+`;
+
+export const CartSubWrapper = styled.div`
         display: block;
-        width: 69%;
+        width: 70%;
         min-width: 1250px;
         margin-top: 15px;
 `;
@@ -144,9 +151,18 @@ export const Label = styled.div`
     ${props => props.fs12 && `
        font-size: 12px;
     `}
+    ${props => props.fs14 && `
+       font-size: 14px;
+    `}
     ${props => props.gray && `
        color: gray;
     `}
+    ${props => props.white && `
+       color: white;
+    `}
+    ${props => props.underline && `
+       text-decoration: underline;
+    `}    
 `;
 
 export const CartOrderItemDescriptionRightInfo = styled.div`
@@ -205,4 +221,39 @@ export const Button = styled.div`
     border-radius: 3px;
     background-color: #fff;
     text-align: center;
+`;
+
+export const SelectPanel = styled.div`
+    width: 100%;
+    height: 75px;
+    position: fixed;
+    bottom: 0;
+    background-color: rgba(27,117,187,.9);
+    z-index: 1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+`;
+export const SelectPanelBlock = styled.div`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 100%;
+    width: 70%;
+`;
+
+export const RemoveButton = styled.div`
+    background-color: rgba(255,255,255,.6);
+    height: 35px;
+    margin: 0 25px 0 25px;
+    line-height: 35px;
+    color: #333;
+    cursor: pointer;
+    transition: .2s;
+    padding: 0 20px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    border-radius: 3px;
 `;

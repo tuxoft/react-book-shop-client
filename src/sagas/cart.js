@@ -75,6 +75,24 @@ function* deleteBookFromCart(action) {
     }
 }
 
+// WORKERS
+function* deleteBookFromCartAll(action) {
+    try {
+        console.log("deleteBookFromCartAll ", action.payload.value);
+        const cart = yield call(Api.cart.deleteAll, action.payload.value);
+        yield put(bucketActions.setCart(cart.data));
+    } catch (error) {
+        console.log("deleteBookFromCartAll error", error);
+        yield put(
+            flashActions.showFlash(
+                "Ошибка! Данные не получены",
+                "danger",
+                true,
+            ),
+        );
+    }
+}
+
 // WATCHERS
 function* fetchCartFlow() {
     yield takeLatest(bucketActions.GET_CART, fetchCart);
@@ -88,6 +106,9 @@ function* setBookInCartFlow() {
 function* deleteBookFromCartFlow() {
     yield takeLatest(bucketActions.DELETE_BOOK_FROM_CART, deleteBookFromCart);
 }
+function* deleteBookFromCartAllFlow() {
+    yield takeLatest(bucketActions.DELETE_BOOK_FROM_CART_ALL, deleteBookFromCartAll);
+}
 
 export default function* cart() {
   yield all([
@@ -95,5 +116,6 @@ export default function* cart() {
       addBookToCartFlow(),
       setBookInCartFlow(),
       deleteBookFromCartFlow(),
+      deleteBookFromCartAllFlow(),
   ]);
 }
