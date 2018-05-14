@@ -5,3 +5,7 @@ export const getMenuTop = (state) => {
 export const getMenuFooter = (state) => {
   return state.menu.footer;
 };
+
+export const getCategoryCarousels = (state) => {
+  return state.categoryCarousels;
+}

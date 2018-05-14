@@ -4,16 +4,16 @@ import { connect } from "react-redux";
 import { withLastLocation } from "react-router-last-location";
 import * as searchBooksActions from "../../store/searchBooks/actions";
 import * as booksActions from "../../store/books/actions";
-import * as menuActions from "../../store/menu/actions";
+import * as contentActions from "../../store/content/actions";
 import HeaderBody from "../../components/Header";
 import { getSearchValue } from "../../store/searchBooks/selectors";
 import { getBuscketItems, getBuscketReservItems } from "../../store/bucket/selectors";
-import * as menuSelectors from "../../store/menu/selectors";
+import * as contentSelectors from "../../store/content/selectors";
 
 class Header extends Component {
 
   componentDidMount() {
-    this.props.actions.menu.fetchMenu();
+    this.props.actions.content.fetchMenu();
   }
 
   onChangeText = (val) => {
@@ -41,11 +41,11 @@ class Header extends Component {
   }
 }
 
-const mapStateToProps = ({ searchBooks, buscket, menu }) => ({
+const mapStateToProps = ({ searchBooks, buscket, content }) => ({
   searchValue: getSearchValue(searchBooks),
   boxItemsCount: getBuscketItems(buscket),
   boxItemsReservCount: getBuscketReservItems(buscket),
-  menu: menuSelectors.getMenuTop(menu)
+  menu: contentSelectors.getMenuTop(content)
 });
 
 const mapDispatchToProps = (dispatch,ownProps) => ({
@@ -53,7 +53,7 @@ const mapDispatchToProps = (dispatch,ownProps) => ({
         ...ownProps.actions,
         books: bindActionCreators(booksActions, dispatch),
         searchBooks: bindActionCreators(searchBooksActions, dispatch),
-        menu: bindActionCreators(menuActions, dispatch)
+        content: bindActionCreators(contentActions, dispatch)
     },
 });
 

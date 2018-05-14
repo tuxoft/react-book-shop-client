@@ -1,9 +1,9 @@
 import books from "./books";
-import menu from "./menu";
+import content from "./content";
 
 const Api = {
     books,
-    menu
+    content
 };
 
 export default Api;

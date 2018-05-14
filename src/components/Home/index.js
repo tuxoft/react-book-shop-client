@@ -4,27 +4,22 @@ import BookCard from "../../components/BookCard/index";
 import CarouselBookDecorated from "../../components/CarouselBookDecorated";
 import CarouselPromoDecorated from "../../components/CarouselPromoDecorated";
 
-const HomeBody = ({promoPictures, newBooks, goodBooks, tradeBooks}) => (
+const HomeBody = ({promoPictures, categoryCarousels}) => (
     <styles.HomeWrapper>
         <CarouselPromoDecorated>
             {promoPictures.map((promo, indx)=><styles.TextLink key={"promoPicture"+indx} to={promo.url?promo.url:"/"}><img alt="promo" src={promo.pictureUrl}/></styles.TextLink>)}
 
         </CarouselPromoDecorated>
 
-        <styles.LeftSide><styles.BlueTextLink to="/newBooks">Новинки литературы</styles.BlueTextLink></styles.LeftSide>
-        <CarouselBookDecorated>
-            {newBooks.map((book, indx)=><BookCard key={"newBook"+indx} book={book}/>)}
-        </CarouselBookDecorated>
+        {categoryCarousels && categoryCarousels.map((category, indx1) => (
+            <styles.BooksCarouselWrapper key={"categoryCarousel-"+indx1}>
+                <styles.LeftSide><styles.BlueTextLink to="/newBooks">{category.name}</styles.BlueTextLink></styles.LeftSide>
+                <CarouselBookDecorated>
+                    {category.bookList && category.bookList.map((book, indx2)=><BookCard key={"book-"+indx1+"-"+indx2} book={book}/>)}
+                </CarouselBookDecorated>
+            </styles.BooksCarouselWrapper>
+        ))}
 
-        <styles.LeftSide><styles.BlueTextLink to="/tradeBooks">Лидеры продаж</styles.BlueTextLink></styles.LeftSide>
-        <CarouselBookDecorated>
-            {goodBooks.map((book, indx)=><BookCard key={"newBook"+indx} book={book}/>)}
-        </CarouselBookDecorated>
-
-        <styles.LeftSide><styles.BlueTextLink to="/goodBooks">Лучшие книги</styles.BlueTextLink></styles.LeftSide>
-        <CarouselBookDecorated>
-            {tradeBooks.map((book, indx)=><BookCard key={"newBook"+indx} book={book}/>)}
-        </CarouselBookDecorated>
         <styles.RowWrapper>
             <styles.InfoBlock to="/goodBooks">
                 <styles.InfoImage src="http://placehold.it/290x220"/>

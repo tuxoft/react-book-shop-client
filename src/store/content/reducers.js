@@ -4,13 +4,18 @@ const initialState = {
     menu: {
       top: null,
       footer: null
-    }
+    },
+    categoryCarousels: []
 };
 
-const menu = (state = initialState, action) => {
+const content = (state = initialState, action) => {
+
   switch (action.type) {
     case actions.SET_MENU: {
       return setMenu(state, action);
+    }
+    case actions.SET_CATEGORY_CAROUSELS: {
+      return setCategoryCarousels(state, action);
     }
     default: {
       return state;
@@ -18,7 +23,6 @@ const menu = (state = initialState, action) => {
   }
 };
 
-//
 const setMenu = (state, action) => {
   return {
     ...state,
@@ -26,5 +30,11 @@ const setMenu = (state, action) => {
   };
 };
 
+const setCategoryCarousels = (state, action) => {
+  return {
+    ...state,
+    categoryCarousels: action.payload.value
+  };
+};
 
-export default menu;
+export default content;
