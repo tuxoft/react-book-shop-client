@@ -10,8 +10,9 @@ export const FooterWrapper = styled.div`
     background-color: #28A9E0;
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-around;
+    z-index: 1;
 `;
 
 export const ColWrapper = styled.div`

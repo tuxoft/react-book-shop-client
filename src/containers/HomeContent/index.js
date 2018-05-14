@@ -1,17 +1,15 @@
 import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import * as booksActions from "../../store/books/actions";
+import * as contentActions from "../../store/content/actions";
 import HomeBody from "../../components/Home";
-import * as booksSelectors from "../../store/books/selectors";
+import * as contentSelectors from "../../store/content/selectors";
 
 
 class Home extends Component {
 
     componentDidMount() {
-        this.props.actions.books.fetchNewBooks("new");
-        this.props.actions.books.fetchTradeBooks("trade");
-        this.props.actions.books.fetchGoodBooks("good");
+        this.props.actions.content.fetchCategoryCarousels();
     }
 
     onInBox = (id) => {
@@ -29,28 +27,25 @@ class Home extends Component {
               pictureUrl: "http://placehold.it/1000x400/ffffff/c0392b/&text=slide"+i
           });
       }
-      console.log("books", this.props.newBooks);
+      console.log("categoryCarousels", this.props.categoryCarousels);
     return (
         <HomeBody
-            newBooks={this.props.newBooks}
-            goodBooks={this.props.newBooks}
-            tradeBooks={this.props.newBooks}
+            categoryCarousels={this.props.categoryCarousels}
             promoPictures={promoPictures}
+            menu={this.props.menu}
         />
     );
   }
 }
 
-const mapStateToProps = ({ searchBooks, books }) => ({
-    newBooks: booksSelectors.getNewBooks(books),
-    goodBooks: booksSelectors.getGoodBooks(books),
-    tradeBooks: booksSelectors.getTradeBooks(books),
+const mapStateToProps = ({ searchBooks, content }) => ({
+    categoryCarousels: contentSelectors.getCategoryCarousels(content),
 });
 
 const mapDispatchToProps = (dispatch,ownProps) => ({
     actions: {
         ...ownProps.actions,
-        books: bindActionCreators(booksActions, dispatch)
+        content: bindActionCreators(contentActions, dispatch)
     },
 });
 

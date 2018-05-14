@@ -7,11 +7,11 @@ const BookCard = ({book}) => (
     <styles.CardWrapper>
 
         <styles.ImageLink to={"/book/" + book.id}>
-            <styles.Image src={book.url}/>
+            <styles.Image src={book.coverUrl}/>
         </styles.ImageLink>
 
         <styles.Description>
-            <styles.TextLink to={"/book/" + book.id}>{book.name}</styles.TextLink>
+            <styles.TextLink to={"/book/" + book.id}>{book.title}</styles.TextLink>
             <styles.AutorLabel>
                 {book.autor}
             </styles.AutorLabel>

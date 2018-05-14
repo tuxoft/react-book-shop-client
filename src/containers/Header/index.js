@@ -4,11 +4,17 @@ import { connect } from "react-redux";
 import { withLastLocation } from "react-router-last-location";
 import * as searchBooksActions from "../../store/searchBooks/actions";
 import * as booksActions from "../../store/books/actions";
+import * as contentActions from "../../store/content/actions";
 import HeaderBody from "../../components/Header";
 import { getSearchValue } from "../../store/searchBooks/selectors";
 import { getCartItemsCount } from "../../store/bucket/selectors";
+import * as contentSelectors from "../../store/content/selectors";
 
 class Header extends Component {
+
+  componentDidMount() {
+    this.props.actions.content.fetchMenu();
+  }
 
   onChangeText = (val) => {
       console.log(val.target.value);
@@ -21,27 +27,13 @@ class Header extends Component {
     };
 
   render() {
+    console.log("this.props.menu",this.props.menu);
     return (
         <HeaderBody
             {...this.state}
             {...this.props}
             email = {this.props.email}
-            menuItems={
-                [
-                    {
-                        head: "Книги",
-                        subItems: [{
-                            name: "Жанр",
-                            link: "/"
-                        }, {
-                            name: "Подборки",
-                            link: "/"
-                        }]
-                    },
-                    {head: "Канцтовары"},
-                    {head: "Сувениры"}
-                ]
-            }
+            menuItems={this.props.menu}
             onSearch={this.onSearch}
             onChangeSearch = {this.onChangeText}
         />
@@ -49,16 +41,18 @@ class Header extends Component {
   }
 }
 
-const mapStateToProps = ({ searchBooks, buscket }) => ({
+const mapStateToProps = ({ searchBooks, buscket, content }) => ({
   searchValue: getSearchValue(searchBooks),
   boxItemsCount: getCartItemsCount(buscket),
+  menu: contentSelectors.getMenuTop(content)
 });
 
 const mapDispatchToProps = (dispatch,ownProps) => ({
     actions: {
         ...ownProps.actions,
         books: bindActionCreators(booksActions, dispatch),
-        searchBooks: bindActionCreators(searchBooksActions, dispatch)
+        searchBooks: bindActionCreators(searchBooksActions, dispatch),
+        content: bindActionCreators(contentActions, dispatch)
     },
 });
 

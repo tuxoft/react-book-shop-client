@@ -9,6 +9,7 @@ export const HeaderWrapper = styled.div`
     flex-direction: column;
     align-content:stretch;
     background-color: #28A9E0;
+    z-index: 2;
 `;
 
 export const RowWrapper = styled.div`

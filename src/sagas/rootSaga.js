@@ -4,6 +4,8 @@ import subscribe from "./subscribe";
 import searchBooks from "./searchBooks";
 import books from "./books";
 import cart from "./cart";
+import content from "./content";
+
 export default function* rootSaga() {
   yield all([
       flash(),
@@ -11,5 +13,6 @@ export default function* rootSaga() {
       searchBooks(),
       books(),
       cart(),
+      content(),
   ]);
 }

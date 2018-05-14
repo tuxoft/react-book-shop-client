@@ -2,6 +2,14 @@ import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
+export const BooksCarouselWrapper = styled.div`
+    display: flex;
+    flex-direction: column;    
+    justify-content: center;
+    width:100%;
+    align-items: center;
+`;
+
 export const HomeWrapper = styled.div`
     display: flex;
     flex-direction: column;

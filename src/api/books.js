@@ -2,6 +2,7 @@ import axios from "axios";
 import Contur from "../constants/contur";
 
 export default {
+
     new: (params) => {
         const ENDPOINT = Contur.get().API;
         return axios.get(ENDPOINT + "/api/books", {params: params});

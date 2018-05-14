@@ -19,17 +19,16 @@ const BookBigCard = ({book, block}) => (
                             {author.author.lastName ? author.author.lastName : ""} {author.author.firstName ? author.author.firstName : ""} {author.author.middleName ? author.author.middleName : ""}
                         </styles.AutorLabel>))}
                 </styles.Row>
-                <styles.PriceLabel>ID товара: {book.id}</styles.PriceLabel>
-                <styles.PriceLabel>Серия: {book.bookSeries && book.bookSeries.name}</styles.PriceLabel>
-                <styles.PriceLabel>Издательство: {book.publisher && book.publisher.name}</styles.PriceLabel>
-                <styles.PriceLabel>Год издания: {book.publicationYear}</styles.PriceLabel>
-                <styles.PriceLabel>Кол-во страниц: VeryMany</styles.PriceLabel>
-                <styles.PriceLabel>ISBN: {book.isbn}</styles.PriceLabel>
-                <styles.PriceLabel>Тираж: {book.circulation}</styles.PriceLabel>
-                <styles.PriceLabel>Формат: 3:4</styles.PriceLabel>
-                <styles.PriceLabel>Тип обложки: VeryHard</styles.PriceLabel>
-                <styles.PriceLabel>Возрастные ограничения: 18+</styles.PriceLabel>
-                <styles.PriceLabel>В наличии: {book.inStock}</styles.PriceLabel>
+                {book.bookSeries&&<styles.PriceLabel>Серия: {book.bookSeries && book.bookSeries.name}</styles.PriceLabel>}
+                {book.publisher&&<styles.PriceLabel>Издательство: {book.publisher && book.publisher.name}</styles.PriceLabel>}
+                {book.publicationYear&&<styles.PriceLabel>Год издания: {book.publicationYear}</styles.PriceLabel>}
+                {book.pageCount&&<styles.PriceLabel>Кол-во страниц: {book.pageCount}</styles.PriceLabel>}
+                {book.isbn&&<styles.PriceLabel>ISBN: {book.isbn}</styles.PriceLabel>}
+                {book.circulation&&<styles.PriceLabel>Тираж: {book.circulation}</styles.PriceLabel>}
+                {book.format&&<styles.PriceLabel>Формат: {book.format}</styles.PriceLabel>}
+                {book.coverType&&<styles.PriceLabel>Тип обложки: {book.coverType}</styles.PriceLabel>}
+                {book.ageLimit&&<styles.PriceLabel>Возрастные ограничения: {book.ageLimit}</styles.PriceLabel>}
+                {book.inStock&&<styles.PriceLabel>В наличии: {book.inStock}</styles.PriceLabel>}
 
                 <styles.PriceLabel>
                     Цена:

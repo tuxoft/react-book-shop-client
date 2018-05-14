@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import * as subscribeActions from "../../store/subscribe/actions";
 import FooterBody from "../../components/Footer";
 import { getEmail } from "../../store/subscribe/selectors";
+import * as contentSelectors from "../../store/content/selectors";
 
 class Footer extends Component {
 
@@ -29,8 +30,9 @@ class Footer extends Component {
   }
 }
 
-const mapStateToProps = ({ subscribe }) => ({
-  email: getEmail(subscribe)
+const mapStateToProps = ({ subscribe, content }) => ({
+  email: getEmail(subscribe),
+  footerItems: contentSelectors.getMenuFooter(content)
 });
 
 const mapDispatchToProps = (dispatch,ownProps) => ({

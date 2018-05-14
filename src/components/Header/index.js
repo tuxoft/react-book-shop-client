@@ -15,7 +15,7 @@ const HeaderBody = (props) => (
             </styles.LogoWrapper>
             <SearchInput
                 inputProps={{
-                    placeholder: "Вводи поисковое значение",
+                    placeholder: "Поиск...",
                     onChange: props.onChangeSearch,
                     value: props.searchValue
                 }}
