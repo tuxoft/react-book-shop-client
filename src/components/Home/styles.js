@@ -89,3 +89,15 @@ export const Label = styled.span`
     overflow: hidden;
 `;
 
+export const PromoImage = styled.div`
+    min-width: 100%;
+    min-height: 380px;
+    ${(props) =>
+    props.src &&
+    `
+        background-image: url(${props.src});
+        background-size: 100% 100%;
+        overflow: hidden;
+    `};
+    
+`;

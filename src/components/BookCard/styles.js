@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import ButtonComponent from "../simpleComponents/Button";
 
 export const CardWrapper = styled.div`
-    margin: 25px 15px 20px 0px;
+    margin: 25px 15px 20px 5px;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;

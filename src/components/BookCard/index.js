@@ -1,6 +1,7 @@
 import React from "react";
 import * as styles from "./styles";
 import InBoxButton from "../../containers/InBoxButton";
+import { getAuthors } from "../../utils"
 
 
 const BookCard = ({book}) => (
@@ -13,7 +14,7 @@ const BookCard = ({book}) => (
         <styles.Description>
             <styles.TextLink to={"/book/" + book.id}>{book.title}</styles.TextLink>
             <styles.AutorLabel>
-                {book.autor}
+                {getAuthors(book.authors)}
             </styles.AutorLabel>
             <styles.PriceLabel>
                 Цена: <styles.PriceValue>{book.price}</styles.PriceValue>

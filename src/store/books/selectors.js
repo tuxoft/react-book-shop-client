@@ -1,31 +1,16 @@
-export const getNewBooks = (state) => {
-    console.log("getNewBooks", state);
-    return state.newBooks.map((book)=>{
-        return getBook(book)
-    });
-};
-
 export const getBigBook = (state) => {
     console.log("getBook", state);
     return state.book;
-};
-
-export const getTradeBooks = (state) => {
-    return state.tradeBooks.map((book)=>{
-        return getBook(book)
-    });
-};
-
-export const getGoodBooks = (state) => {
-    return state.goodBooks.map((book)=>{
-        return getBook(book)
-    });
 };
 
 export const getSearchBooks = (state) => {
     return state.searchBooks.map((book)=>{
         return getBook(book)
     });
+};
+
+export const getCategory = (state) => {
+  return state.category;
 };
 
 function getBook(book){
@@ -39,3 +24,4 @@ function getBook(book){
         price: book.price,
     }
 }
+

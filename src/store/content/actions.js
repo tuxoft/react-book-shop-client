@@ -29,3 +29,19 @@ export const setCategoryCarousels = (value) => ({
     value
   }
 });
+
+export const FETCH_PROMO_PICTURES = "FETCH_PROMO_PICTURES";
+export const fetchPromoPictures = (value) => ({
+  type: FETCH_PROMO_PICTURES,
+  payload: {
+    value
+  }
+});
+
+export const SET_PROMO_PICTURES = "SET_PROMO_PICTURES";
+export const setPromoPictures = (value) => ({
+  type: SET_PROMO_PICTURES,
+  payload: {
+    value
+  }
+});

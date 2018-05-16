@@ -9,6 +9,7 @@ import * as contentSelectors from "../../store/content/selectors";
 class Home extends Component {
 
     componentDidMount() {
+        this.props.actions.content.fetchPromoPictures();
         this.props.actions.content.fetchCategoryCarousels();
     }
 
@@ -17,29 +18,21 @@ class Home extends Component {
         //this.props.actions.bucket.addBookToItems(id);
     };
 
-  render() {
-      let newBooks = [];
-      let promoPictures=[];
-      for(let i = 1; i<10; i++){
-          newBooks.push();
-          promoPictures.push({
-              url: "/promo",
-              pictureUrl: "http://placehold.it/1000x400/ffffff/c0392b/&text=slide"+i
-          });
-      }
-      console.log("categoryCarousels", this.props.categoryCarousels);
-    return (
-        <HomeBody
-            categoryCarousels={this.props.categoryCarousels}
-            promoPictures={promoPictures}
-            menu={this.props.menu}
-        />
-    );
-  }
+    render() {
+        console.log("categoryCarousels", this.props.categoryCarousels);
+        return (
+            <HomeBody
+                categoryCarousels={this.props.categoryCarousels}
+                promoPictures={this.props.promoPictures}
+                menu={this.props.menu}
+            />
+        );
+    }
 }
 
 const mapStateToProps = ({ searchBooks, content }) => ({
     categoryCarousels: contentSelectors.getCategoryCarousels(content),
+    promoPictures: contentSelectors.getPromoPictures(content)
 });
 
 const mapDispatchToProps = (dispatch,ownProps) => ({

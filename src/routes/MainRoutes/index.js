@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { Switch, Redirect, Route, withRouter } from "react-router-dom";
 import MainScreen from "../../Screens/MainScreen/index";
 import SearchScreen from "../../Screens/SearchScreen/index";
+import CategoryScreen from "../../Screens/CategoryScreen/index";
 import BookScreen from "../../Screens/BookScreen/index";
 import CartScreen from "../../Screens/CartScreen/index";
 
@@ -57,6 +58,12 @@ const Routes = (props) =>
             exact
             path="/cart/:block"
             render={(props) => <CartScreen {...props} />}
+            {...props}
+        />
+        <Route
+            exact
+            path="/categories/:categoryId"
+            render={(props) => <CategoryScreen {...props} />}
             {...props}
         />
 

@@ -4,13 +4,15 @@ import {FaSearch} from 'react-icons/lib/fa/';
 import SearchInput from "../simpleComponents/SearchInput/index";
 import HeaderMenu from "../HeaderMenu/index";
 import {Link} from "react-router-dom";
+const logo = require("../../assets/images/logo.png");
+const cart = require("../../assets/images/cart.png");
 
 const HeaderBody = (props) => (
     <styles.HeaderWrapper>
         <styles.RowWrapper>
             <styles.LogoWrapper>
                 <Link to={`/`}>
-                    <styles.Image src="http://placehold.it/160x60"/>
+                    <styles.Image src={logo}/>
                 </Link>
             </styles.LogoWrapper>
             <SearchInput
@@ -25,7 +27,7 @@ const HeaderBody = (props) => (
                 rightPicture
                 picture={FaSearch}/>
             <styles.BucketWrapper>
-                <styles.TextLink to={`/cart`}><styles.ImageBucket src="http://placehold.it/65x60"/></styles.TextLink>
+                <styles.TextLink to={`/cart`}><styles.ImageBucket src={cart}/></styles.TextLink>
                 <styles.BucketInfoWrapper>
                     <styles.TextLink to={`/cart`}><b>Корзина: {props.boxItemsCount} </b></styles.TextLink>
                 </styles.BucketInfoWrapper>

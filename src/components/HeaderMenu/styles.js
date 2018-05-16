@@ -39,13 +39,14 @@ export const MenuItem = styled.div`
             color: #26A9E0;
            }
         > ${MenuSubItemWrapper} {
-            display: flex !important;            
+            display: flex;            
            }        
         > ${MenuItemHeadWrapper} {
             border-bottom:4px solid #26A9E0;
             margin-bottom: -4px;
            }
     }
+    
 `;
 
 export const MenuSubItemLink = styled.div`

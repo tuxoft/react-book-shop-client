@@ -39,6 +39,23 @@ function* fetchCategoryCarousels(action) {
   }
 }
 
+function* fetchPromoPictures(action) {
+  try {
+    console.log("fetchPromoPictures ", action.payload.value);
+    const promoPictures = yield call(Api.content.getPromoPictures, action.payload.value);
+    yield put(contentActions.setPromoPictures(promoPictures.data));
+  } catch (error) {
+    console.log("fetchPromoPictures error", error);
+    yield put(
+      flashActions.showFlash(
+        "Ошибка! Данные не получены",
+        "danger",
+        true,
+      ),
+    );
+  }
+}
+
 // WATCHERS
 function* fetchMenuFlow() {
     yield takeLatest(contentActions.FETCH_MENU, fetchMenu);
@@ -48,9 +65,14 @@ function* fetchCategoryCarouselsFlow() {
   yield takeLatest(contentActions.FETCH_CATEGORY_CAROUSELS, fetchCategoryCarousels);
 }
 
+function* fetchPromoPictureFlow() {
+  yield takeLatest(contentActions.FETCH_PROMO_PICTURES, fetchPromoPictures);
+}
+
 export default function* menu() {
   yield all([
       fetchMenuFlow(),
-      fetchCategoryCarouselsFlow()
+      fetchCategoryCarouselsFlow(),
+      fetchPromoPictureFlow()
   ]);
 }

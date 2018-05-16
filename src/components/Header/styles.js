@@ -57,6 +57,7 @@ export const ImageBucket = styled.img`
 
 export const Image = styled.img`
     width: 100%;
+    
 `;
 
 export const TextLink = styled((props) => <Link {...props} />)`

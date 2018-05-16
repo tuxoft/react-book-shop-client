@@ -5,7 +5,8 @@ const initialState = {
       top: null,
       footer: null
     },
-    categoryCarousels: []
+    categoryCarousels: [],
+    promoPictures: []
 };
 
 const content = (state = initialState, action) => {
@@ -16,6 +17,9 @@ const content = (state = initialState, action) => {
     }
     case actions.SET_CATEGORY_CAROUSELS: {
       return setCategoryCarousels(state, action);
+    }
+    case actions.SET_PROMO_PICTURES: {
+      return setPromoPictures(state, action);
     }
     default: {
       return state;
@@ -34,6 +38,13 @@ const setCategoryCarousels = (state, action) => {
   return {
     ...state,
     categoryCarousels: action.payload.value
+  };
+};
+
+const setPromoPictures = (state, action) => {
+  return {
+    ...state,
+    promoPictures: action.payload.value
   };
 };
 

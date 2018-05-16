@@ -8,4 +8,8 @@ export const getMenuFooter = (state) => {
 
 export const getCategoryCarousels = (state) => {
   return state.categoryCarousels;
-}
+};
+
+export const getPromoPictures = (state) => {
+  return state.promoPictures;
+};

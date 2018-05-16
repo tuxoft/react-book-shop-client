@@ -21,10 +21,10 @@ class Header extends Component {
       this.props.actions.searchBooks.setSearchValue(val.target.value);
   };
 
-    onSearch = () => {
-        console.log(this.props.searchValue);
-        this.props.history.push("/search/"+this.props.searchValue);
-    };
+  onSearch = () => {
+      console.log(this.props.searchValue);
+      this.props.history.push("/search/"+this.props.searchValue);
+  };
 
   render() {
     console.log("this.props.menu",this.props.menu);

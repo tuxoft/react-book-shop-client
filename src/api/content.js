@@ -9,6 +9,10 @@ export default {
     getCategoryCarousels: (params) => {
         const ENDPOINT = Contur.get().API;
         return axios.get(ENDPOINT + "/api/categoryCarousels", {params: params});
+    },
+    getPromoPictures: (params) => {
+        const ENDPOINT = Contur.get().API;
+        return axios.get(ENDPOINT + "/api/promoPictures", {params: params});
     }
 
 };

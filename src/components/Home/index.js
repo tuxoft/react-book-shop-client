@@ -4,16 +4,16 @@ import BookCard from "../../components/BookCard/index";
 import CarouselBookDecorated from "../../components/CarouselBookDecorated";
 import CarouselPromoDecorated from "../../components/CarouselPromoDecorated";
 
-const HomeBody = ({promoPictures, categoryCarousels}) => (
+const HomeBody = ({promoPictures, categoryCarousels}) => {
+    console.log("promoPictures",promoPictures);
+    return (
     <styles.HomeWrapper>
         <CarouselPromoDecorated>
-            {promoPictures.map((promo, indx)=><styles.TextLink key={"promoPicture"+indx} to={promo.url?promo.url:"/"}><img alt="promo" src={promo.pictureUrl}/></styles.TextLink>)}
-
+            {promoPictures.map((promo, indx)=><styles.TextLink key={"promoPicture"+indx} to={promo.url?promo.url:"/"}><styles.PromoImage src={promo.pictureUrl}/></styles.TextLink>)}
         </CarouselPromoDecorated>
-
         {categoryCarousels && categoryCarousels.map((category, indx1) => (
             <styles.BooksCarouselWrapper key={"categoryCarousel-"+indx1}>
-                <styles.LeftSide><styles.BlueTextLink to="/newBooks">{category.name}</styles.BlueTextLink></styles.LeftSide>
+                <styles.LeftSide><styles.BlueTextLink to={"/categories/"+category.id}>{category.name}</styles.BlueTextLink></styles.LeftSide>
                 <CarouselBookDecorated>
                     {category.bookList && category.bookList.map((book, indx2)=><BookCard key={"book-"+indx1+"-"+indx2} book={book}/>)}
                 </CarouselBookDecorated>
@@ -47,6 +47,6 @@ const HomeBody = ({promoPictures, categoryCarousels}) => (
             </styles.InfoBlock>
         </styles.RowWrapper>
     </styles.HomeWrapper>
-);
+);}
 
 export default HomeBody;
