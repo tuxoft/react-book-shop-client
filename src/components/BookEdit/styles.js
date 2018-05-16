@@ -70,7 +70,27 @@ export const Input = styled.input.attrs({ type: "text" })`
     border: 1px solid #b3b3b3;
     border-radius: 3px;
     background-color: #fff;
-    text-align: center;
+    padding-left: 5px;
+    text-align: start;
+`;
+
+export const InputText = styled.textarea.attrs({ type: "text" })`
+    width: 600px;
+    min-height: 300px;
+    margin: 0 5px;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 31px;
+    vertical-align: top;
+    color: #333;
+    height: 30px;
+    box-sizing: border-box;
+    border: 1px solid #b3b3b3;
+    border-radius: 3px;
+    background-color: #fff;
+    padding-left: 5px;
+    text-align: start;
+    overflow: auto;
 `;
 
 export const Select = styled.select`
@@ -82,4 +102,41 @@ export const Select = styled.select`
   padding: 8px 16px;
   font-size: 14px;
   width: 100%;
+`;
+
+export const Column = styled.div`
+        margin-top: 3px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        justify-content: center;
+`;
+
+export const Line = styled.div`
+        margin-top: 5px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        width: 100%;
+        justify-content: start;
+        cursor: pointer;
+        &:hover {
+            color: blue;
+        }
+`;
+
+export const Container = styled.div`
+        width: 100%;
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: start;
+`;
+export const Item = styled.div`
+        border: 1px solid #e2e2e2;
+        border-radius: 6px;
+        color: #fff;
+        background-color: #26a9e0;
+        padding: 5px;
+        margin: 5px;
 `;

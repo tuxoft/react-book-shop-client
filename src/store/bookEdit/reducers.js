@@ -21,6 +21,49 @@ const initialState = {
             "bookList": null
         }
     ],
+    publishers: [
+        {
+        "id": 1,
+        "name": "Эксмо",
+        "bookList": null,
+        "bookSeriesList": null
+    },
+        {
+            "id": 2,
+            "name": "NOT Эксмо",
+            "bookList": null,
+            "bookSeriesList": null
+        }
+    ],
+    authors: [
+        {
+            "author": {
+                "id": 2,
+                "firstName": "Уильям",
+                "middleName": null,
+                "lastName": "Шекспир"
+            },
+            "position": 1
+        },
+        {
+            "author": {
+                "id": 3,
+                "firstName": "Pushkin",
+                "middleName": null,
+                "lastName": "Solncelikiy"
+            },
+            "position": 1
+        },
+        {
+            "author": {
+                "id": 4,
+                "firstName": "Gogol'",
+                "middleName": null,
+                "lastName": "Mogol'"
+            },
+            "position": 1
+        },
+    ],
     editBook: {
         "id": 2,
         "title": "Великие трагедии и комедии в одном томе",
