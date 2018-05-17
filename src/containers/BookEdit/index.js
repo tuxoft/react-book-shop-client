@@ -41,6 +41,18 @@ class BookEdit extends Component {
         this.setBookAttr("authors", mass);
     };
 
+    addObjToListAttr = ( attr, list ,val ) => {
+        console.log("addObjToListAttr", val);
+        let mass = list.filter((obj,indx)=>obj.id!== val.id);
+        mass.push(val);
+        this.setBookAttr(attr, mass);
+    };
+    removeObjFromListAttr = (attr, list ,val ) => {
+        console.log("removeObjFromListAttr", val);
+        let mass = list.filter((obj,indx)=>obj.id!== val.id);
+        this.setBookAttr(attr, mass);
+    };
+
     render() {
         console.log("book", this.props.book);
         return (
@@ -51,6 +63,8 @@ class BookEdit extends Component {
                 setBookAttr={this.setBookAttr}
                 addBookAutor={this.addBookAutor}
                 removeBookAutor={this.removeBookAutor}
+                addObjToListAttr={this.addObjToListAttr}
+                removeObjFromListAttr={this.removeObjFromListAttr}
             />
         );
     }
@@ -58,9 +72,13 @@ class BookEdit extends Component {
 
 const mapStateToProps = ({bookEdit}) => ({
     book: bookEditSelectors.getBookEdit(bookEdit),
-    bookSeries: bookEdit.bookSeries,
-    publishers: bookEdit.publishers,
-    authors: bookEdit.authors,
+    options: bookEdit.options,
+    data :{
+        bookSeries: bookEdit.bookSeries,
+        publisher: bookEdit.publisher,
+        authors: bookEdit.authors,
+        categories: bookEdit.categories,
+    }
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

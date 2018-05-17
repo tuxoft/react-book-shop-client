@@ -1,6 +1,108 @@
 import * as actions from "./actions";
 
 const initialState = {
+    options: [
+        {
+            name: "title",
+            parametrName: "Назание",
+            type: "input"
+        },
+        {
+            name: "subtitle",
+            parametrName: "Описание",
+            type: "textArea"
+        },
+        {
+            name: "bookSeries",
+            parametrName: "Серия",
+            type: "oneFromList",
+        },
+        {
+            name: "publisher",
+            parametrName: "Издатель",
+            type: "select",
+        },
+        {
+            name: "authors",
+            parametrName: "Авторы",
+            type: "authors"
+        },
+        {
+            name: "categories",
+            parametrName: "Категории",
+            type: "multiObjFromList"
+        },
+        {
+            name: "publicationYear",
+            parametrName: "Год издания",
+            type: "input"
+        },
+        {
+            name: "pageCount",
+            parametrName: "Кол-во страниц",
+            type: "input"
+        },
+        {
+            name: "isbn",
+            parametrName: "ISBN",
+            type: "input"
+        },
+        {
+            name: "udc",
+            parametrName: "UDC",
+            type: "input"
+        },
+        {
+            name: "bbk",
+            parametrName: "BBK",
+            type: "input"
+        },
+        {
+            name: "circulation",
+            parametrName: "Тираж",
+            type: "input"
+        },
+        {
+            name: "weight",
+            parametrName: "Вес",
+            type: "input"
+        },
+        {
+            name: "ageLimit",
+            parametrName: "Возрастные ограничения",
+            type: "input"
+        },
+        {
+            name: "format",
+            parametrName: "Формат",
+            type: "input"
+        },
+        {
+            name: "coverType",
+            parametrName: "Тип обложки",
+            type: "input"
+        },
+        {
+            name: "inStock",
+            parametrName: "В наличии",
+            type: "input"
+        },
+        {
+            name: "city",
+            parametrName: "Город",
+            type: "input"
+        },
+        {
+            name: "language",
+            parametrName: "Язык",
+            type: "input"
+        },
+        {
+            name: "price",
+            parametrName: "Цена",
+            type: "input"
+        },
+    ],
     bookSeries:[
         {
             "id": 2,
@@ -21,7 +123,7 @@ const initialState = {
             "bookList": null
         }
     ],
-    publishers: [
+    publisher: [
         {
         "id": 1,
         "name": "Эксмо",
@@ -63,6 +165,26 @@ const initialState = {
             },
             "position": 1
         },
+    ],
+    categories: [
+        {
+            "id": 21,
+            "name": "Классика",
+            "parentId": 4,
+            "bookList": null
+        },
+        {
+            "id": 22,
+            "name": "Kolbasika",
+            "parentId": 4,
+            "bookList": null
+        },
+        {
+            "id": 23,
+            "name": "Риторика",
+            "parentId": 4,
+            "bookList": null
+        }
     ],
     editBook: {
         "id": 2,
