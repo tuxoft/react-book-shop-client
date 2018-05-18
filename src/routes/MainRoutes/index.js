@@ -7,7 +7,7 @@ import CategoryScreen from "../../Screens/CategoryScreen/index";
 import BookScreen from "../../Screens/BookScreen/index";
 import CartScreen from "../../Screens/CartScreen/index";
 import BookEditScreen from "../../Screens/BookEditScreen/index";
-
+import NotFound from "../../Screens/NotFoundScreen/index";
 
 const Routes = (props) =>
 
@@ -73,6 +73,7 @@ const Routes = (props) =>
             render={(props) => <BookEditScreen {...props} />}
             {...props}
         />
+        <Route component={NotFound}/>
     </Switch>
 
 const mapStateToProps = ({app}) => ({
