@@ -6,6 +6,7 @@ import SearchScreen from "../../Screens/SearchScreen/index";
 import CategoryScreen from "../../Screens/CategoryScreen/index";
 import BookScreen from "../../Screens/BookScreen/index";
 import CartScreen from "../../Screens/CartScreen/index";
+import BookEditScreen from "../../Screens/BookEditScreen/index";
 
 
 
@@ -67,6 +68,12 @@ const Routes = (props) =>
             {...props}
         />
 
+            <Route
+                exact
+                path="/book-edit/:id"
+                render={(props) => <BookEditScreen {...props} />}
+                {...props}
+            />
     </Switch>
 
 const mapStateToProps = ({ app }) => ({
