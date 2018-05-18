@@ -34,6 +34,10 @@ export const Input = styled.input.attrs({ type: "text" })`
   ${props => (props.border) && `
     box-shadow: 0 0 5px 0 rgba(0,0,0,.3);
   `}
+  font-family: 'PT Sans', sans-serif;
+  font-size: 18px;  
+  font-stretch: 100%;
+  font-weight: 400;
 `;
 
 export const Button = styled.button`

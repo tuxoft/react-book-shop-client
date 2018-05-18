@@ -13,6 +13,14 @@ export default {
     getPromoPictures: (params) => {
         const ENDPOINT = Contur.get().API;
         return axios.get(ENDPOINT + "/api/promoPictures", {params: params});
-    }
+    },
+    getNavigationMenuTop: (params) => {
+        const ENDPOINT = Contur.get().API;
+        return axios.get(ENDPOINT + "/api/navigationMenuTop/"+params.id);
+    },
+    getNavigationMenuLeft: (params) => {
+      const ENDPOINT = Contur.get().API;
+      return axios.get(ENDPOINT + "/api/navigationMenuLeft/"+params.id);
+    },
 
 };

@@ -45,3 +45,35 @@ export const setPromoPictures = (value) => ({
     value
   }
 });
+
+export const FETCH_NAVIGATION_MENU_TOP = "FETCH_NAVIGATION_MENU_TOP";
+export const fetchNavigationMenuTop = (value) => ({
+  type: FETCH_NAVIGATION_MENU_TOP,
+  payload: {
+    value
+  }
+});
+
+export const SET_NAVIGATION_MENU_TOP = "SET_NAVIGATION_MENU_TOP";
+export const setNavigationMenuTop = (value) => ({
+  type: SET_NAVIGATION_MENU_TOP,
+  payload: {
+    value
+  }
+});
+
+export const FETCH_NAVIGATION_MENU_LEFT = "FETCH_NAVIGATION_MENU_LEFT";
+export const fetchNavigationMenuLeft = (value) => ({
+  type: FETCH_NAVIGATION_MENU_LEFT,
+  payload: {
+    value
+  }
+});
+
+export const SET_NAVIGATION_MENU_LEFT = "SET_NAVIGATION_MENU_LEFT";
+export const setNavigationMenuLeft = (value) => ({
+  type: SET_NAVIGATION_MENU_LEFT,
+  payload: {
+    value
+  }
+});

@@ -20,7 +20,7 @@ export const MenuBoldText = styled.b`
 
 export const MenuItemHeadWrapper = styled.div`
     margin-top: 5px;
-    margin-left: 10px;
+    margin-left: 10px;    
 `;
 
 export const TextLink = styled((props) => <Link {...props} />)`
@@ -45,8 +45,7 @@ export const MenuItem = styled.div`
             border-bottom:4px solid #26A9E0;
             margin-bottom: -4px;
            }
-    }
-    
+    }    
 `;
 
 export const MenuSubItemLink = styled.div`
