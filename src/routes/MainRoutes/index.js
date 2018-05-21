@@ -8,6 +8,8 @@ import BookScreen from "../../Screens/BookScreen/index";
 import CartScreen from "../../Screens/CartScreen/index";
 import BookEditScreen from "../../Screens/BookEditScreen/index";
 import CategoryEditScreen from "../../Screens/CategoryEditScreen/index";
+import AuthorsEditScreen from "../../Screens/AuthorsEditScreen/index";
+import PublisherEditScreen from "../../Screens/PublisherEditScreen/index";
 import NotFound from "../../Screens/NotFoundScreen/index";
 
 const Routes = (props) =>
@@ -80,6 +82,18 @@ const Routes = (props) =>
                 render={(props) => <CategoryEditScreen {...props} />}
                 {...props}
             />
+            <Route
+                exact
+                path="/authors-edit/:id"
+                render={(props) => <AuthorsEditScreen {...props} />}
+                {...props}
+            />
+        <Route
+            exact
+            path="/publisher-edit/:id"
+            render={(props) => <PublisherEditScreen {...props} />}
+            {...props}
+        />
         <Route component={NotFound}/>
     </Switch>
 

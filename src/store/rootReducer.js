@@ -7,6 +7,8 @@ import buscket from "./bucket/reducers";
 import books from "./books/reducers";
 import bookEdit from "./bookEdit/reducers";
 import categoryEdit from "./categoryEdit/reducers";
+import authorsEdit from "./authorsEdit/reducers";
+import publisherEdit from "./publisherEdit/reducers";
 import dictionary from "./dictionary/reducers";
 import content from "./content/reducers";
 
@@ -20,6 +22,8 @@ const rootReducer = combineReducers({
   bookEdit,
   categoryEdit,
   dictionary,
+  authorsEdit,
+    publisherEdit,
   content
 });
 
