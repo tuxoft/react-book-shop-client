@@ -9,6 +9,7 @@ import bookEdit from "./bookEdit/reducers";
 import categoryEdit from "./categoryEdit/reducers";
 import authorsEdit from "./authorsEdit/reducers";
 import publisherEdit from "./publisherEdit/reducers";
+import bookSeriesEdit from "./bookSeriesEdit/reducers";
 import dictionary from "./dictionary/reducers";
 import content from "./content/reducers";
 
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
   dictionary,
   authorsEdit,
     publisherEdit,
+    bookSeriesEdit,
   content
 });
 

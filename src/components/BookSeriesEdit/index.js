@@ -4,7 +4,7 @@ import {MdClear} from 'react-icons/lib/md/';
 import Checkbox from "../simpleComponents/Checkbox";
 
 
-const PublisherEdit = ({block, object, data, options, setObjAttr, removeObjFromListAttr, addObjToListAttr}) => {
+const BookSeriesEdit = ({block, object, data, options, setObjAttr, removeObjFromListAttr, addObjToListAttr}) => {
 
     const getInput = (indx, name, parametrName, object, setObjAttr) => {
         return (<styles.Row key={indx?"row"+indx:"row"}>
@@ -106,7 +106,7 @@ const PublisherEdit = ({block, object, data, options, setObjAttr, removeObjFromL
 
     return (
         <styles.ContentWrapper>
-            <styles.Label bold>Редактирование издателей</styles.Label>
+            <styles.Label bold>Редактирование серий</styles.Label>
 
             {options.map((option, indx)=> {
                 switch (option.type) {
@@ -134,4 +134,4 @@ const PublisherEdit = ({block, object, data, options, setObjAttr, removeObjFromL
     );
 };
 
-export default PublisherEdit;
+export default BookSeriesEdit;

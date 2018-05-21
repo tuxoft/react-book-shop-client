@@ -10,6 +10,7 @@ import BookEditScreen from "../../Screens/BookEditScreen/index";
 import CategoryEditScreen from "../../Screens/CategoryEditScreen/index";
 import AuthorsEditScreen from "../../Screens/AuthorsEditScreen/index";
 import PublisherEditScreen from "../../Screens/PublisherEditScreen/index";
+import BookSeriesEditScreen from "../../Screens/BookSeriesEditScreen/index";
 import NotFound from "../../Screens/NotFoundScreen/index";
 
 const Routes = (props) =>
@@ -92,6 +93,12 @@ const Routes = (props) =>
             exact
             path="/publisher-edit/:id"
             render={(props) => <PublisherEditScreen {...props} />}
+            {...props}
+        />
+        <Route
+            exact
+            path="/book-series-edit/:id"
+            render={(props) => <BookSeriesEditScreen {...props} />}
             {...props}
         />
         <Route component={NotFound}/>
