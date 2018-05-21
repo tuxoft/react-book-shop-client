@@ -31,9 +31,13 @@ class BookEdit extends Component {
 
     addBookAutor = ( authors ,val ) => {
         console.log("addBookAutor", val);
-        let mass = authors.filter((obj,indx)=>obj.author.id!== val.author.id);
-        mass.push(val);
-        this.setBookAttr("authors", mass);
+        let mass = authors.filter((obj,indx)=>obj.author.id!== val.id);
+        mass.push({author: val, position: 0});
+        this.setBookAttr("authors", mass.map((obj, indx)=>{
+            let author = obj;
+            author.position = indx+1;
+            return author;
+        }));
     };
     removeBookAutor = ( authors ,val ) => {
         console.log("removeBookAutor", val);
@@ -70,15 +74,10 @@ class BookEdit extends Component {
     }
 }
 
-const mapStateToProps = ({bookEdit}) => ({
+const mapStateToProps = ({bookEdit, dictionary}) => ({
     book: bookEditSelectors.getBookEdit(bookEdit),
     options: bookEdit.options,
-    data :{
-        bookSeries: bookEdit.bookSeries,
-        publisher: bookEdit.publisher,
-        authors: bookEdit.authors,
-        categories: bookEdit.categories,
-    }
+    data : dictionary,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
