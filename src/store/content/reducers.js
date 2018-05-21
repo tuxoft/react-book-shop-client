@@ -6,7 +6,9 @@ const initialState = {
       footer: null
     },
     categoryCarousels: [],
-    promoPictures: []
+    promoPictures: [],
+    navigationMenuTop: [],
+    navigationMenuLeft: []
 };
 
 const content = (state = initialState, action) => {
@@ -20,6 +22,12 @@ const content = (state = initialState, action) => {
     }
     case actions.SET_PROMO_PICTURES: {
       return setPromoPictures(state, action);
+    }
+    case actions.SET_NAVIGATION_MENU_TOP: {
+      return setNavigationMenuTop(state, action);
+    }
+    case actions.SET_NAVIGATION_MENU_LEFT: {
+      return setNavigationMenuLeft(state, action);
     }
     default: {
       return state;
@@ -45,6 +53,20 @@ const setPromoPictures = (state, action) => {
   return {
     ...state,
     promoPictures: action.payload.value
+  };
+};
+
+const setNavigationMenuTop = (state, action) => {
+  return {
+    ...state,
+    navigationMenuTop: action.payload.value
+  };
+};
+
+const setNavigationMenuLeft = (state, action) => {
+  return {
+    ...state,
+    navigationMenuLeft: action.payload.value
   };
 };
 

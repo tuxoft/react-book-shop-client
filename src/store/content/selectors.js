@@ -13,3 +13,11 @@ export const getCategoryCarousels = (state) => {
 export const getPromoPictures = (state) => {
   return state.promoPictures;
 };
+
+export const getNavigationMenuTop = (state) => {
+  return state.navigationMenuTop;
+};
+
+export const getNavigationMenuLeft = (state) => {
+  return state.navigationMenuLeft;
+};

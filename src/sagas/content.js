@@ -56,6 +56,40 @@ function* fetchPromoPictures(action) {
   }
 }
 
+function* fetchNavigationMenuTop(action) {
+  try {
+    console.log("fetchNavigationMenuTop ", action.payload.value);
+    const navigationMenuTop = yield call(Api.content.getNavigationMenuTop, action.payload.value);
+    yield put(contentActions.setNavigationMenuTop(navigationMenuTop.data));
+  } catch (error) {
+    console.log("fetchNavigationMenuTop error", error);
+    yield put(
+      flashActions.showFlash(
+        "Ошибка! Данные не получены",
+        "danger",
+        true,
+      ),
+    );
+  }
+}
+
+function* fetchNavigationMenuLeft(action) {
+  try {
+    console.log("fetchNavigationMenuLeft ", action.payload.value);
+    const navigationMenuLeft = yield call(Api.content.getNavigationMenuLeft, action.payload.value);
+    yield put(contentActions.setNavigationMenuLeft(navigationMenuLeft.data));
+  } catch (error) {
+    console.log("fetchNavigationMenuLeft error", error);
+    yield put(
+      flashActions.showFlash(
+        "Ошибка! Данные не получены",
+        "danger",
+        true,
+      ),
+    );
+  }
+}
+
 // WATCHERS
 function* fetchMenuFlow() {
     yield takeLatest(contentActions.FETCH_MENU, fetchMenu);
@@ -69,10 +103,20 @@ function* fetchPromoPictureFlow() {
   yield takeLatest(contentActions.FETCH_PROMO_PICTURES, fetchPromoPictures);
 }
 
+function* fetchNavigationMenuTopFlow() {
+  yield takeLatest(contentActions.FETCH_NAVIGATION_MENU_TOP, fetchNavigationMenuTop);
+}
+
+function* fetchNavigationMenuLeftFlow() {
+  yield takeLatest(contentActions.FETCH_NAVIGATION_MENU_LEFT, fetchNavigationMenuLeft);
+}
+
 export default function* menu() {
   yield all([
       fetchMenuFlow(),
       fetchCategoryCarouselsFlow(),
-      fetchPromoPictureFlow()
+      fetchPromoPictureFlow(),
+      fetchNavigationMenuTopFlow(),
+      fetchNavigationMenuLeftFlow()
   ]);
 }

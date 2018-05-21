@@ -74,6 +74,37 @@ export const TextLink = styled((props) => <Link {...props} />)`
     height: 37px;
 `;
 
+export const NavigationItem = styled((props) => <Link {...props} />)`
+    display: block;
+    font-size: 12px;
+    line-height: 14.4px;    
+    color: inherit;
+    overflow: hidden;
+    text-decoration: none;  
+    align-self: flex-start; 
+    margin-right: 10px;
+`;
+
+export const NavigationItemWrapper = styled.div` 
+   display: flex;
+   flex-direction: row;
+   justify-content: space-between;
+   
+`;
+
+export const NavigationItemSplitter = styled.img`
+    width: 12px;
+    height: 12px;
+    margin-right: 10px;
+`;
+
+export const NavigationRow = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    margin-bottom: 20px;
+`;
+
 export const NameBookLabel = styled.div`
     color: #26a9e0;
     font-size: 21px;

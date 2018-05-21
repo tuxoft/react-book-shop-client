@@ -28,8 +28,8 @@ export const LeftSide = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
-    width: 71%;
-    align-items: start;
+    width: 70%;
+    align-items: start;    
 `;
 
 export const InfoBlock = styled((props) => <Link {...props} />)`
@@ -68,6 +68,7 @@ export const BlueTextLink = styled((props) => <Link {...props} />)`
     font-weight: 700;
     color: #26a9e0;
     margin-bottom: 10px;
+    margin-left: 10px;
     display: inline-block;
     text-decoration: none;
     font-size: 18px;
