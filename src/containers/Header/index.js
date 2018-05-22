@@ -10,6 +10,7 @@ import HeaderBody from "../../components/Header";
 import { getSearchValue } from "../../store/searchBooks/selectors";
 import { getCartItemsCount } from "../../store/bucket/selectors";
 import * as contentSelectors from "../../store/content/selectors";
+import * as booksSelectors from "../../store/books/selectors";
 
 class Header extends Component {
 
@@ -21,15 +22,23 @@ class Header extends Component {
   onChangeText = (val) => {
       console.log(val.target.value);
       this.props.actions.searchBooks.setSearchValue(val.target.value);
+      this.props.actions.books.fetchSuggestionSearch({
+        start: 0,
+        count: 6,
+        query: val.target.value
+      });
   };
 
   onSearch = () => {
       console.log(this.props.searchValue);
+      this.props.actions.books.clearSuggestionSearch();
       this.props.history.push("/search/"+this.props.searchValue);
+
   };
 
   render() {
     console.log("this.props.menu",this.props.menu);
+    console.log("this.props.suggestions",this.props.suggestions);
     return (
         <HeaderBody
             {...this.state}
@@ -43,10 +52,11 @@ class Header extends Component {
   }
 }
 
-const mapStateToProps = ({ searchBooks, buscket, content }) => ({
+const mapStateToProps = ({ searchBooks, buscket, content, books }) => ({
   searchValue: getSearchValue(searchBooks),
   boxItemsCount: getCartItemsCount(buscket),
-  menu: contentSelectors.getMenuTop(content)
+  menu: contentSelectors.getMenuTop(content),
+  suggestions: booksSelectors.getSuggestions(books)
 });
 
 const mapDispatchToProps = (dispatch,ownProps) => ({

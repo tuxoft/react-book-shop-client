@@ -14,7 +14,7 @@ class CategoryBooks extends Component {
             this.props.actions.books.fetchCategory({
                 categoryId: this.props.match.params.categoryId,
                 start: 0,
-                pageSize: 12,
+                count: 12,
             });
             this.props.actions.content.fetchNavigationMenuTop({id: this.props.match.params.categoryId});
             this.props.actions.content.fetchNavigationMenuLeft({id: this.props.match.params.categoryId});
@@ -26,7 +26,7 @@ class CategoryBooks extends Component {
             this.props.actions.books.fetchCategory({
                 categoryId: nextProps.match.params.categoryId,
                 start: 0,
-                pageSize: 12,
+                count: 12,
             });
             this.props.actions.content.fetchNavigationMenuTop({id: nextProps.match.params.categoryId});
             this.props.actions.content.fetchNavigationMenuLeft({id: nextProps.match.params.categoryId});

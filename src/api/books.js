@@ -17,7 +17,7 @@ export default {
     },
     search: (params) => {
         const ENDPOINT = Contur.get().API;
-        return axios.get(ENDPOINT + "/api/books", {params: params});
+        return axios.get(ENDPOINT + "/api/search", {params: params});
     },
     id: (params) => {
         const ENDPOINT = Contur.get().API;

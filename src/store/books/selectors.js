@@ -4,24 +4,54 @@ export const getBigBook = (state) => {
 };
 
 export const getSearchBooks = (state) => {
-    return state.searchBooks.map((book)=>{
-        return getBook(book)
-    });
+    return state.searchBooks;
 };
 
 export const getCategory = (state) => {
   return state.category;
 };
 
-function getBook(book){
+export const getSuggestions = (state) => {
+  if (state.suggestionSearch.length == 0) {
+    return null;
+  } else {
+    let productItems = [];
+    let authorItems = [];
+    let seriesItems = [];
+    state.suggestionSearch.map((book) => {
+      let searchBook = {
+        title: book.title,
+        url: '/book/' + book.id + '/description',
+        authors: []
+      };
+      if (book.authors) {
+        book.authors.map((bookAuthor) => {
+          searchBook.authors.push({
+            id: bookAuthor.author.id,
+            title: (bookAuthor.author.firstName ? bookAuthor.author.firstName.slice(0,1) + ". ":"") + (bookAuthor.author.lastName ? bookAuthor.author.lastName : ""),
+            url: '/authors/' + bookAuthor.author.id
+          });
+        });
+      }
+      productItems.push(searchBook);
+      searchBook.authors.map((author) => {
+        authorItems.findIndex((a) => a.id == author.id);
+        if (authorItems.findIndex((a) => a.id == author.id) == -1) {
+          authorItems.push(author);
+        }
+      });
+      if (book.bookSeries && seriesItems.findIndex((s) => s.id == book.bookSeries.id) == -1) {
+        seriesItems.push({
+          id: book.bookSeries.id,
+          title: book.bookSeries.name,
+          url: '/series/' + book.bookSeries.id
+        });
+      }
+    });
     return {
-        url: book.coverUrl?book.coverUrl:"http://placehold.it/140x140",
-            name: book.title,
-        id: book.id,
-        autor: book.authors ? book.authors.map((author)=>author.author.lastName+" "+
-            (author.author.firstName!==undefined && author.author.firstName!== null?(author.author.firstName.substring(0,1)+"."):"") +
-            (author.author.middleName!==undefined && author.author.middleName!==null?(author.author.middleName.substring(0,1)+"."):"")) : [] ,
-        price: book.price,
-    }
+      productItems,
+      authorItems,
+      seriesItems
+    };
+  }
 }
-

@@ -1,4 +1,7 @@
 import styled from "styled-components";
+import React from "react";
+import { Link } from "react-router-dom";
+
 
 export const InputWrapper = styled.div`
   width: 500px;
@@ -60,3 +63,76 @@ export const ControlLabel = styled.span`
   margin-right: 10px;
 `;
 
+export const SuggestionWrapper = styled.div`
+  left: -125px;
+  padding: 25px;
+  width: 700px;  
+  border-radius: 7px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
+  z-index: 100;
+  margin-top: 5px;
+  position: relative;
+  background-color: #ffffff;
+`;
+
+export const Row = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+export const Column = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+`;
+
+export const SuggestionItemGroupWrapper = styled.div`
+  margin-right: 10px;
+  margin-bottom: 20px;
+`;
+
+export const SuggestionItemGroupTitle = styled.p`
+  font-size: 16px;
+  color: #26a8df;
+  margin: 0 0 10px 0;
+  font-weight: 700;
+  line-height: 1.2;
+  font-family: 'PT Sans', sans-serif;
+`;
+
+export const SuggestionItemWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+export const SuggestionItemTitle = styled.div`
+  font-weight: normal;
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+  font-size: 16px;
+  color: #333333;
+  line-height: 20px;
+  cursor: pointer;
+  &:hover {        
+     color: #26A9E0;
+  }
+`;
+
+export const SuggestionItemDescriptionWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+export const SuggestionItemDescription = styled.div`
+  font-size: 14px;
+  margin: 0;
+  padding: 0;
+  color: #808080;
+  margin-bottom: 10px;
+  text-decoration: none;
+  cursor: pointer;
+  &:hover {        
+     color: #26A9E0;
+  }
+`;

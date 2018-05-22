@@ -46,3 +46,23 @@ export const setCategory = (category) => ({
   }
 });
 
+export const FETCH_SUGGESTION_SEARCH = "FETCH_SUGGESTION_SEARCH";
+export const fetchSuggestionSearch = (params) => ({
+  type: FETCH_SUGGESTION_SEARCH,
+  payload: {
+    params
+  }
+});
+
+export const SET_SUGGESTION_SEARCH = "SET_SUGGESTION_SEARCH";
+export const setSuggestionSearch = (suggestionSearch) => ({
+  type: SET_SUGGESTION_SEARCH,
+  payload: {
+    suggestionSearch
+  }
+});
+
+export const CLEAR_SUGGESTION_SEARCH = "CLEAR_SUGGESTION_SEARCH";
+export const clearSuggestionSearch = () => ({
+  type: CLEAR_SUGGESTION_SEARCH
+});

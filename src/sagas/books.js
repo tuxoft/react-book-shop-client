@@ -58,6 +58,23 @@ function* fetchCategory(action) {
   }
 }
 
+// WORKERS
+function* fetchSuggestionSearch(action) {
+  try {
+    console.log("fetchSuggestionSearch ", action.payload.params);
+    const suggestionSearch = yield call(Api.books.search, action.payload.params);
+    yield put(booksActions.setSuggestionSearch(suggestionSearch.data));
+  } catch (error) {
+    console.log("fetchSuggestionSearch error", error);
+    yield put(
+      flashActions.showFlash(
+        "Ошибка! Данные не получены",
+        "danger",
+        true,
+      ),
+    );
+  }
+}
 
 // WATCHERS
 function* fetchSearchBooksFlow() {
@@ -70,10 +87,15 @@ function* fetchCategoryFlow() {
   yield takeLatest(booksActions.FETCH_CATEGORY, fetchCategory);
 }
 
+function* fetchSuggestionSearchFlow() {
+  yield takeLatest(booksActions.FETCH_SUGGESTION_SEARCH, fetchSuggestionSearch);
+}
+
 export default function* books() {
   yield all([
       fetchBookFlow(),
       fetchSearchBooksFlow(),
-      fetchCategoryFlow()
+      fetchCategoryFlow(),
+      fetchSuggestionSearchFlow()
   ]);
 }

@@ -10,7 +10,7 @@ export const MenuSubItemWrapper = styled.div`
     box-shadow: rgba(0, 0, 0, 0.3) 0px 2px 2px 0px;    
     padding: 10px;
     flex-direction: row;
-    background-color: white;
+    background-color: #fff;    
 `;
 
 export const MenuBoldText = styled.b`
@@ -19,8 +19,10 @@ export const MenuBoldText = styled.b`
 `;
 
 export const MenuItemHeadWrapper = styled.div`
+    position: relative;
     margin-top: 5px;
-    margin-left: 10px;    
+    margin-left: 10px;
+    color: #26A9E0;
 `;
 
 export const TextLink = styled((props) => <Link {...props} />)`
@@ -42,8 +44,16 @@ export const MenuItem = styled.div`
             display: flex;            
            }        
         > ${MenuItemHeadWrapper} {
-            border-bottom:4px solid #26A9E0;
-            margin-bottom: -4px;
+            &::after {
+                content: '';
+                position: absolute;
+                left: 0;
+                right: 0;
+                top: 18px;
+                z-index: 10;
+                height: 0;
+                border-top: 4px solid;
+              }
            }
     }    
 `;

@@ -15,7 +15,7 @@ class SearchBooks extends Component {
             this.props.actions.searchBooks.setSearchValue(this.props.match.params.query);
             this.props.actions.books.fetchSearchBooks({
                 start: 0,
-                pageSize: 10,
+                count: 10,
                 query: this.props.match.params.query
             });
         }
@@ -26,7 +26,7 @@ class SearchBooks extends Component {
             this.props.actions.searchBooks.setSearchValue(nextProps.match.params.query);
             this.props.actions.books.fetchSearchBooks({
                 start: 0,
-                pageSize: 10,
+                count: 10,
                 query: nextProps.match.params.query
             });
         }
@@ -41,7 +41,7 @@ class SearchBooks extends Component {
         console.log(this.props.searchValue);
         this.props.actions.books.fetchSearchBooks({
             start: 0,
-            pageSize: 10,
+            count: 10,
             query: this.props.searchValue
         });
     };

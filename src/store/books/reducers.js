@@ -2,6 +2,7 @@ import * as actions from "./actions";
 
 const initialState = {
     searchBooks:[],
+    suggestionSearch: [],
     book: {},
     category: {}
 };
@@ -17,10 +18,15 @@ const books = (state = initialState, action) => {
       case actions.SET_CATEGORY: {
           return setCategory(state, action);
       }
-
-    default: {
-      return state;
-    }
+      case actions.SET_SUGGESTION_SEARCH: {
+          return setSuggestionSearch(state, action);
+      }
+      case actions.CLEAR_SUGGESTION_SEARCH: {
+          return clearSuggestionSearch(state, action);
+      }
+      default: {
+          return state;
+      }
   }
 };
 
@@ -47,4 +53,21 @@ const setCategory = (state, action) => {
     category: action.payload.category
   };
 };
+
+//SET_SUGGESTION_SEARCH
+const setSuggestionSearch = (state, action) => {
+  return {
+    ...state,
+    suggestionSearch: action.payload.suggestionSearch
+  };
+};
+
+//CLEAR_SUGGESTION_SEARCH
+const clearSuggestionSearch = (state, action) => {
+  return {
+    ...state,
+    suggestionSearch: []
+  };
+};
+
 export default books;

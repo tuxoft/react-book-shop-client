@@ -25,7 +25,9 @@ const HeaderBody = (props) => (
                     props.onSearch()
                 }}
                 rightPicture
-                picture={FaSearch}/>
+                picture={FaSearch}
+                suggestions={props.suggestions}
+            />
             <styles.BucketWrapper>
                 <styles.TextLink to={`/cart`}><styles.ImageBucket src={cart}/></styles.TextLink>
                 <styles.BucketInfoWrapper>
