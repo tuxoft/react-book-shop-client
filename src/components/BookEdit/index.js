@@ -38,8 +38,8 @@ const BookEdit = ({block, book, data, options, setBookAttr, addBookAutor, remove
                     {data[name].map((obj, indx) =>
                         <styles.Line key={name + indx}
                                      onClick={() => addBookAutor(book[name], obj)}>
-                            ИД: {obj.author.id}| {obj.author.lastName ? obj.author.lastName : ""} {obj.author.firstName ? obj.author.firstName.substring(0, 1) + "." : ""}
-                            {obj.author.middleName ? obj.author.middleName.substring(0, 1) + "." : ""}
+                            ИД: {obj.id}| {obj.lastName ? obj.lastName : ""} {obj.firstName ? obj.firstName.substring(0, 1) + "." : ""}
+                            {obj.middleName ? obj.middleName.substring(0, 1) + "." : ""}
                         </styles.Line>)}
                 </styles.Column>
             </styles.RowItem>
