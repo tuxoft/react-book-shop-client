@@ -3,7 +3,7 @@ import * as styles from "./styles";
 import BookCard from "../../components/BookCard/index";
 const navigationSplitter = require("../../assets/images/arrow.png");
 
-const CategoryBooks = ({ category, navigationMenuTop, navigationMenuLeft }) => (
+const CategoryBooks = ({ booksByCategory, navigationMenuTop, navigationMenuLeft }) => (
   <styles.HomeWrapper>
     <styles.NavigationLeftColumn>
       {navigationMenuLeft && navigationMenuLeft.map((menuItem, indx1) => (
@@ -38,12 +38,13 @@ const CategoryBooks = ({ category, navigationMenuTop, navigationMenuLeft }) => (
           }
         })}
       </styles.NavigationTopRow>
+      {navigationMenuTop && navigationMenuTop[navigationMenuTop.length-1] &&
       <styles.CenterSide>
-        <styles.BlueLabel >{category.name}</styles.BlueLabel>
-      </styles.CenterSide>
+        <styles.BlueLabel>{navigationMenuTop[navigationMenuTop.length-1].name}</styles.BlueLabel>
+      </styles.CenterSide>}
 
       <styles.RowWrapper>
-        {category.bookList && category.bookList.map((book, indx)=><BookCard key={"categoryBooks"+indx} book={book}/>)}
+        {booksByCategory && booksByCategory.map((book, indx)=><BookCard key={"booksByCategory-"+indx} book={book}/>)}
       </styles.RowWrapper>
     </styles.BooksWrapper>
 

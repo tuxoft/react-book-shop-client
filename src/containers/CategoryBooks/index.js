@@ -11,10 +11,10 @@ class CategoryBooks extends Component {
 
     componentDidMount() {
         if (this.props.match.params.categoryId) {
-            this.props.actions.books.fetchCategory({
+            this.props.actions.books.fetchBooksByCategory({
                 categoryId: this.props.match.params.categoryId,
                 start: 0,
-                count: 12,
+                pageSize: 12,
             });
             this.props.actions.content.fetchNavigationMenuTop({id: this.props.match.params.categoryId});
             this.props.actions.content.fetchNavigationMenuLeft({id: this.props.match.params.categoryId});
@@ -23,10 +23,10 @@ class CategoryBooks extends Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.match.params.categoryId !== this.props.match.params.categoryId && nextProps.match.params.categoryId) {
-            this.props.actions.books.fetchCategory({
+            this.props.actions.books.fetchBooksByCategory({
                 categoryId: nextProps.match.params.categoryId,
                 start: 0,
-                count: 12,
+                pageSize: 12,
             });
             this.props.actions.content.fetchNavigationMenuTop({id: nextProps.match.params.categoryId});
             this.props.actions.content.fetchNavigationMenuLeft({id: nextProps.match.params.categoryId});
@@ -45,7 +45,7 @@ class CategoryBooks extends Component {
 }
 
 const mapStateToProps = ({ searchBooks, books, content }) => ({
-    category: booksSelectors.getCategory(books),
+    booksByCategory: booksSelectors.getBooksByCategory(books),
     navigationMenuTop: contentSelectors.getNavigationMenuTop(content),
     navigationMenuLeft: contentSelectors.getNavigationMenuLeft(content),
 });

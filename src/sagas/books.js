@@ -41,13 +41,13 @@ function* fetchBook(action) {
 }
 
 // WORKERS
-function* fetchCategory(action) {
+function* fetchBooksByCategory(action) {
   try {
-    console.log("fetchCategory ", action.payload.params);
-    const category = yield call(Api.books.category, action.payload.params);
-    yield put(booksActions.setCategory(category.data));
+    console.log("fetchBooksByCategory ", action.payload.params);
+    const booksByCategory = yield call(Api.books.category, action.payload.params);
+    yield put(booksActions.setBooksByCategory(booksByCategory.data.data));
   } catch (error) {
-    console.log("fetchCategory error", error);
+    console.log("fetchBooksByCategory error", error);
     yield put(
       flashActions.showFlash(
         "Ошибка! Данные не получены",
@@ -63,7 +63,7 @@ function* fetchSuggestionSearch(action) {
   try {
     console.log("fetchSuggestionSearch ", action.payload.params);
     const suggestionSearch = yield call(Api.books.search, action.payload.params);
-    yield put(booksActions.setSuggestionSearch(suggestionSearch.data));
+    yield put(booksActions.setSuggestionSearch(suggestionSearch.data.data));
   } catch (error) {
     console.log("fetchSuggestionSearch error", error);
     yield put(
@@ -83,8 +83,8 @@ function* fetchSearchBooksFlow() {
 function* fetchBookFlow() {
     yield takeLatest(booksActions.GET_BOOK, fetchBook);
 }
-function* fetchCategoryFlow() {
-  yield takeLatest(booksActions.FETCH_CATEGORY, fetchCategory);
+function* fetchBooksByCategoryFlow() {
+  yield takeLatest(booksActions.FETCH_BOOKS_BY_CATEGORY, fetchBooksByCategory);
 }
 
 function* fetchSuggestionSearchFlow() {
@@ -95,7 +95,7 @@ export default function* books() {
   yield all([
       fetchBookFlow(),
       fetchSearchBooksFlow(),
-      fetchCategoryFlow(),
+      fetchBooksByCategoryFlow(),
       fetchSuggestionSearchFlow()
   ]);
 }

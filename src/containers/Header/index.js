@@ -24,7 +24,7 @@ class Header extends Component {
       this.props.actions.searchBooks.setSearchValue(val.target.value);
       this.props.actions.books.fetchSuggestionSearch({
         start: 0,
-        count: 6,
+        pageSize: 6,
         query: val.target.value
       });
   };

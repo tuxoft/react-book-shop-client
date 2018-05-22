@@ -4,7 +4,7 @@ const initialState = {
     searchBooks:[],
     suggestionSearch: [],
     book: {},
-    category: {}
+    booksByCategory: []
 };
 
 const books = (state = initialState, action) => {
@@ -15,8 +15,8 @@ const books = (state = initialState, action) => {
       case actions.SET_BOOK: {
           return setBook(state, action);
       }
-      case actions.SET_CATEGORY: {
-          return setCategory(state, action);
+      case actions.SET_BOOKS_BY_CATEGORY: {
+          return setBooksByCategory(state, action);
       }
       case actions.SET_SUGGESTION_SEARCH: {
           return setSuggestionSearch(state, action);
@@ -46,11 +46,11 @@ const setBook = (state, action) => {
     };
 };
 
-//SET_CATEGORY
-const setCategory = (state, action) => {
+//SET_BOOKS_BY_CATEGORY
+const setBooksByCategory = (state, action) => {
   return {
     ...state,
-    category: action.payload.category
+    booksByCategory: action.payload.booksByCategory
   };
 };
 

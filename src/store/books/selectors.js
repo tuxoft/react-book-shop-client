@@ -7,8 +7,8 @@ export const getSearchBooks = (state) => {
     return state.searchBooks;
 };
 
-export const getCategory = (state) => {
-  return state.category;
+export const getBooksByCategory = (state) => {
+  return state.booksByCategory;
 };
 
 export const getSuggestions = (state) => {

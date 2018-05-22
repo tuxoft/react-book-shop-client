@@ -30,19 +30,19 @@ export const setBook = (book) => ({
     }
 });
 
-export const FETCH_CATEGORY = "FETCH_CATEGORY";
-export const fetchCategory = (params) => ({
-  type: FETCH_CATEGORY,
+export const FETCH_BOOKS_BY_CATEGORY = "FETCH_BOOKS_BY_CATEGORY";
+export const fetchBooksByCategory = (params) => ({
+  type: FETCH_BOOKS_BY_CATEGORY,
   payload: {
     params
   }
 });
 
-export const SET_CATEGORY = "SET_CATEGORY";
-export const setCategory = (category) => ({
-  type: SET_CATEGORY,
+export const SET_BOOKS_BY_CATEGORY = "SET_BOOKS_BY_CATEGORY";
+export const setBooksByCategory = (booksByCategory) => ({
+  type: SET_BOOKS_BY_CATEGORY,
   payload: {
-    category
+    booksByCategory
   }
 });
 
