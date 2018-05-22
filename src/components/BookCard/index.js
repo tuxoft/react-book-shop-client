@@ -5,7 +5,7 @@ import { getAuthors } from "../../utils"
 
 
 const BookCard = ({book}) => {
-  console.log("book", book);
+  //console.log("book", book);
   return (
     <styles.CardWrapper>
 

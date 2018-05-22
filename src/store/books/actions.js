@@ -39,10 +39,11 @@ export const fetchBooksByCategory = (params) => ({
 });
 
 export const SET_BOOKS_BY_CATEGORY = "SET_BOOKS_BY_CATEGORY";
-export const setBooksByCategory = (booksByCategory) => ({
+export const setBooksByCategory = (booksByCategory, categoryId) => ({
   type: SET_BOOKS_BY_CATEGORY,
   payload: {
-    booksByCategory
+    booksByCategory,
+    categoryId
   }
 });
 

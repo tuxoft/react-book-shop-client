@@ -7,12 +7,19 @@ export const getSearchBooks = (state) => {
     return state.searchBooks;
 };
 
-export const getBooksByCategory = (state) => {
-  return state.booksByCategory;
+export const getBooksByCategory = (state, categoryId) => {
+  return state.booksByCategory[categoryId]?state.booksByCategory[categoryId].data:[];
+};
+
+export const getBooksByCategoryPaging = (state, categoryId) => {
+    return state.booksByCategory[categoryId]?state.booksByCategory[categoryId].meta:[];
+};
+export const getBooksByCategorySpiner = (state, categoryId) => {
+    return state.booksByCategory[categoryId]?state.booksByCategory[categoryId].spiner:true;
 };
 
 export const getSuggestions = (state) => {
-  if (state.suggestionSearch.length == 0) {
+  if (state.suggestionSearch.length === 0) {
     return null;
   } else {
     let productItems = [];
@@ -35,12 +42,12 @@ export const getSuggestions = (state) => {
       }
       productItems.push(searchBook);
       searchBook.authors.map((author) => {
-        authorItems.findIndex((a) => a.id == author.id);
-        if (authorItems.findIndex((a) => a.id == author.id) == -1) {
+        authorItems.findIndex((a) => a.id === author.id);
+        if (authorItems.findIndex((a) => a.id === author.id) === -1) {
           authorItems.push(author);
         }
       });
-      if (book.bookSeries && seriesItems.findIndex((s) => s.id == book.bookSeries.id) == -1) {
+      if (book.bookSeries && seriesItems.findIndex((s) => s.id === book.bookSeries.id) === -1) {
         seriesItems.push({
           id: book.bookSeries.id,
           title: book.bookSeries.name,
