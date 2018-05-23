@@ -38,7 +38,7 @@ export const RowWrapper = styled.div`
     ${props => props.center && `
         justify-content: center;
         width: 100%;
-        
+        margin-top: 100px;
     `}
     align-items: center;
     align-content: center;
