@@ -9,7 +9,7 @@ function* fetchSearchBooks(action) {
     try {
         console.log("fetchSearchBooks ", action.payload.params);
         const books = yield call(Api.books.search, action.payload.params);
-        yield put(booksActions.setSearchBooks(books.data));
+        yield put(booksActions.setSearchBooks(books.data, action.payload.params.query));
     } catch (error) {
         console.log("fetchSearchBooks error", error);
         yield put(

@@ -3,20 +3,21 @@ import * as actions from "./actions";
 const initialState = {
     searchBooks: {
         meta: {},
-        data: []
+        data: [],
+        spinner: false
     },
     suggestionSearch: [],
     book: {},
-    booksByCategory: {
-        meta: {},
-        data: []
-    },
+    booksByCategory: [],
 };
 
 const books = (state = initialState, action) => {
     switch (action.type) {
         case actions.SET_BOOKS_SEARCH: {
             return setSearchBooks(state, action);
+        }
+        case actions.BOOKS_SEARCH: {
+            return fetchSearchBooks(state, action);
         }
         case actions.SET_BOOK: {
             return setBook(state, action);
@@ -41,9 +42,22 @@ const books = (state = initialState, action) => {
 
 // SET_BOOKS_SEARCH
 const setSearchBooks = (state, action) => {
+    let books = action.payload.books;
+    books.spinner = false;
+    books.query = action.payload.query;
     return {
         ...state,
-        searchBooks: action.payload.books
+        searchBooks: books
+    };
+};
+
+// BOOKS_SEARCH
+const fetchSearchBooks = (state, action) => {
+    let books = state.searchBooks;
+    books.spinner = true;
+    return {
+        ...state,
+        searchBooks: books
     };
 };
 
@@ -65,7 +79,7 @@ const setBooksByCategory = (state, action) => {
             mass[action.payload.categoryId].meta=action.payload.booksByCategory.meta;
             mass[action.payload.categoryId].data=[...mass[action.payload.categoryId].data , ...action.payload.booksByCategory.data];
         }
-        mass[action.payload.categoryId].spiner = false;
+        mass[action.payload.categoryId].spinner = false;
         return {
             ...state,
             booksByCategory: mass
@@ -73,7 +87,7 @@ const setBooksByCategory = (state, action) => {
     } else {
         let mass = state.booksByCategory;
         mass[action.payload.categoryId] = action.payload.booksByCategory;
-        mass[action.payload.categoryId].spiner = false;
+        mass[action.payload.categoryId].spinner = false;
         return {
             ...state,
             booksByCategory: mass
@@ -86,7 +100,7 @@ const fetchBooksByCategory = (state, action) => {
         let mass = state.booksByCategory;
         if(!mass[action.payload.params.categoryId]){
             mass[action.payload.params.categoryId]={
-                spiner: true,
+                spinner: true,
                 total: 20,
                 paging: {
                     start: 0,
@@ -94,7 +108,7 @@ const fetchBooksByCategory = (state, action) => {
                 }
             }
         }else{
-            mass[action.payload.params.categoryId].spiner = true;
+            mass[action.payload.params.categoryId].spinner = true;
         }
         return {
             ...state,

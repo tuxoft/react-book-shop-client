@@ -4,7 +4,19 @@ export const getBigBook = (state) => {
 };
 
 export const getSearchBooks = (state) => {
-    return state.searchBooks;
+    return state.searchBooks?state.searchBooks.data:[];
+};
+
+export const getSearchBooksMeta = (state) => {
+    return state.searchBooks?state.searchBooks.meta:[];
+};
+
+export const getSearchBooksSpinner = (state) => {
+    return state.searchBooks?state.searchBooks.spinner:true;
+};
+
+export const getSearchBooksQuery = (state) => {
+    return state.searchBooks?state.searchBooks.query:'';
 };
 
 export const getBooksByCategory = (state, categoryId) => {
@@ -14,8 +26,8 @@ export const getBooksByCategory = (state, categoryId) => {
 export const getBooksByCategoryPaging = (state, categoryId) => {
     return state.booksByCategory[categoryId]?state.booksByCategory[categoryId].meta:[];
 };
-export const getBooksByCategorySpiner = (state, categoryId) => {
-    return state.booksByCategory[categoryId]?state.booksByCategory[categoryId].spiner:true;
+export const getBooksByCategorySpinner = (state, categoryId) => {
+    return state.booksByCategory[categoryId]?state.booksByCategory[categoryId].spinner:true;
 };
 
 export const getSuggestions = (state) => {

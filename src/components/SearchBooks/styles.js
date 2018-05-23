@@ -56,8 +56,12 @@ export const InfoText = styled.div`
 export const RowWrapper = styled.div`
     display: flex;
     flex-flow: row wrap;
-    justify-content: space-between;
+    justify-content: start;
     width: 55%;
+    ${props => props.center && `
+        justify-content: center;
+        margin-top: 100px;
+    `}
     align-items: center;
     align-content: center;
 `;

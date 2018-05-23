@@ -16,7 +16,7 @@ class CategoryBooks extends Component {
     }
 
     _onScroll = () => {
-        if ((window.scrollY + 330) * 2 >= window.innerHeight) {
+        if ((window.scrollY + 200) * 2 >= window.innerHeight) {
             this.loadMoreBooks();
         }
     };
@@ -77,7 +77,7 @@ class CategoryBooks extends Component {
 const mapStateToProps = ({ searchBooks, books, content}, {match}) => ({
     booksByCategory: booksSelectors.getBooksByCategory(books, match.params.categoryId),
     paging: booksSelectors.getBooksByCategoryPaging(books, match.params.categoryId),
-    spinner: booksSelectors.getBooksByCategorySpiner(books, match.params.categoryId),
+    spinner: booksSelectors.getBooksByCategorySpinner(books, match.params.categoryId),
     navigationMenuTop: contentSelectors.getNavigationMenuTop(content),
     navigationMenuLeft: contentSelectors.getNavigationMenuLeft(content),
 });
