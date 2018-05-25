@@ -59,9 +59,9 @@ export const Label = styled.div`
 
 export const Input = styled.input.attrs({ type: "text" })`
     width: 600px;
-    margin: 0 5px;
     font-size: 16px;
-    font-weight: 700;
+    font-family: 'PT Sans', sans-serif;
+    font-weight: 400;
     line-height: 31px;
     vertical-align: top;
     color: #333;
@@ -77,9 +77,9 @@ export const Input = styled.input.attrs({ type: "text" })`
 export const InputText = styled.textarea.attrs({ type: "text" })`
     width: 600px;
     min-height: 300px;
-    margin: 0 5px;
     font-size: 16px;
-    font-weight: 700;
+    font-family: 'PT Sans', sans-serif;
+    font-weight: 400;
     line-height: 31px;
     vertical-align: top;
     color: #333;
@@ -91,17 +91,19 @@ export const InputText = styled.textarea.attrs({ type: "text" })`
     padding-left: 5px;
     text-align: start;
     overflow: auto;
+        
 `;
 
 export const Select = styled.select`
   display: block;
   height: 40px;
   border-radius: 4px;
-  border: 1px solid #e2e2e2;
+  border: 1px solid #b3b3b3;
   background-color: #fff;
-  padding: 8px 16px;
-  font-size: 14px;
-  width: 100%;
+  font-size: 16px;
+  font-family: 'PT Sans', sans-serif;
+  font-weight: 400;
+  width: 600px;  
 `;
 
 export const Column = styled.div`
@@ -139,4 +141,37 @@ export const Item = styled.div`
         background-color: #26a9e0;
         padding: 5px;
         margin: 5px;
+`;
+
+export const ButtonRow = styled.div`
+        margin-top: 15px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        width: 70%;
+        justify-content: flex-start;
+`;
+
+export const Button = styled(ButtonComponent).attrs({ type: "button" })`
+    height: 30px;
+    ${props => props.green && `
+        background: #9bd53a;
+    `}
+    ${props => props.red && `
+        background: #d9534f;
+    `}
+    ${props => props.blue && `
+        background: #26a9e0;
+    `}
+    
+    font-size: 16px;
+    margin: 0 10px;
+    min-width: 110px;
+    white-space: nowrap;
+    color: #fff;
+    padding: 0 20px;
+    display: block;
+    border-radius: 5px;
+    cursor: pointer;
+    box-sizing: border-box;
 `;

@@ -8,14 +8,9 @@ const initialState = {
             type: "input"
         },
         {
-            name: "subtitle",
+            name: "description",
             parametrName: "Описание",
             type: "textArea"
-        },
-        {
-            name: "bookSeries",
-            parametrName: "Серия",
-            type: "oneFromList",
         },
         {
             name: "publisher",
@@ -23,9 +18,15 @@ const initialState = {
             type: "select",
         },
         {
-            name: "authors",
+            name: "bookSeries",
+            parametrName: "Серия",
+            type: "oneFromList",
+        },
+        {
+            name: "bookAuthors",
             parametrName: "Авторы",
-            type: "authors"
+            type: "authors",
+            dictionary: "authors"
         },
         {
             name: "categories",
@@ -70,17 +71,17 @@ const initialState = {
         {
             name: "ageLimit",
             parametrName: "Возрастные ограничения",
-            type: "input"
+            type: "select"
         },
         {
-            name: "format",
+            name: "dimensions",
             parametrName: "Формат",
             type: "input"
         },
         {
             name: "coverType",
             parametrName: "Тип обложки",
-            type: "input"
+            type: "select"
         },
         {
             name: "inStock",
@@ -90,12 +91,12 @@ const initialState = {
         {
             name: "city",
             parametrName: "Город",
-            type: "input"
+            type: "oneFromList"
         },
         {
             name: "language",
             parametrName: "Язык",
-            type: "input"
+            type: "oneFromList"
         },
         {
             name: "price",
@@ -103,64 +104,20 @@ const initialState = {
             type: "input"
         },
     ],
-    editBook: {
-        "id": 2,
-        "title": "Великие трагедии и комедии в одном томе",
-        "subtitle": "Уильям Шекспир, великий драматург и поэт, крупнейший гуманист эпохи позднего Возрождения, оставил потомкам богатейшее литературное наследие. Один из самых загадочных творцов слова поставил перед человечеством вопрос \"Быть или не быть?\", предоставив каждому возможность искать ответ самому. В сборник пьес английского Барда вошли избранные трагедии и комедии, которые оказали огромное влияние на всю европейскую литературу.",
-        "edition": 1,
-        "isbn": "978-5-04-092582-7",
-        "udc": "821.111-2",
-        "bbk": "84(4Вел)-6",
-        "publicationYear": 2018,
-        "circulation": 3000,
-        "price": 619,
-        "inStock": 10,
-        "weight": 1020,
-        "ageLimit": "16+",
-        "format": "21.9 x 14.4 x 5.2",
-        "coverType": "Твердая бумажная",
-        "pageCount": 1120,
-        "coverUrl": null,
-        "authors": [
-            {
-                "author": {
-                    "id": 2,
-                    "firstName": "Уильям",
-                    "middleName": null,
-                    "lastName": "Шекспир"
-                },
-                "position": 1
-            }
-        ],
-        "publisher": {
-            "id": 1,
-            "name": "Эксмо",
-            "bookList": null,
-            "bookSeriesList": null
-        },
-        "city": "Москва",
-        "categories": [
-            {
-                "id": 21,
-                "name": "Классика",
-                "parentId": 4,
-                "bookList": null
-            }
-        ],
-        "bookSeries": {
-            "id": 2,
-            "name": "Полное собрание сочинений",
-            "publisherId": 1,
-            "bookList": null
-        },
-        "language": "Русский"
-    }
+    editBook: {},
+    cancelBook: {},
 };
 
 const bookEdit = (state = initialState, action) => {
   switch (action.type) {
     case actions.SET_BOOK_EDIT: {
       return setBookEdit(state, action);
+    }
+    case actions.SET_CANCEL_BOOK_EDIT: {
+      return setCancelBookEdit(state, action);
+    }
+    case actions.CANCEL_CHANGE_BOOK_EDIT: {
+      return cancelChangeBookEdit(state);
     }
     default: {
       return state;
@@ -173,6 +130,22 @@ const setBookEdit = (state, action) => {
   return {
     ...state,
       editBook: action.payload.value
+  };
+};
+
+// SET_CANCEL_BOOK_EDIT
+const setCancelBookEdit = (state, action) => {
+  return {
+    ...state,
+    cancelBook: action.payload.value
+  };
+};
+
+// CANCEL_CHANGE_BOOK_EDIT
+const cancelChangeBookEdit = (state) => {
+  return {
+    ...state,
+    editBook: {...state.cancelBook}
   };
 };
 

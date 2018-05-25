@@ -16,7 +16,7 @@ const BookCard = ({book}) => {
       <styles.Description>
         <styles.TextLink to={"/book/" + book.id}>{book.title}</styles.TextLink>
         <styles.AutorLabel>
-          {getAuthors(book.authors)}
+          {getAuthors(book.bookAuthors)}
         </styles.AutorLabel>
         <styles.PriceLabel>
           Цена:

@@ -4,7 +4,22 @@ import {MdClear} from 'react-icons/lib/md/';
 import Checkbox from "../simpleComponents/Checkbox";
 
 
-const BookEdit = ({block, book, data, options, setBookAttr, addBookAutor, removeBookAutor, removeObjFromListAttr, addObjToListAttr}) => {
+const BookEdit = ({
+    block,
+    book,
+    data,
+    options,
+    setBookAttr,
+    addBookAutor,
+    removeBookAutor,
+    removeObjFromListAttr,
+    addObjToListAttr,
+    searchInDictionary,
+    getAuthorName,
+    clearSuggest,
+    cancelChangeBookEdit,
+    saveChangeBookEdit
+}) => {
 
     const getInput = (indx, name, parametrName, book, setBookAttr) => {
         return (<styles.Row key={indx?"row"+indx:"row"}>
@@ -19,7 +34,7 @@ const BookEdit = ({block, book, data, options, setBookAttr, addBookAutor, remove
         </styles.Row>)
     };
 
-    const getAuthors = (indx, name, parametrName, book, data, addBookAutor, removeBookAutor) => {
+    const getAuthors = (indx, name, parametrName, book, data, addBookAutor, removeBookAutor, searchInDictionary, getAuthorName, clearSuggest, dictionary) => {
         return (<styles.Row key={indx?"row"+indx:"row"}>
             <styles.RowItem>
                 <styles.Label bold>{parametrName}</styles.Label>
@@ -28,25 +43,27 @@ const BookEdit = ({block, book, data, options, setBookAttr, addBookAutor, remove
                 <styles.Column>
                     <styles.Container>
                         {book[name].map((obj, indx) => <styles.Item key={indx}>
-                            {obj.author.lastName ? obj.author.lastName : ""} {obj.author.firstName ? obj.author.firstName.substring(0, 1) + "." : ""}
-                            {obj.author.middleName ? obj.author.middleName.substring(0, 1) + "." : ""} <MdClear
+                          {getAuthorName(obj.author)} <MdClear
                             onClick={() => removeBookAutor(book[name], obj)}/></styles.Item>)}
                     </styles.Container>
-                    <styles.Input onChange={(val) => {
-                        console.log("doSearch", val);
-                    }}/>
-                    {data[name].map((obj, indx) =>
+                    <styles.Input
+                        onChange={(e) => {
+                            console.log("doSearch", e);
+                            searchInDictionary(dictionary, e.target.value);
+                        }}
+                        onBlur={() => clearSuggest(dictionary)}
+                    />
+                    {data[dictionary].map((obj, indx) =>
                         <styles.Line key={name + indx}
-                                     onClick={() => addBookAutor(book[name], obj)}>
-                            ИД: {obj.id}| {obj.lastName ? obj.lastName : ""} {obj.firstName ? obj.firstName.substring(0, 1) + "." : ""}
-                            {obj.middleName ? obj.middleName.substring(0, 1) + "." : ""}
+                                     onMouseDown={() => addBookAutor(book[name], obj)}>
+                            {getAuthorName(obj)}
                         </styles.Line>)}
                 </styles.Column>
             </styles.RowItem>
         </styles.Row>)
     };
 
-    const getMultiObjFromList = (indx, name, parametrName, book, data, removeObjFromListAttr, addObjToListAttr) => {
+    const getMultiObjFromList = (indx, name, parametrName, book, data, removeObjFromListAttr, addObjToListAttr, searchInDictionary, clearSuggest) => {
         return (<styles.Row key={indx?"row"+indx:"row"}>
             <styles.RowItem>
                 <styles.Label bold>{parametrName}</styles.Label>
@@ -59,20 +76,24 @@ const BookEdit = ({block, book, data, options, setBookAttr, addBookAutor, remove
                             <MdClear onClick={() => removeObjFromListAttr(name, book[name], obj)}/>
                         </styles.Item>)}
                     </styles.Container>
-                    <styles.Input onChange={(val) => {
-                        console.log("doSearch", val);
-                    }}/>
+                    <styles.Input
+                        onChange={(e) => {
+                            console.log("doSearch", e);
+                            searchInDictionary(name, e.target.value);
+                        }}
+                        onBlur={() => clearSuggest(name)}
+                    />
                     {data[name].map((obj, indx) =>
                         <styles.Line key={name + indx}
-                                     onClick={() => addObjToListAttr(name, book[name], obj)}>
-                            ИД: {obj.id}| {obj.name}
+                                     onMouseDown={() => addObjToListAttr(name, book[name], obj)}>
+                            {obj.name}
                         </styles.Line>)}
                 </styles.Column>
             </styles.RowItem>
         </styles.Row>)
     };
 
-    const getOneFromList = (indx, name, parametrName, book, data, setBookAttr) => {
+    const getOneFromList = (indx, name, parametrName, book, data, setBookAttr, searchInDictionary, clearSuggest) => {
         return (<styles.Row key={indx?"row"+indx:"row"}>
             <styles.RowItem>
                 <styles.Label bold>{parametrName}</styles.Label>
@@ -82,15 +103,19 @@ const BookEdit = ({block, book, data, options, setBookAttr, addBookAutor, remove
                     <styles.Container>
                         <styles.Item>{book[name].name}</styles.Item>
                     </styles.Container>
-                    <styles.Input onChange={(val) => {
-                        console.log("doSearch", val);
-                    }}/>
+                    <styles.Input
+                        onChange={(e) => {
+                            console.log("doSearch", e.target.value);
+                            searchInDictionary(name, e.target.value);
+                        }}
+                        onBlur={() => clearSuggest(name)}
+                    />
                     {data[name].map((obj, indx) =>
                         <styles.Line key={name + indx}
-                                     onClick={(val) => {
+                                     onMouseDown={(val) => {
                                          setBookAttr(name, obj)
                                      }}>
-                            ИД: {obj.id}| {obj.name}
+                            {obj.name}
                         </styles.Line>)}
                 </styles.Column>
             </styles.RowItem>
@@ -131,14 +156,27 @@ const BookEdit = ({block, book, data, options, setBookAttr, addBookAutor, remove
         </styles.Row>)
     };
 
+    const isEmptyObject = (obj) => {
+        for (var i in obj) {
+          if (obj.hasOwnProperty(i)) {
+            return false;
+          }
+        }
+        return true;
+    }
+
     return (
         <styles.ContentWrapper>
             <styles.Label bold>Редактирование книги</styles.Label>
+            <styles.ButtonRow>
+                <styles.Button blue onClick={saveChangeBookEdit}>Сохранить</styles.Button>
+                <styles.Button blue onClick={cancelChangeBookEdit}>Отмена</styles.Button>
+            </styles.ButtonRow>
 
-            {options.map((option, indx)=> {
+            {!isEmptyObject(book) && options.map((option, indx)=> {
                 switch (option.type) {
                     case "oneFromList":
-                        return getOneFromList(indx, option.name, option.parametrName, book, data, setBookAttr);
+                        return getOneFromList(indx, option.name, option.parametrName, book, data, setBookAttr, searchInDictionary, clearSuggest);
                         break;
                     case "select":
                         return getSelect(indx, option.name, option.parametrName, book, data, setBookAttr);
@@ -150,10 +188,10 @@ const BookEdit = ({block, book, data, options, setBookAttr, addBookAutor, remove
                         return getTextArea(indx, option.name, option.parametrName, book, setBookAttr);
                         break;
                     case "authors":
-                        return getAuthors(indx, option.name, option.parametrName, book, data, addBookAutor, removeBookAutor);
+                        return getAuthors(indx, option.name, option.parametrName, book, data, addBookAutor, removeBookAutor, searchInDictionary, getAuthorName, clearSuggest, option.dictionary);
                         break;
                     case "multiObjFromList":
-                        return getMultiObjFromList(indx, option.name, option.parametrName, book, data, removeObjFromListAttr, addObjToListAttr);
+                        return getMultiObjFromList(indx, option.name, option.parametrName, book, data, removeObjFromListAttr, addObjToListAttr, searchInDictionary, clearSuggest);
                         break;
                     default:
                         return (<b>Unresolved Type</b>);

@@ -32,7 +32,7 @@ const BookBigCard = ({book, block, navigationMenuTop}) => (
             <styles.Description>
                 <styles.NameBookLabel>{book.title}</styles.NameBookLabel>
                 <styles.Row>
-                    {book.authors && book.authors.map((author, indx) => (
+                    {book.bookAuthors && book.bookAuthors.map((author, indx) => (
                         <styles.AutorLabel key={"author" + indx}>
                             {author.author.lastName ? author.author.lastName : ""} {author.author.firstName ? author.author.firstName : ""} {author.author.middleName ? author.author.middleName : ""}
                         </styles.AutorLabel>))}
@@ -44,8 +44,8 @@ const BookBigCard = ({book, block, navigationMenuTop}) => (
                 {book.isbn&&<styles.PriceLabel>ISBN: {book.isbn}</styles.PriceLabel>}
                 {book.circulation&&<styles.PriceLabel>Тираж: {book.circulation}</styles.PriceLabel>}
                 {book.dimensions&&<styles.PriceLabel>Формат: {book.dimensions}</styles.PriceLabel>}
-                {book.coverType&&<styles.PriceLabel>Тип обложки: {book.coverType}</styles.PriceLabel>}
-                {book.ageLimit&&<styles.PriceLabel>Возрастные ограничения: {book.ageLimit}</styles.PriceLabel>}
+                {book.coverType&&<styles.PriceLabel>Тип обложки: {book.coverType && book.coverType.name}</styles.PriceLabel>}
+                {book.ageLimit&&<styles.PriceLabel>Возрастные ограничения: {book.ageLimit && book.ageLimit.name}</styles.PriceLabel>}
                 {book.inStock&&<styles.PriceLabel>В наличии: {book.inStock}</styles.PriceLabel>}
 
                 <styles.PriceLabel>

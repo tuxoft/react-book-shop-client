@@ -24,8 +24,8 @@ export const getSuggestions = (state) => {
         url: '/book/' + book.id + '/description',
         authors: []
       };
-      if (book.authors) {
-        book.authors.map((bookAuthor) => {
+      if (book.bookAuthors) {
+        book.bookAuthors.map((bookAuthor) => {
           searchBook.authors.push({
             id: bookAuthor.author.id,
             title: (bookAuthor.author.firstName ? bookAuthor.author.firstName.slice(0,1) + ". ":"") + (bookAuthor.author.lastName ? bookAuthor.author.lastName : ""),

@@ -64,7 +64,7 @@ const Cart = ({cart, block, boxItemsCount, setBookCount, selectedBooks, selectAl
                         <styles.CartOrderItemDescription>
                             <styles.CartOrderItemDescriptionInfo>
                                 <styles.Label bold>{item.book.title}</styles.Label>
-                                {item.book.authors && item.book.authors.map((obj, indx2) => (
+                                {item.book.bookAuthors && item.book.bookAuthors.map((obj, indx2) => (
                                     <styles.Label gray
                                                   key={"autor" + indx2}>{obj.author.lastName ? obj.author.lastName : ""} {obj.author.firstName ? obj.author.firstName.substring(0, 1) + "." : ""} {obj.author.middleName ? obj.author.middleName.substring(0, 1) + "." : ""}</styles.Label>
                                 ))}

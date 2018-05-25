@@ -5,6 +5,7 @@ import searchBooks from "./searchBooks";
 import books from "./books";
 import cart from "./cart";
 import content from "./content";
+import admin from "./admin";
 
 export default function* rootSaga() {
   yield all([
@@ -14,5 +15,6 @@ export default function* rootSaga() {
       books(),
       cart(),
       content(),
+      admin(),
   ]);
 }
