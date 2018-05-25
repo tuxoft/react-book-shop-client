@@ -22,6 +22,7 @@ const store = createStore(
 );
 
 sagaMiddleware.run(rootSaga);
+
 ReactDOM.render(
     <Provider store={store}>
         <BrowserRouter basename="/">
@@ -30,4 +31,5 @@ ReactDOM.render(
     </Provider>,
     document.getElementById("root")
 );
+
 registerServiceWorker();
