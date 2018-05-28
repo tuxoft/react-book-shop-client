@@ -13,9 +13,9 @@ import PublisherEditScreen from "../../Screens/PublisherEditScreen/index";
 import BookSeriesEditScreen from "../../Screens/BookSeriesEditScreen/index";
 import NotFound from "../../Screens/NotFoundScreen/index";
 
-const Routes = (props) =>
-
-    <Switch>
+const Routes = (props) => {
+    console.log("rerender route");
+    return <Switch>
         <Route
             exact
             path="/"
@@ -77,18 +77,18 @@ const Routes = (props) =>
             render={(props) => <BookEditScreen {...props} />}
             {...props}
         />
-            <Route
-                exact
-                path="/category-edit/:id"
-                render={(props) => <CategoryEditScreen {...props} />}
-                {...props}
-            />
-            <Route
-                exact
-                path="/authors-edit/:id"
-                render={(props) => <AuthorsEditScreen {...props} />}
-                {...props}
-            />
+        <Route
+            exact
+            path="/category-edit/:id"
+            render={(props) => <CategoryEditScreen {...props} />}
+            {...props}
+        />
+        <Route
+            exact
+            path="/authors-edit/:id"
+            render={(props) => <AuthorsEditScreen {...props} />}
+            {...props}
+        />
         <Route
             exact
             path="/publisher-edit/:id"
@@ -103,7 +103,7 @@ const Routes = (props) =>
         />
         <Route component={NotFound}/>
     </Switch>
-
+}
 const mapStateToProps = ({app}) => ({
     isInitialized: true,
     isAuthenticated: true

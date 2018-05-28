@@ -14,7 +14,7 @@ const FooterBody = (props) => (
             </styles.ColTitle>
             <styles.ColUl>
               {item.subItems && item.subItems.map((subItem, idx2) => (
-                <styles.ColLi><styles.TextLink to={subItem.url?subItem.url:"/"}>{subItem.name}</styles.TextLink></styles.ColLi>
+                <styles.ColLi key = {"col"+idx2}><styles.TextLink to={subItem.url?subItem.url:"/"}>{subItem.name}</styles.TextLink></styles.ColLi>
               ))}
             </styles.ColUl>
           </styles.ColWrapper>
