@@ -6,8 +6,20 @@ import * as contentActions from "../../store/content/actions";
 import CategoryBooksComponent from "../../components/CategoryBooks";
 import * as booksSelectors from "../../store/books/selectors";
 import * as contentSelectors from "../../store/content/selectors";
+import debounce from "lodash/debounce";
 
 class CategoryBooks extends Component {
+
+    constructor(props) {
+        super(props);
+        this.loadMoreBooks = debounce(this.getNextData, 2000);
+    }
+
+    _onScroll = () => {
+        if ((window.scrollY + 200) * 2 >= window.innerHeight) {
+            this.loadMoreBooks();
+        }
+    };
 
     componentDidMount() {
         if (this.props.match.params.categoryId) {
@@ -19,6 +31,11 @@ class CategoryBooks extends Component {
             this.props.actions.content.fetchNavigationMenuTop({id: this.props.match.params.categoryId});
             this.props.actions.content.fetchNavigationMenuLeft({id: this.props.match.params.categoryId});
         }
+        window.addEventListener("scroll", this._onScroll);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener("scroll", this._onScroll);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -33,8 +50,21 @@ class CategoryBooks extends Component {
         }
     }
 
-    render() {
+    getNextData = ()=>{
+        this.props.paging;
+        console.log("total/count",this.props.paging.total, this.props.paging.paging.start+this.props.paging.paging.pageSize);
+        if(this.props.paging.total <= (this.props.paging.paging.start+this.props.paging.paging.pageSize) || this.props.spinner) return;
+        this.props.actions.books.fetchBooksByCategory({
+            categoryId: this.props.match.params.categoryId,
+            start: this.props.paging.paging.start+12,
+            pageSize: 12,
+        })
+    };
 
+    render() {
+        console.log("spinner", this.props.spinner);
+        console.log("paging", this.props.paging);
+        console.log("booksByCategory", this.props.booksByCategory);
         return (
             <CategoryBooksComponent
                 {...this.state}
@@ -44,8 +74,10 @@ class CategoryBooks extends Component {
     }
 }
 
-const mapStateToProps = ({ searchBooks, books, content }) => ({
-    booksByCategory: booksSelectors.getBooksByCategory(books),
+const mapStateToProps = ({ searchBooks, books, content}, {match}) => ({
+    booksByCategory: booksSelectors.getBooksByCategory(books, match.params.categoryId),
+    paging: booksSelectors.getBooksByCategoryPaging(books, match.params.categoryId),
+    spinner: booksSelectors.getBooksByCategorySpinner(books, match.params.categoryId),
     navigationMenuTop: contentSelectors.getNavigationMenuTop(content),
     navigationMenuLeft: contentSelectors.getNavigationMenuLeft(content),
 });

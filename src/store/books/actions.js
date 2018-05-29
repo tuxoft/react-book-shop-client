@@ -7,10 +7,11 @@ export const fetchSearchBooks = (params) => ({
 });
 
 export const SET_BOOKS_SEARCH = "SET_BOOKS_SEARCH";
-export const setSearchBooks = (books) => ({
+export const setSearchBooks = (books, query) => ({
     type: SET_BOOKS_SEARCH,
     payload: {
-        books
+        books,
+        query
     }
 });
 
@@ -39,10 +40,11 @@ export const fetchBooksByCategory = (params) => ({
 });
 
 export const SET_BOOKS_BY_CATEGORY = "SET_BOOKS_BY_CATEGORY";
-export const setBooksByCategory = (booksByCategory) => ({
+export const setBooksByCategory = (booksByCategory, categoryId) => ({
   type: SET_BOOKS_BY_CATEGORY,
   payload: {
-    booksByCategory
+    booksByCategory,
+    categoryId
   }
 });
 

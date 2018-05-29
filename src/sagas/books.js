@@ -9,7 +9,7 @@ function* fetchSearchBooks(action) {
     try {
         console.log("fetchSearchBooks ", action.payload.params);
         const books = yield call(Api.books.search, action.payload.params);
-        yield put(booksActions.setSearchBooks(books.data));
+        yield put(booksActions.setSearchBooks(books.data, action.payload.params.query));
     } catch (error) {
         console.log("fetchSearchBooks error", error);
         yield put(
@@ -45,7 +45,7 @@ function* fetchBooksByCategory(action) {
   try {
     console.log("fetchBooksByCategory ", action.payload.params);
     const booksByCategory = yield call(Api.books.category, action.payload.params);
-    yield put(booksActions.setBooksByCategory(booksByCategory.data.data));
+    yield put(booksActions.setBooksByCategory(booksByCategory.data, action.payload.params.categoryId));
   } catch (error) {
     console.log("fetchBooksByCategory error", error);
     yield put(

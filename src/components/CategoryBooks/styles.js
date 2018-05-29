@@ -35,7 +35,11 @@ export const RowWrapper = styled.div`
     display: flex;
     flex-flow: row wrap;
     justify-content: flex-start;
-    
+    ${props => props.center && `
+        justify-content: center;
+        width: 100%;
+        margin-top: 100px;
+    `}
     align-items: center;
     align-content: center;
 `;
