@@ -27,58 +27,12 @@ const store = createStore(
 
 sagaMiddleware.run(rootSaga);
 
-let kc = Keycloak({
-    realm: "book-realm",
-    url: "http://local.portal.rzhd.ml/auth",
-    clientId: "front-end",
-});
-
-console.log("kc cDM", kc);
-kc.init({onLoad: 'login-required', checkLoginIframe: false}).success(authenticated => {
-    if (authenticated) {
-        console.log("kc succ", kc);
-        store.getState().keycloak = kc;
-
-        ReactDOM.render(
-            <Provider store={store}>
-                <BrowserRouter basename="/">
-                    <App/>
-                </BrowserRouter>
-            </Provider>,
-            document.getElementById("root")
-        );
-
-    } else {
-        console.log("kc false", kc);
-    }
-}).error(function () {
-    console.log("kc failed", kc);
-});
-
-axios.interceptors.request.use(config => {
-    return refreshToken().then(() => {
-        config.headers.Authorization = 'Bearer ' + kc.token;
-        return Promise.resolve(config)
-    }).catch(() => {
-        console.log("kc airc", kc);
-        kc.login();
-    })
-});
-
-// need to wrap the KC "promise object" into a real Promise object
-const refreshToken = (minValidity = 5) => {
-    console.log("minValidity", minValidity);
-    return new Promise((resolve, reject) => {
-        console.log("kc conf", kc);
-        kc.updateToken(minValidity)
-            .success(() => {
-                return resolve()
-            })
-            .error(error => {
-                console.log("error", error);
-                return reject(error)
-            })
-    });
-};
+ReactDOM.render(<Provider store={store}>
+    <BrowserRouter basename="/">
+        <App/>
+    </BrowserRouter>
+</Provider>,
+    document.getElementById("root")
+);
 
 registerServiceWorker();

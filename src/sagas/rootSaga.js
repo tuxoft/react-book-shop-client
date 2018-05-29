@@ -5,6 +5,8 @@ import searchBooks from "./searchBooks";
 import books from "./books";
 import cart from "./cart";
 import content from "./content";
+import authentication from "./authentication";
+
 
 export default function* rootSaga() {
   yield all([
@@ -14,5 +16,6 @@ export default function* rootSaga() {
       books(),
       cart(),
       content(),
+      authentication(),
   ]);
 }

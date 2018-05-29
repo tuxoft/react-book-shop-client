@@ -7,6 +7,7 @@ import * as booksActions from "../../store/books/actions";
 import * as contentActions from "../../store/content/actions";
 import * as cartActions from "../../store/bucket/actions";
 import HeaderBody from "../../components/Header";
+
 import { getSearchValue } from "../../store/searchBooks/selectors";
 import { getCartItemsCount } from "../../store/bucket/selectors";
 import * as contentSelectors from "../../store/content/selectors";
