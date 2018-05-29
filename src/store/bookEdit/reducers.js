@@ -8,6 +8,11 @@ const initialState = {
             type: "input"
         },
         {
+            name: "coverUrl",
+            parametrName: "Изображение обложки",
+            type: "inputImage"
+        },
+        {
             name: "description",
             parametrName: "Описание",
             type: "textArea"
@@ -105,6 +110,7 @@ const initialState = {
         },
     ],
     editBook: {},
+    bookEditList: [],
     cancelBook: {},
 };
 
@@ -113,11 +119,20 @@ const bookEdit = (state = initialState, action) => {
     case actions.SET_BOOK_EDIT: {
       return setBookEdit(state, action);
     }
+    case actions.SET_NEW_BOOK_EDIT: {
+      return setNewBookEdit(state, action);
+    }
     case actions.SET_CANCEL_BOOK_EDIT: {
       return setCancelBookEdit(state, action);
     }
     case actions.CANCEL_CHANGE_BOOK_EDIT: {
       return cancelChangeBookEdit(state);
+    }
+    case actions.SET_COVER_IMAGE: {
+      return setCoverImage(state, action)
+    }
+    case actions.SET_BOOK_EDIT_LIST: {
+      return setBookEditList(state, action);
     }
     default: {
       return state;
@@ -130,6 +145,14 @@ const setBookEdit = (state, action) => {
   return {
     ...state,
       editBook: action.payload.value
+  };
+};
+
+// SET_NEW_BOOK_EDIT
+const setNewBookEdit = (state, action) => {
+  return {
+    ...state,
+    editBook: {}
   };
 };
 
@@ -146,6 +169,25 @@ const cancelChangeBookEdit = (state) => {
   return {
     ...state,
     editBook: {...state.cancelBook}
+  };
+};
+
+// SET_COVER_IMAGE
+const setCoverImage = (state, action) => {
+  return {
+    ...state,
+    editBook: {
+      ...state.editBook,
+      coverUrl: action.payload.value
+    },
+  };
+};
+
+// SET_BOOK_EDIT_LIST
+const setBookEditList = (state, action) => {
+  return {
+    ...state,
+    bookEditList: action.payload.value
   };
 };
 

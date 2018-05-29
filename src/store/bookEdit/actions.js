@@ -7,6 +7,12 @@ export const setBookEdit = (value) => ({
   }
 });
 
+export const SET_NEW_BOOK_EDIT = "SET_NEW_BOOK_EDIT";
+
+export const setNewBookEdit = (value) => ({
+  type: SET_NEW_BOOK_EDIT
+});
+
 export const SET_CANCEL_BOOK_EDIT = "SET_CANCEL_BOOK_EDIT";
 
 export const setCancelBookEdit = (value) => ({
@@ -38,4 +44,40 @@ export const CANCEL_CHANGE_BOOK_EDIT = "CANCEL_CHANGE_BOOK_EDIT";
 
 export const cancelChangeBookEdit = () => ({
   type: CANCEL_CHANGE_BOOK_EDIT
+});
+
+export const SAVE_COVER_IMAGE = "SAVE_COVER_IMAGE";
+
+export const saveCoverImage = (value) => ({
+  type: SAVE_COVER_IMAGE,
+  payload: {
+    value
+  }
+});
+
+export const SET_COVER_IMAGE = "SET_COVER_IMAGE";
+
+export const setCoverImage = (value) => ({
+  type: SET_COVER_IMAGE,
+  payload: {
+    value
+  }
+});
+
+export const FETCH_BOOK_EDIT_LIST = "FETCH_BOOK_EDIT_LIST";
+
+export const fetchBookEditList = (value) => ({
+  type: FETCH_BOOK_EDIT_LIST,
+  payload: {
+    value
+  }
+});
+
+export const SET_BOOK_EDIT_LIST = "SET_BOOK_EDIT_LIST";
+
+export const setBookEditList = (value) => ({
+  type: SET_BOOK_EDIT_LIST,
+  payload: {
+    value
+  }
 });

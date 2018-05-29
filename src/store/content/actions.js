@@ -77,3 +77,19 @@ export const setNavigationMenuLeft = (value) => ({
     value
   }
 });
+
+export const FETCH_ADMIN_MENU = "FETCH_ADMIN_MENU";
+export const fetchAdminMenu = (value) => ({
+  type: FETCH_ADMIN_MENU,
+  payload: {
+    value
+  }
+});
+
+export const SET_ADMIN_MENU = "SET_ADMIN_MENU";
+export const setAdminMenu = (value) => ({
+  type: SET_ADMIN_MENU,
+  payload: {
+    value
+  }
+});

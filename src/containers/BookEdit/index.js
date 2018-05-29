@@ -86,6 +86,17 @@ class BookEdit extends Component {
         this.props.actions.dictionary.clearDictionary(dictionary);
     }
 
+    setCoverBook = (e) => {
+        let file = e.target.files[0];
+        if (!file.type.match(/image.*/)) {
+            alert(
+               "Выбранный файл не является изображением. Пожалуйста выберите другой файл",
+            );
+        } else {
+            this.props.actions.bookEdit.saveCoverImage(file);
+        }
+    };
+
     getAuthorName = (author) => {
         console.log("getAuthorName", author);
         let name = '';
@@ -114,6 +125,8 @@ class BookEdit extends Component {
         this.props.actions.bookEdit.saveChangeBookEdit(this.props.book);
     }
 
+
+
     render() {
         console.log("book", this.props.book);
         return (
@@ -131,6 +144,7 @@ class BookEdit extends Component {
                 clearSuggest={this.clearSuggest}
                 cancelChangeBookEdit={this.cancelChangeBookEdit}
                 saveChangeBookEdit={this.saveChangeBookEdit}
+                setCoverBook={this.setCoverBook}
             />
         );
     }

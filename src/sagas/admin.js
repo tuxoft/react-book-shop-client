@@ -9,9 +9,13 @@ import Api from "../api";
 function* fetchBookEdit(action) {
   try {
     console.log("fetchBookEdit ", action.payload.value);
-    const bookEdit = yield call(Api.admin.getBook, action.payload.value);
-    yield put(bookEditActions.setBookEdit(bookEdit.data));
-    yield put(bookEditActions.setCancelBookEdit(bookEdit.data));
+    if (action.payload.value != 'new') {
+      const bookEdit = yield call(Api.admin.getBook, action.payload.value);
+      yield put(bookEditActions.setBookEdit(bookEdit.data));
+      yield put(bookEditActions.setCancelBookEdit(bookEdit.data));
+    } else {
+      yield put(bookEditActions.setNewBookEdit());
+    }
   } catch (error) {
     console.log("fetchBookEdit error", error);
     yield put(
@@ -81,6 +85,43 @@ function* saveChangeBookEdit(action) {
   }
 }
 
+// WORKERS
+function* saveCoverImage(action) {
+  try {
+    console.log("saveCoverImage ", action.payload.value);
+    const coverUrl = yield call(Api.admin.saveFile, action.payload.value);
+    console.log("coverUrl ", coverUrl.data);
+    yield put(bookEditActions.setCoverImage(coverUrl.data));
+  } catch (error) {
+    console.log("saveCoverImage error", error);
+    yield put(
+      flashActions.showFlash(
+        "Ошибка! Данные не получены",
+        "danger",
+        true,
+      ),
+    );
+  }
+}
+
+// WORKERS
+function* fetchBookEditList(action) {
+  try {
+    console.log("fetchBookEditList ", action.payload.value);
+    const bookEditList = yield call(Api.admin.getBookList, action.payload.value);
+    yield put(bookEditActions.setBookEditList(bookEditList.data));
+  } catch (error) {
+    console.log("fetchBookEditList error", error);
+    yield put(
+      flashActions.showFlash(
+        "Ошибка! Данные не получены",
+        "danger",
+        true,
+      ),
+    );
+  }
+}
+
 // WATCHERS
 function* fetchBookEditFlow() {
   yield takeLatest(bookEditActions.FETCH_BOOK_EDIT, fetchBookEdit);
@@ -98,7 +139,17 @@ function* fetchDictionaryFlow() {
 
 // WATCHERS
 function* saveChangeBookEditFlow() {
-  yield takeEvery(bookEditActions.SAVE_CHANGE_BOOK_EDIT, saveChangeBookEdit);
+  yield takeLatest(bookEditActions.SAVE_CHANGE_BOOK_EDIT, saveChangeBookEdit);
+}
+
+// WATCHERS
+function* saveCoverImageFlow() {
+  yield takeLatest(bookEditActions.SAVE_COVER_IMAGE, saveCoverImage);
+}
+
+// WATCHERS
+function* fetchBookEditListFlow() {
+  yield takeLatest(bookEditActions.FETCH_BOOK_EDIT_LIST, fetchBookEditList);
 }
 
 export default function* admin() {
@@ -106,6 +157,8 @@ export default function* admin() {
     fetchBookEditFlow(),
     searchDictionaryFlow(),
     fetchDictionaryFlow(),
-    saveChangeBookEditFlow()
+    saveChangeBookEditFlow(),
+    saveCoverImageFlow(),
+    fetchBookEditListFlow(),
   ]);
 }

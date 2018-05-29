@@ -3,6 +3,8 @@ import styled from "styled-components";
 import {Link} from "react-router-dom";
 import ButtonComponent from "../simpleComponents/Button";
 
+import UploadButtonComponent from "../simpleComponents/UploadButton";
+
 export const ContentWrapper = styled.div`
         margin-top: 15px;
         display: flex;
@@ -174,4 +176,12 @@ export const Button = styled(ButtonComponent).attrs({ type: "button" })`
     border-radius: 5px;
     cursor: pointer;
     box-sizing: border-box;
+`;
+
+export const CoverImage = styled.img`
+    margin-bottom: 10px;
+    max-width: 600px;
+`;
+
+export const UploadButton = styled(UploadButtonComponent)`  
 `;

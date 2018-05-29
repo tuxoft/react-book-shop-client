@@ -1,8 +1,8 @@
 import React, {Component} from "react";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
-import Footer from "../../containers/Footer";
-import Header from "../../containers/Header";
+import AdminFooter from "../../containers/AdminFooter";
+import AdminHeader from "../../containers/AdminHeader";
 import Screen from "../../components/Screen";
 import BookEdit from "../../containers/BookEdit";
 
@@ -17,9 +17,9 @@ class BookEditScreen extends Component {
 
         return (
             <Screen horizontalCenter verticalCenter>
-                <Header/>
+                <AdminHeader/>
                 <BookEdit {...this.props}/>
-                <Footer/>
+                <AdminFooter/>
             </Screen>
         );
     }

@@ -20,5 +20,18 @@ export default {
   saveBook: (params) => {
     const ENDPOINT = Contur.get().API;
     return axios.put(ENDPOINT + "/api/admin/books", params);
-  }
+  },
+
+  saveFile: (file) => {
+    const ENDPOINT = Contur.get().API;
+    const data = new FormData();
+    data.append("file", file);
+    return axios.post(ENDPOINT + "/api/admin/file", data);
+  },
+
+  getBookList: (params) => {
+    const ENDPOINT = Contur.get().API;
+    return axios.get(ENDPOINT + "/api/admin/books", params);
+  },
+
 };

@@ -8,7 +8,11 @@ const initialState = {
     categoryCarousels: [],
     promoPictures: [],
     navigationMenuTop: [],
-    navigationMenuLeft: []
+    navigationMenuLeft: [],
+    adminMenu: {
+      top: null,
+      footer: null
+    }
 };
 
 const content = (state = initialState, action) => {
@@ -28,6 +32,9 @@ const content = (state = initialState, action) => {
     }
     case actions.SET_NAVIGATION_MENU_LEFT: {
       return setNavigationMenuLeft(state, action);
+    }
+    case actions.SET_ADMIN_MENU: {
+      return setAdminMenu(state, action);
     }
     default: {
       return state;
@@ -69,5 +76,13 @@ const setNavigationMenuLeft = (state, action) => {
     navigationMenuLeft: action.payload.value
   };
 };
+
+const setAdminMenu = (state, action) => {
+  return {
+    ...state,
+    adminMenu: action.payload.value
+  };
+};
+
 
 export default content;

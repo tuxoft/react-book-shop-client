@@ -21,3 +21,11 @@ export const getNavigationMenuTop = (state) => {
 export const getNavigationMenuLeft = (state) => {
   return state.navigationMenuLeft;
 };
+
+export const getAdminMenuTop = (state) => {
+  return state.adminMenu.top;
+};
+
+export const getAdminMenuFooter = (state) => {
+  return state.adminMenu.footer;
+};

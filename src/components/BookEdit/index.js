@@ -18,7 +18,8 @@ const BookEdit = ({
     getAuthorName,
     clearSuggest,
     cancelChangeBookEdit,
-    saveChangeBookEdit
+    saveChangeBookEdit,
+    setCoverBook
 }) => {
 
     const getInput = (indx, name, parametrName, book, setBookAttr) => {
@@ -42,7 +43,7 @@ const BookEdit = ({
             <styles.RowItem big>
                 <styles.Column>
                     <styles.Container>
-                        {book[name].map((obj, indx) => <styles.Item key={indx}>
+                        {book[name] && book[name].map((obj, indx) => <styles.Item key={indx}>
                           {getAuthorName(obj.author)} <MdClear
                             onClick={() => removeBookAutor(book[name], obj)}/></styles.Item>)}
                     </styles.Container>
@@ -71,7 +72,7 @@ const BookEdit = ({
             <styles.RowItem big>
                 <styles.Column>
                     <styles.Container>
-                        {book[name].map((obj, indx) => <styles.Item key={indx}>
+                        {book[name] && book[name].map((obj, indx) => <styles.Item key={indx}>
                             {obj.name}
                             <MdClear onClick={() => removeObjFromListAttr(name, book[name], obj)}/>
                         </styles.Item>)}
@@ -101,7 +102,7 @@ const BookEdit = ({
             <styles.RowItem big>
                 <styles.Column>
                     <styles.Container>
-                        <styles.Item>{book[name].name}</styles.Item>
+                        <styles.Item>{book[name] && book[name].name}</styles.Item>
                     </styles.Container>
                     <styles.Input
                         onChange={(e) => {
@@ -133,7 +134,7 @@ const BookEdit = ({
                         setBookAttr(name, data[name].find((pub, indx) => pub.id == e.target.value))
                     }
                     }
-                    value={book[name].id}>
+                    value={book[name] ? book[name].id: null}>
                     {data[name].map((item, indx) => <option key={item.id} value={item.id}>
                         {item.name}
                     </option>)}
@@ -156,6 +157,32 @@ const BookEdit = ({
         </styles.Row>)
     };
 
+    const getInputImage = (indx, name, parametrName, book, setBookAttr, setCoverBook) => {
+        return (<styles.Row key={indx?"row"+indx:"row"}>
+            <styles.RowItem>
+                <styles.Label bold>{parametrName}</styles.Label>
+            </styles.RowItem>
+            <styles.RowItem big>
+                <styles.Column>
+                    <styles.CoverImage src={book[name]}/>
+                    <styles.UploadButton
+                      onChange={(val) => {
+                        setCoverBook(val)
+                      }}
+                      label={
+                        book[name] == null
+                          ? "Добавить изображение"
+                          : "Изменить изображение"
+                      }
+                      deleteButtonVisible={book[name]}
+                      onDelete={() => setBookAttr(name, null)}
+                      deleteLabel={"Удалить изображение"}
+                    />
+                </styles.Column>
+            </styles.RowItem>
+        </styles.Row>)
+    };
+
     const isEmptyObject = (obj) => {
         for (var i in obj) {
           if (obj.hasOwnProperty(i)) {
@@ -173,7 +200,7 @@ const BookEdit = ({
                 <styles.Button blue onClick={cancelChangeBookEdit}>Отмена</styles.Button>
             </styles.ButtonRow>
 
-            {!isEmptyObject(book) && options.map((option, indx)=> {
+            {options.map((option, indx)=> {
                 switch (option.type) {
                     case "oneFromList":
                         return getOneFromList(indx, option.name, option.parametrName, book, data, setBookAttr, searchInDictionary, clearSuggest);
@@ -193,6 +220,8 @@ const BookEdit = ({
                     case "multiObjFromList":
                         return getMultiObjFromList(indx, option.name, option.parametrName, book, data, removeObjFromListAttr, addObjToListAttr, searchInDictionary, clearSuggest);
                         break;
+                    case "inputImage":
+                        return getInputImage(indx, option.name, option.parametrName, book, setBookAttr, setCoverBook)
                     default:
                         return (<b>Unresolved Type</b>);
                         break;
