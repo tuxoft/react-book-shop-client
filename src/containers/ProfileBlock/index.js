@@ -1,7 +1,14 @@
 import React, {Component} from "react";
-import {bindActionCreators} from "redux";
+import {
+    bindActionCreators,
+    createStore,
+    applyMiddleware,
+    compose
+} from "redux";
 import {connect} from "react-redux";
 import styled from "styled-components";
+import Keycloak from "keycloak-js";
+import axios from "axios";
 import * as appActions from "../../store/app/actions";
 import Button from "../../components/simpleComponents/Button";
 import * as appSelectors from "../../store/app/selectors";
@@ -62,7 +69,26 @@ class ProfileBlock extends Component {
 
     componentDidMount() {
         console.log("ProfileBlock init", this.props.isInitialized);
-        this.props.actions.app.authenticationInit(this.props.isInitialized);
+        if (!this.props.isInitialized) {
+            let kc = Keycloak({
+                realm: "book-realm",
+                url: "http://local.portal.rzhd.ml/auth",
+                clientId: "front-end",
+            });
+            kc.init({onLoad: 'check-sso', checkLoginIframe: false}).success(authenticated => {
+                console.log("kc success", kc);
+                this.props.actions.app.authenticationInitSuccess(authenticated, kc);
+                if(authenticated){
+                    this.props.actions.app.authenticationToken(kc);
+                }
+            }).error(function () {
+                console.log("kc failed", kc);
+                this.props.actions.app.setInitialized(false);
+            });
+        } else {
+            console.log("already inited");
+        }
+        //this.props.actions.app.authenticationInit(this.props.isInitialized);
     }
 
     render() {
@@ -75,7 +101,12 @@ class ProfileBlock extends Component {
         if (this.props.isAuthenticated) {
             return (
                 <Wrapper>
-                    <Control onClick={() => {this.props.actions.app.authenticationLogout(this.props.keycloak,this.props.isAuthenticated);}}>
+                    {(this.props.keycloak && this.props.keycloak.idTokenParsed && this.props.keycloak.idTokenParsed.name) && <Control>
+                        {this.props.keycloak.idTokenParsed.name}
+                    </Control>}
+                    <Control onClick={() => {
+                        this.props.actions.app.authenticationLogout(this.props.keycloak, this.props.isAuthenticated);
+                    }}>
                         ВЫЙТИ
                     </Control>
                 </Wrapper>
@@ -83,7 +114,9 @@ class ProfileBlock extends Component {
         } else {
             return (
                 <Wrapper>
-                    <Control onClick={() => {this.props.actions.app.authenticationLogin(this.props.keycloak,this.props.isAuthenticated);}}>
+                    <Control onClick={() => {
+                        this.props.actions.app.authenticationLogin(this.props.keycloak, this.props.isAuthenticated);
+                    }}>
                         ВОЙТИ
                     </Control>
                 </Wrapper>

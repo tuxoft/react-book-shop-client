@@ -9,40 +9,8 @@ import axios from "axios";
 
 // WORKERS
 function* authenticationInit(action) {
-    if(action.payload.isInitialized) {
-        console.log("already inited");
-        return;
-    }
-    let kc = Keycloak({
-        realm: "book-realm",
-        url: "http://local.portal.rzhd.ml/auth",
-        clientId: "front-end",
-    });
-    try {
-        console.log("authenticationInit ", action.payload.isInitialized);
-        console.log("kc cDM", kc);
+    console.log("do delete");
 
-        const authenticated = yield call(kc.init, {onLoad: 'check-sso', checkLoginIframe: false});
-        yield put(appActions.authenticationInitSuccess(authenticated, kc));
-/*
-        kc.init({onLoad: 'check-sso', checkLoginIframe: false}).success(authenticated => {
-            appActions.authenticationInitSuccess(authenticated, kc);
-        }).error(function () {
-            console.log("kc failed", kc);
-            appActions.setInitialized(false);
-        });*/
-
-
-    } catch (error) {
-        console.log("authenticationInit error", error);
-        yield put(
-            flashActions.showFlash(
-                "Ошибка! Данные не получены",
-                "danger",
-                true,
-            ),
-        );
-    }
 }
 // WORKERS
 function* authenticationLogin(action) {
