@@ -110,8 +110,28 @@ const initialState = {
         },
     ],
     editBook: {},
-    bookEditList: [],
+    bookEditList: { },
     cancelBook: {},
+    headersForBookEditList: [
+      {
+        title: "Ид",
+        name: "id"
+      },
+      {
+        title: "Название",
+        name: "title"
+      },
+      {
+        title: "Цена",
+        name: "price"
+      },
+      {
+        title: "В наличии",
+        name: "inStock"
+      }
+    ],
+    pageSize: 20,
+    sortField: "id"
 };
 
 const bookEdit = (state = initialState, action) => {
@@ -133,6 +153,9 @@ const bookEdit = (state = initialState, action) => {
     }
     case actions.SET_BOOK_EDIT_LIST: {
       return setBookEditList(state, action);
+    }
+    case actions.SET_SORT_FIELD: {
+      return setSortField(state, action);
     }
     default: {
       return state;
@@ -188,6 +211,14 @@ const setBookEditList = (state, action) => {
   return {
     ...state,
     bookEditList: action.payload.value
+  };
+};
+
+// SET_SORT_FIELD
+const setSortField = (state, action) => {
+  return {
+    ...state,
+    sortField: action.payload.value
   };
 };
 

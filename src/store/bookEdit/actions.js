@@ -81,3 +81,21 @@ export const setBookEditList = (value) => ({
     value
   }
 });
+
+export const SET_SORT_FIELD = "SET_SORT_FIELD";
+
+export const setSortField = (value) => ({
+  type: SET_SORT_FIELD,
+  payload: {
+    value
+  }
+});
+
+export const CHANGE_SORT_FIELD = "CHANGE_SORT_FIELD";
+
+export const changeSortField = (value) => ({
+  type: CHANGE_SORT_FIELD,
+  payload: {
+    value
+  }
+});

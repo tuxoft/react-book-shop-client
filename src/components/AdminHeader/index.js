@@ -15,6 +15,11 @@ const AdminHeader = (props) => (
           <styles.Image src={logo}/>
         </Link>
       </styles.LogoWrapper>
+      <styles.Title>
+        Администрирование
+      </styles.Title>
+      <styles.EmptyWrapper>
+      </styles.EmptyWrapper>
     </styles.RowWrapper>
 
     <styles.RowWrapper>

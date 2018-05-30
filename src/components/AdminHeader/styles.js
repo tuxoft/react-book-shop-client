@@ -69,3 +69,15 @@ export const ControlLabel = styled.span`
   margin-right: 10px;
 `;
 
+export const Title = styled.div`
+  width: 500px;
+  color: #fff;
+  font-size: 22px;
+  font-weight: 700;
+  padding: 20px;
+  text-align: center;  
+`;
+
+export const EmptyWrapper = styled.div`
+    width: 170px;
+`;

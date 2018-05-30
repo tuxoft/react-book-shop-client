@@ -1,7 +1,8 @@
 import { delay } from "redux-saga";
-import { all, call, take, put, takeLatest, takeEvery } from "redux-saga/effects";
+import { all, call, take, put, takeLatest, takeEvery, select } from "redux-saga/effects";
 import * as flashActions from "../store/flash/actions";
 import * as bookEditActions from "../store/bookEdit/actions";
+import * as bookEditSelectors from "../store/bookEdit/selectors";
 import * as dictionaryActions from "../store/dictionary/actions";
 import Api from "../api";
 
@@ -122,6 +123,25 @@ function* fetchBookEditList(action) {
   }
 }
 
+// WORKERS
+function* changeSortField(action) {
+  try {
+    console.log("changeSortField ", action.payload.value);
+    yield put(bookEditActions.setSortField(action.payload.value));
+    const pageSize = yield select((state) => bookEditSelectors.getPageSize(state.bookEdit));
+    yield put(bookEditActions.fetchBookEditList({start: 0, pageSize: pageSize, sort:action.payload.value}));
+  } catch (error) {
+    console.log("changeSortField error", error);
+    yield put(
+      flashActions.showFlash(
+        "Ошибка! Данные не получены",
+        "danger",
+        true,
+      ),
+    );
+  }
+}
+
 // WATCHERS
 function* fetchBookEditFlow() {
   yield takeLatest(bookEditActions.FETCH_BOOK_EDIT, fetchBookEdit);
@@ -152,6 +172,11 @@ function* fetchBookEditListFlow() {
   yield takeLatest(bookEditActions.FETCH_BOOK_EDIT_LIST, fetchBookEditList);
 }
 
+// WATCHERS
+function* changeSortFieldFlow() {
+  yield takeLatest(bookEditActions.CHANGE_SORT_FIELD, changeSortField);
+}
+
 export default function* admin() {
   yield all([
     fetchBookEditFlow(),
@@ -160,5 +185,6 @@ export default function* admin() {
     saveChangeBookEditFlow(),
     saveCoverImageFlow(),
     fetchBookEditListFlow(),
+    changeSortFieldFlow()
   ]);
 }

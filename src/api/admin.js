@@ -31,7 +31,7 @@ export default {
 
   getBookList: (params) => {
     const ENDPOINT = Contur.get().API;
-    return axios.get(ENDPOINT + "/api/admin/books", params);
+    return axios.get(ENDPOINT + "/api/admin/books", {params: params});
   },
 
 };
