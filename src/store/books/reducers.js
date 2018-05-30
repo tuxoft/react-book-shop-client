@@ -71,6 +71,11 @@ const setBook = (state, action) => {
 
 //SET_BOOKS_BY_CATEGORY
 const setBooksByCategory = (state, action) => {
+    if (!action.payload.booksByCategory.meta){
+        return {
+            ...state
+        }
+    }
     if (action.payload.booksByCategory.meta.paging.start > 0) {
         let mass = state.booksByCategory;
         if (!mass[action.payload.categoryId]) {

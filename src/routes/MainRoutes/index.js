@@ -15,9 +15,9 @@ import BookSeriesEditScreen from "../../Screens/BookSeriesEditScreen/index";
 import AdminScreen from "../../Screens/AdminScreen/index";
 import NotFound from "../../Screens/NotFoundScreen/index";
 
-const Routes = (props) =>
-
-    <Switch>
+const Routes = (props) => {
+    console.log("rerender route");
+    return <Switch>
         <Route
             exact
             path="/"
@@ -118,7 +118,7 @@ const Routes = (props) =>
         />
         <Route component={NotFound}/>
     </Switch>
-
+}
 const mapStateToProps = ({app}) => ({
     isInitialized: true,
     isAuthenticated: true
