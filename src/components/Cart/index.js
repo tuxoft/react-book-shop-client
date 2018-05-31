@@ -3,7 +3,7 @@ import * as styles from "./styles";
 import Checkbox from "../simpleComponents/Checkbox";
 
 
-const Cart = ({cart, block, boxItemsCount, setBookCount, selectedBooks, selectAll, deselectAll, selectId, removeBookFromCart}) => (
+const Cart = ({cart, block, boxItemsCount, setBookCount, selectedBooks, selectAll, deselectAll, selectId, removeBookFromCart,}) => (
     <styles.CartWrapper>
         {(selectedBooks && selectedBooks.length > 0) &&
         <styles.SelectPanel>
@@ -95,6 +95,26 @@ const Cart = ({cart, block, boxItemsCount, setBookCount, selectedBooks, selectAl
                             </styles.CartOrderItemDescriptionRightInfo>
                         </styles.CartOrderItemDescription>
                     </styles.CartOrderItem>))
+                }
+                {(cart.cartItemList && boxItemsCount !== 0) &&
+                <styles.OrderBlockRow>
+                    <styles.OrderBlock>
+                        <styles.OrderRow>
+                            <styles.Label>Общая сумма:</styles.Label>
+                            <styles.Label>{cart.cartItemList.reduce((accumulator ,item)=>((item.book.price* item.count)+accumulator),0)} ₽</styles.Label>
+                        </styles.OrderRow>
+                        <styles.OrderRow>
+                            <styles.Label>Общий вес:</styles.Label>
+                            <styles.Label>{cart.cartItemList.reduce((accumulator ,item)=>((item.book.weight* item.count)+accumulator),0)} г</styles.Label>
+                        </styles.OrderRow>
+                        <br/>
+                        <styles.OrderRow>
+                            <styles.Label bold>Итого без доставки:</styles.Label>
+                            <styles.Label bold>{cart.cartItemList.reduce((accumulator ,item)=>((item.book.price* item.count)+accumulator),0)} ₽</styles.Label>
+                        </styles.OrderRow>
+                        <styles.SimpleLink to="/order"><styles.OrderButton>Оформить заказ</styles.OrderButton></styles.SimpleLink>
+                    </styles.OrderBlock>
+                </styles.OrderBlockRow>
                 }
             </styles.CartWrapper>
         </styles.CartSubWrapper>

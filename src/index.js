@@ -5,10 +5,6 @@ import {applyMiddleware, createStore, compose} from "redux";
 import {Provider} from "react-redux";
 import createSagaMiddleware from "redux-saga";
 
-import Keycloak from "keycloak-js";
-import axios from "axios";
-
-import moment from "moment";
 import "moment/locale/ru";
 import './index.css';
 import App from './App';

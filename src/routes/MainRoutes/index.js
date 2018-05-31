@@ -7,6 +7,7 @@ import CategoryScreen from "../../Screens/CategoryScreen/index";
 import BookScreen from "../../Screens/BookScreen/index";
 import CartScreen from "../../Screens/CartScreen/index";
 import BookEditScreen from "../../Screens/BookEditScreen/index";
+import OrderScreen from "../../Screens/OrderScreen/index";
 import BookEditListScreen from "../../Screens/BookEditListScreen/index";
 import CategoryEditScreen from "../../Screens/CategoryEditScreen/index";
 import AuthorsEditScreen from "../../Screens/AuthorsEditScreen/index";
@@ -114,6 +115,12 @@ const Routes = (props) => {
             exact
             path="/admin/book-series-edit/:id"
             render={(props) => <BookSeriesEditScreen {...props} />}
+            {...props}
+        />
+        <Route
+            exact
+            path="/order"
+            render={(props) => <OrderScreen {...props} />}
             {...props}
         />
         <Route component={NotFound}/>

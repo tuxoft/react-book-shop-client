@@ -257,3 +257,39 @@ export const RemoveButton = styled.div`
     align-items: center;
     border-radius: 3px;
 `;
+export const OrderBlockRow = styled.div`
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+`;
+export const OrderBlock = styled.div`
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-end;
+`;
+export const OrderRow = styled.div`
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+`;
+export const OrderButton = styled.div`
+    display: block;
+    width: 200px;
+    height: 50px;
+    margin-top: 25px;
+    margin-bottom: 0;
+    font-size: 18px;
+    line-height: 45px;
+    background-color: #fb7543;
+    cursor: pointer;
+    border-radius: 5px;
+    color: #fff;
+    text-align: center;
+    padding-top: 5px;
+`;
