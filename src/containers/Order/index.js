@@ -10,6 +10,12 @@ class Order extends Component {
 
     constructor(props) {
         super(props);
+        this.state={
+            order:{
+                addr: {}
+            },
+            step: 1,
+        }
     }
 
     componentDidMount() {
@@ -18,13 +24,37 @@ class Order extends Component {
         }
     }
 
+    setObjectAttr = (val, field)=> {
+        let order = this.state.order;
+        this.setState({
+            order: {
+                ...this.state.order,
+                [field]: val,
+            }
+        })
+    };
+
+    setObjectAddr = (val, field)=> {
+        let orderAddr = this.state.order.addr;
+        orderAddr[field]=val;
+        this.setObjectAttr(orderAddr, "addr");
+    };
+
+    nextStep = () => {
+        this.setState({
+            step: this.state.step+1
+        });
+    }
+
     render() {
-        console.log("book", this.props.book);
+        console.log("order", this.props.order);
         return (
             <OrderComponet
                 {...this.state}
                 {...this.props}
-
+                setObjectAttr={this.setObjectAttr}
+                setObjectAddr={this.setObjectAddr}
+                nextStep = {this.nextStep}
             />
         );
     }
@@ -33,6 +63,9 @@ class Order extends Component {
 const mapStateToProps = ({app}) => ({
     keycloak: appSelectors.getKeyckloak(app),
     authenticated: appSelectors.isAuthenticated(app),
+    data: {
+        point: [{}]
+    }
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
