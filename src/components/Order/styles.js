@@ -19,9 +19,6 @@ export const RadioBox = styled.div`
         display: flex;
         flex-direction: column;
         align-items: start;
-        ${props => props.big && `
-            
-        `}
 `;
 
 export const RadioRow = styled.div`
@@ -214,7 +211,7 @@ export const Button = styled(ButtonComponent).attrs({ type: "button" })`
     
     font-size: 16px;
     margin: 0 10px;
-    min-width: 110px;
+    min-width: 80px;
     white-space: nowrap;
     color: #fff;
     padding: 0 20px;
@@ -270,6 +267,9 @@ export const OrderButton = styled.div`
     text-align: center;
     padding-top: 5px;
     margin-bottom: 25px;
+    ${props => props.short && `
+        width: 200px;
+    `}
 `;
 export const SelectBlock = styled.div`
     display: flex;

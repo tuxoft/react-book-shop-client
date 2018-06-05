@@ -1,10 +1,12 @@
 import React from "react";
+import ReactDOMServer from 'react-dom/server';
 import * as styles from "./styles";
-import {FaPhone, FaCheck} from 'react-icons/lib/fa/';
+import {FaPhone, FaCheck, FaMapMarker, FaClockO, FaCreditCardAlt} from 'react-icons/lib/fa/';
 import Checkbox from "../simpleComponents/Checkbox";
+import {YMaps, Map, Placemark, Clusterer, ListBox, ListBoxItem, } from 'react-yandex-maps';
 
 
-const Order = ({order, setObjectAttr, cart, step, nextStep, setObjectAddr,}) => {
+const Order = ({order, setObjectAttr, cart, step, nextStep, setObjectAddr, placemarks, cities, onCitySelect, selectCity}) => {
 
     const getInput = (indx, name, parametrName, object, setObjectAttr) => {
         return (
@@ -17,14 +19,15 @@ const Order = ({order, setObjectAttr, cart, step, nextStep, setObjectAddr,}) => 
 
     const getStep = (number, text, icon, note, step, active) => {
         return (<styles.Step>
-            {(number>=step) && <styles.StepNumber active={active}>{number}</styles.StepNumber>}
-            {!(number>=step) && <styles.StepNumber active={active}><FaCheck style={{color: "#26a9e0"}}/></styles.StepNumber>}
+            {(number >= step) && <styles.StepNumber active={active}>{number}</styles.StepNumber>}
+            {!(number >= step) &&
+            <styles.StepNumber active={active}><FaCheck style={{color: "#26a9e0"}}/></styles.StepNumber>}
             <styles.StepRight active={active}>
                 <styles.StepRow>
                     {icon}
                     <styles.Label lm15 bold>{text}</styles.Label>
                 </styles.StepRow>
-                <styles.StepRow low>
+                <styles.StepRow>
                     <styles.Label>{note}</styles.Label>
                 </styles.StepRow>
             </styles.StepRight>
@@ -32,7 +35,7 @@ const Order = ({order, setObjectAttr, cart, step, nextStep, setObjectAddr,}) => 
     };
 
     const getOneFromList = (indx, name, parametrName, book, data, setBookAttr, searchInDictionary, clearSuggest) => {
-        return (<styles.Row key={indx?"row"+indx:"row"}>
+        return (<styles.Row key={indx ? "row" + indx : "row"}>
             <styles.RowItem>
                 <styles.Label bold>{parametrName}</styles.Label>
             </styles.RowItem>
@@ -57,7 +60,53 @@ const Order = ({order, setObjectAttr, cart, step, nextStep, setObjectAddr,}) => 
                         </styles.Line>)}
                 </styles.Column>
             </styles.RowItem>
-        </styles.Row>)};
+        </styles.Row>)
+    };
+
+    const mapState = {center: selectCity.coords, zoom: 10,};
+
+    const getBalloonContent = (properties) => {
+        return (
+            <styles.Row>
+                <styles.Column leftside>
+                    <styles.Row>
+                        <img src={properties.orgIconUrl}/>
+                        <styles.Label fs12 bold>{properties.orgName}</styles.Label>
+                    </styles.Row>
+                    <styles.Row>
+                        <styles.Label fs12>{properties.orgAddr}</styles.Label>
+                    </styles.Row>
+                    <styles.Row>
+                        <FaClockO/>
+                        <styles.Label fs12>{properties.orgWorkPeriod}</styles.Label>
+                    </styles.Row>
+                    <styles.Row>
+                        <FaCreditCardAlt/>
+                        <styles.Label fs12>{properties.payCase}</styles.Label>
+                    </styles.Row>
+
+                </styles.Column>
+                <styles.OrderButton short onClick={() => {
+                    setObjectAttr(properties.orgId, "selftakeOrg");
+                    nextStep();
+                    console.log("selectActive!!");
+                }}>
+                    <styles.Label fs12>Заберу отсюда</styles.Label>
+                </styles.OrderButton>
+            </styles.Row>);
+    };
+
+    const getPlacemarc = (placemarc, indx) => {
+        const obj = ReactDOMServer.renderToStaticMarkup(getBalloonContent(placemarc.properties));
+        return (<Placemark
+            key={indx}
+            geometry={placemarc.geometry}
+            properties={{
+                balloonContent: '<div onclick="let event; if (document.createEvent) {event = document.createEvent(`HTMLEvents`);event.initEvent(`mapSelectBalloon`, true, true);} else {event = document.createEventObject();event.eventType = `mapSelectBalloon`;}event.eventName = `mapSelectBalloon`;if (document.createEvent) {element.dispatchEvent(event);} else { element.fireEvent(`on` + event.eventType, event);}">click!</div>'
+            }}
+            options={placemarc.options}
+        />);
+    };
 
     return (
         <styles.ContentWrapper>
@@ -65,9 +114,9 @@ const Order = ({order, setObjectAttr, cart, step, nextStep, setObjectAddr,}) => 
             <styles.Row>
                 <styles.Column leftside>
 
-                        {getStep(1, "Контактные данные", (<FaPhone
-                            style={{color: "#26a9e0"}}/>), "Укажите свои контактные данные, чтобы мы знали, кому доставить заказ", step, step===1)}
-                    {step ===1 && <styles.Column>
+                    {getStep(1, "Контактные данные", (<FaPhone
+                        style={{color: "#26a9e0"}}/>), "Укажите свои контактные данные, чтобы мы знали, кому доставить заказ", step, step === 1)}
+                    {step === 1 && <styles.Column>
                         {getInput(2, "lastname", "Фамилия", order, setObjectAttr)}
                         {getInput(3, "firstname", "Имя", order, setObjectAttr)}
                         {getInput(4, "midlename", "Отчество", order, setObjectAttr)}
@@ -89,43 +138,52 @@ const Order = ({order, setObjectAttr, cart, step, nextStep, setObjectAddr,}) => 
                         <styles.OrderButton onClick={nextStep}>Выбрать способ доставки</styles.OrderButton>
                     </styles.Column>}
                     {getStep(2, "Доставка", (<FaPhone
-                        style={{color: "#26a9e0"}}/>), "Самовывоз из пунктов выдачи • Курьер • Почта", step, step===2)}
-                    { step===2 && <styles.Column>
-                        <styles.SelectBlock onClick={() => {setObjectAttr("selftake", "sendtype")}}>
+                        style={{color: "#26a9e0"}}/>), "Самовывоз из пунктов выдачи • Курьер • Почта", step, step === 2)}
+                    {step === 2 && <styles.Column>
+                        <styles.SelectBlock onClick={() => {
+                            setObjectAttr("selftake", "sendtype")
+                        }}>
                             <styles.SelectBlockRow>
                                 <styles.Label bold>Самовывоз из пунктов выдачи</styles.Label>
-                                <styles.Label >0-493 ₽</styles.Label>
+                                <styles.Label>0-493 ₽</styles.Label>
                             </styles.SelectBlockRow>
                         </styles.SelectBlock>
-                        {order.sendtype==="selftake" && <styles.Column>
-                            <styles.Label bold>Адрес</styles.Label>
-                            {getInput(6, "city", "Город", order, setObjectAddr)}
-                            {getInput(7, "index", "Индекс", order, setObjectAddr)}
-                            {getInput(8, "street", "Улица", order, setObjectAddr)}
-                            {getInput(8, "street", "Дом", order, setObjectAddr)}
-                            {getInput(8, "street", "Корпус", order, setObjectAddr)}
-                            {getInput(8, "street", "Строение", order, setObjectAddr)}
-                            {getInput(8, "street", "Квартира", order, setObjectAddr)}
-                            <styles.Label bold>Курьерская служба</styles.Label>
-                            <styles.RadioBox>
-                                <styles.RadioRow>
-                                    <styles.InputRadio/>
-                                    <styles.RadioLabel>
-                                        <span>DPD</span>
-                                    </styles.RadioLabel>
-                                    <styles.Label >380 ₽</styles.Label>
-                                    <styles.Label >Только наличные, Максимальный вес заказа: 31кг.</styles.Label>
-                                </styles.RadioRow>
-                            </styles.RadioBox>
-                            <styles.OrderButton onClick={nextStep}>Указать способ оплаты</styles.OrderButton>
+                        {order.sendtype === "selftake" && <styles.Column>
+                            <YMaps>
+                                <Map state={mapState} width={1000} height={900}>
+                                    <ListBox data={{content: 'Выберите город'}} options={{float: 'right'}}>
+                                        {cities.map(city =>
+                                            <ListBoxItem
+                                                data={city.data}
+                                                options={city.options}
+                                                onClick={() => onCitySelect(city)}
+                                                key={city.data.content}
+                                            />
+                                        )}
+                                    </ListBox>
+                                    <Clusterer
+                                        options={{
+                                            preset: 'islands#invertedVioletClusterIcons',
+                                            groupByCoordinates: false,
+                                            clusterDisableClickZoom: true,
+                                            clusterHideIconOnBalloonOpen: false,
+                                            geoObjectHideIconOnBalloonOpen: false,
+                                        }}
+                                    >
+                                        {placemarks && placemarks.map((placemark, indx) => getPlacemarc(placemark, indx))}
+                                    </Clusterer>
+                                </Map>
+                            </YMaps>
                         </styles.Column>}
-                        <styles.SelectBlock onClick={() => {setObjectAttr("curier", "sendtype")}}>
+                        <styles.SelectBlock onClick={() => {
+                            setObjectAttr("curier", "sendtype")
+                        }}>
                             <styles.SelectBlockRow>
                                 <styles.Label bold>Курьер</styles.Label>
-                                <styles.Label >380 ₽</styles.Label>
+                                <styles.Label>380 ₽</styles.Label>
                             </styles.SelectBlockRow>
                         </styles.SelectBlock>
-                        {order.sendtype==="curier" && <styles.Column>
+                        {order.sendtype === "curier" && <styles.Column>
                             <styles.Label bold>Адрес</styles.Label>
                             {getInput(6, "city", "Город", order, setObjectAddr)}
                             {getInput(7, "index", "Индекс", order, setObjectAddr)}
@@ -141,15 +199,19 @@ const Order = ({order, setObjectAttr, cart, step, nextStep, setObjectAddr,}) => 
                                     <styles.RadioLabel>
                                         <span>DPD</span>
                                     </styles.RadioLabel>
-                                    <styles.Label >380 ₽</styles.Label>
-                                    <styles.Label >Только наличные, Максимальный вес заказа: 31кг.</styles.Label>
+                                    <styles.Label>380 ₽</styles.Label>
+                                    <styles.Label>Только наличные, Максимальный вес заказа: 31кг.</styles.Label>
                                 </styles.RadioRow>
                             </styles.RadioBox>
                             <styles.OrderButton onClick={nextStep}>Указать способ оплаты</styles.OrderButton>
                         </styles.Column>}
 
-                        <styles.SelectBlock onClick={() => {setObjectAttr("ruMail", "sendtype")}}> <styles.Label bold>Почта</styles.Label></styles.SelectBlock>
-                        {order.sendtype==="ruMail" && <styles.Column>
+                        <styles.SelectBlock onClick={() => {
+                            setObjectAttr("ruMail", "sendtype")
+                        }}>
+                            <styles.Label bold>Почта</styles.Label>
+                        </styles.SelectBlock>
+                        {order.sendtype === "ruMail" && <styles.Column>
                             <styles.Label bold>Адрес</styles.Label>
                             {getInput(6, "city", "Город", order, setObjectAddr)}
                             {getInput(7, "index", "Индекс", order, setObjectAddr)}
@@ -164,8 +226,8 @@ const Order = ({order, setObjectAttr, cart, step, nextStep, setObjectAddr,}) => 
                                     <styles.InputRadio/>
                                     <styles.RadioLabel>
                                         <span>Бандероль наложенным платежом</span>
-                                        <styles.Label >Стоимость доставки: 100 ₽</styles.Label>
-                                        <styles.Label >Комиссия за наложенный платеж: 97.15 ₽</styles.Label>
+                                        <styles.Label>Стоимость доставки: 100 ₽</styles.Label>
+                                        <styles.Label>Комиссия за наложенный платеж: 97.15 ₽</styles.Label>
                                     </styles.RadioLabel>
                                 </styles.RadioRow>
                             </styles.RadioBox>

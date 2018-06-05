@@ -22,6 +22,7 @@ class Order extends Component {
         if(!this.props.authenticated){
             this.props.actions.app.authenticationLogin(this.props.keycloak, this.props.authenticated)
         }
+
     }
 
     setObjectAttr = (val, field)=> {
@@ -55,6 +56,7 @@ class Order extends Component {
                 setObjectAttr={this.setObjectAttr}
                 setObjectAddr={this.setObjectAddr}
                 nextStep = {this.nextStep}
+                onCitySelect = {(city)=>{console.log("select city", city)}}
             />
         );
     }
@@ -63,9 +65,42 @@ class Order extends Component {
 const mapStateToProps = ({app}) => ({
     keycloak: appSelectors.getKeyckloak(app),
     authenticated: appSelectors.isAuthenticated(app),
-    data: {
-        point: [{}]
-    }
+    cities: [{
+        data: { content: 'Saint-Petersburg' },
+        options: { selectOnClick: false },
+        coords: [55.76, 37.64],
+    }],
+    selectCity: {data: { content: 'Saint-Petersburg' },
+        options: { selectOnClick: false },
+        coords: [55.76, 37.64],},
+    placemarks: [{"geometry": {"coordinates": [55.76, 37.64]},
+        "properties": {
+            "balloonContent": "organization",
+            orgId: "1",
+            orgName: "PickPoint",
+            orgWorkPeriod: "09:-20:00",
+            orgIconUrl: "http://placehold.it/85x22",
+            orgAddr: "Улан-Удэ, Республика Бурятия, 670961, Улан-Удэ, Смолина ул., 54",
+            payCase: "Наличные и банковская карта"
+        },
+        "options": {
+            "preset": "islands#icon",
+            "iconColor": "#0095b6"
+        }},
+        {"geometry": {"coordinates": [55.76, 37.65]},
+            "properties": {
+                "balloonContent": "organization",
+                orgId: "2",
+                orgName: "PickPoint2",
+                orgWorkPeriod: "09:-20:00",
+                orgIconUrl: "http://placehold.it/85x22",
+                orgAddr: "Улан-Удэ, Республика Бурятия, 670961, Улан-Удэ, Смолина ул., 54",
+                payCase: "Наличные и банковская карта"
+            },
+            "options": {
+                "preset": "islands#icon",
+                "iconColor": "#0095b6"
+            }}],
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
