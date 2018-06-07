@@ -13,6 +13,7 @@ import * as appActions from "../../store/app/actions";
 import Button from "../../components/simpleComponents/Button";
 import * as appSelectors from "../../store/app/selectors";
 import {Link} from "react-router-dom";
+import Contur from "../../constants/contur";
 
 export const Control = styled.div`
     height: 100%;
@@ -69,10 +70,11 @@ class ProfileBlock extends Component {
 
     componentDidMount() {
         console.log("ProfileBlock init", this.props.isInitialized);
+        const ENDPOINT = Contur.get().API;
         if (!this.props.isInitialized) {
             let kc = Keycloak({
                 realm: "book-realm",
-                url: "http://local.portal.rzhd.ml/auth",
+                url: ENDPOINT+"/auth",
                 clientId: "front-end",
             });
             kc.init({onLoad: 'check-sso', checkLoginIframe: false}).success(authenticated => {

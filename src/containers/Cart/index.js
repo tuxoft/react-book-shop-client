@@ -34,7 +34,7 @@ class Cart extends Component {
     removeBookFromCart = () => {
         console.log("removeBookFromCart", this.state.selectedBooks);
         let ids="";
-        this.state.selectedBooks.map((id, indx) =>{
+        this.state.selectedBooks.forEach((id, indx) =>{
             if(indx>0){
                 ids=ids+"&";
             }
@@ -48,7 +48,7 @@ class Cart extends Component {
     selectAll = () => {
         console.log("selectAll");
         this.setState({
-            selectedBooks: (this.props.cart.cartItemList ? (this.props.cart.cartItemList.length != this.state.selectedBooks.length ? this.props.cart.cartItemList.map((item, indx) => item.book.id) : [] ) : []),
+            selectedBooks: (this.props.cart.cartItemList ? (this.props.cart.cartItemList.length !== this.state.selectedBooks.length ? this.props.cart.cartItemList.map((item, indx) => item.book.id) : [] ) : []),
         });
     };
 
@@ -61,7 +61,7 @@ class Cart extends Component {
 
     selectId = (id) => {
         console.log("selectId", id);
-        let mass = this.state.selectedBooks.filter(item => item != id);
+        let mass = this.state.selectedBooks.filter(item => item !== id);
         mass.push(id);
         this.setState({
             selectedBooks: mass

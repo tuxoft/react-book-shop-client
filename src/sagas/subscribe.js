@@ -1,5 +1,4 @@
-import { delay } from "redux-saga";
-import { all, call, take, put, takeLatest } from "redux-saga/effects";
+import { all, put, takeLatest } from "redux-saga/effects";
 import * as flashActions from "../store/flash/actions";
 import * as actionsSubscribe from "../store/subscribe/actions";
 

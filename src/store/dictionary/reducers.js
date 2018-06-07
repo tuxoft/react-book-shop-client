@@ -3,8 +3,8 @@ import * as actions from "./actions";
 const initialState = {
     bookSeries:[],
     publisher: [],
-    authors: [],
-    categories: [],
+    author: [],
+    category: [],
     ageLimit: [],
     coverType: [],
     city: [],

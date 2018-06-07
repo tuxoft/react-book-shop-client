@@ -1,3 +1,27 @@
+:root {
+  --color-primary: green;
+  --color-primary-hover: #157096;
+  --color-info: #BDE5F8;
+  --color-success: #DFF2BF;
+  --color-danger: #FFD2D2;
+  --color-text: #394A58;
+
+  --topbar-height: 80px;
+  --topbar-background-color: #002b43;
+
+  --flash-background-color: #f1f1f1;
+  --flash-background-color-success: var(--color-success);
+  --flash-background-color-info: var(--color-info);
+  --flash-background-color-danger: var(--color-danger);
+  --flash-message-color-success: #4F8A10;
+  --flash-message-color-info: #00529B;
+  --flash-message-color-danger: #D8000C;
+  --flash-padding: 0 30px;
+  --flash-height: var(--topbar-height);
+  --flash-message-font-size: 16px;
+  --flash-message-font-weight: 400;
+  --flash-close-button-font-size: 20px;
+}
 body {
   margin: 0;
   padding: 0;

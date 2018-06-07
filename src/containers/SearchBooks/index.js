@@ -63,7 +63,6 @@ class SearchBooks extends Component {
     };
 
     getNextData = ()=>{
-        this.props.paging;
         console.log("total/count",this.props.meta.total, this.props.meta.paging.start+this.props.meta.paging.pageSize);
         if(this.props.meta.total <= (this.props.meta.paging.start+this.props.meta.paging.pageSize) || this.props.spinner) return;
         this.props.actions.books.fetchSearchBooks({

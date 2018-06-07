@@ -13,6 +13,7 @@ const mapStateToProps = ({ flash }) => ({
     message: flashSelectors.getMessage(flash),
     type: flashSelectors.getType(flash),
     autoHide: flashSelectors.getAutoHide(flash),
+    callback: flashSelectors.getCallback(flash),
   }
 });
 

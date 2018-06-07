@@ -3,7 +3,6 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import * as contentActions from "../../store/content/actions";
 import AdminContentBody from "../../components/AdminContent";
-import * as contentSelectors from "../../store/content/selectors";
 
 
 class AdminContent extends Component {

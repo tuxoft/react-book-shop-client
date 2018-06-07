@@ -5,6 +5,8 @@ const initialState = {
   message: undefined,
   type: undefined,
   autoHide: true,
+  confirm: undefined,
+  callback: undefined
 };
 
 const flash = (state = initialState, action) => {
@@ -22,12 +24,14 @@ const flash = (state = initialState, action) => {
 };
 
 const showFlash = (state, action) => {
+  console.log("action",action);
   return {
     ...state,
     isVisible: true,
     message: action.payload.message,
     type: action.payload.type,
     autoHide: action.payload.autoHide,
+    callback: action.payload.callback
   };
 };
 

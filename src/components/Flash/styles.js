@@ -12,12 +12,17 @@ export const Flash = styled.div`
   top: 0;
   left: 0;
   right: 0;
+  z-index: 100;  
 
   ${props => props.type === "success" && `
     background-color: var(--flash-background-color-success);
   `}
 
   ${props => props.type === "info" && `
+    background-color: var(--flash-background-color-info);
+  `}
+  
+  ${props => props.type === "confirm" && `
     background-color: var(--flash-background-color-info);
   `}
 
@@ -30,7 +35,22 @@ export const Message = styled.h1`
   margin: 0;
   font-size: var(--flash-message-font-size);
   font-weight: var(--flash-message-font-weight);
-  color: var(--flash-message-color);
+  color: var(--flash-message-color-info);
+  ${props => props.type === "success" && `
+    color: var(--flash-message-color-success);
+  `}
+
+  ${props => props.type === "info" && `
+    color: var(--flash-message-color-info);
+  `}
+  
+  ${props => props.type === "confirm" && `
+    color: var(--flash-message-color-info);
+  `}
+
+  ${props => props.type === "danger" && `
+    color: var(--flash-message-color-danger);
+  `}
 `;
 
 export const Controls = styled.div`

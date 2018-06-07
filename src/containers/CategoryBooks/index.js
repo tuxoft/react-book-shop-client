@@ -51,7 +51,6 @@ class CategoryBooks extends Component {
     }
 
     getNextData = ()=>{
-        this.props.paging;
         console.log("total/count",this.props.paging.total, this.props.paging.paging.start+this.props.paging.paging.pageSize);
         if(this.props.paging.total <= (this.props.paging.paging.start+this.props.paging.paging.pageSize) || this.props.spinner) return;
         this.props.actions.books.fetchBooksByCategory({
