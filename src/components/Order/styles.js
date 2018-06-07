@@ -36,13 +36,14 @@ export const RadioLabel = styled.div`
         display: flex;
         flex-direction: column;
         align-items: start;
-        ${props => props.big && `
-            
+        ${props => props.active && `
+            color:#26a9e0;
         `}
 `;
 
 export const InputRadio = styled.input.attrs({ type: "radio" })`
     box-sizing: border-box;
+    border: 10px solid #26a9e0;
     padding: 0;
 `;
 
@@ -53,6 +54,18 @@ export const Row = styled.div`
         align-items: center;
         width: 100%;
         justify-content: center;
+        ${props => props.fromStart && `
+            align-items: center;
+            justify-content: flex-start;
+            margin-top: 5px;
+        `}
+        ${props => props.top && `
+            align-items: flex-start;
+            justify-content: flex-end;
+        `}
+        ${props => props.mb25 && `
+            margin-bottom: 25px;
+        `}
 `;
 
 export const RowItem = styled.div`
@@ -70,6 +83,7 @@ export const RowItem = styled.div`
 
 export const SimpleLink = styled((props) => <Link {...props} />)`
   text-decoration: none;
+  width: 100%;
 `;
 
 export const Label = styled.div`
@@ -235,7 +249,10 @@ export const OrderBlockRow = styled.div`
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: flex-end;
+    ${props => props.left && `
+        justify-content: flex-start;
+    `}
 `;
 export const OrderBlock = styled.div`
     width: 300px;
@@ -356,4 +373,95 @@ export const StepRow = styled.div`
         color: #333;
         line-height: 1.2;
     `}
+`;
+
+export const CartTableHeader = styled.div`
+    height: 30px;
+    border-bottom: 1px solid #b3b3b3;
+    font-size: 0;
+    width: 580px;
+    display: flex;
+    flex-direction: row;
+    align-content: start;
+`;
+
+export const CartTableHeaderItem = styled.div`
+    text-align: left;
+    display: block;
+    font-size: 12px;
+    line-height: 30px;
+    color: gray;
+    ${props => props.name && `
+       width: 380px;
+    `}
+     ${props => props.count && `
+       width: 80px;
+    `}
+     ${props => props.price && `
+       width: 120px;
+    `}
+`;
+
+export const CartWrapper = styled.div`
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 580px;
+`;
+
+export const CartOrderItem = styled.div`
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    align-content: start;    
+    padding-bottom: 5px;
+    text-decoration: none;
+    color: #333;
+    &:hover {
+      background-color: rgba(38,169,224,.1);
+    }
+    ${props => props.last && `
+        border-bottom: 1px solid #b3b3b3;
+        margin-bottom: 25px;
+    `}   
+`;
+
+export const CartOrderItemDescription = styled.div`
+    display: flex;
+    flex-direction: row;
+    align-content: start;
+    align-items: center;
+    vertical-align: top;
+    width: 100%;
+`;
+
+export const CartOrderItemDescriptionInfo = styled.div`
+    margin-right: 10px;
+    width: 380px;
+    display: flex;
+    flex-direction: column;
+    align-content: start;
+`;
+
+export const CartOrderItemDescriptionRightInfo = styled.div`
+    display: flex;
+    flex-direction: row;
+    align-content: start;
+    width: 200px;
+`;
+export const CartOrderItemDescriptionRightInfoPrice = styled.div`
+    margin-left: 5px;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    width: 100px;
+`;
+export const CartOrderItemDescriptionRightInfoCount = styled.div`
+    margin-left: 5px;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    width: 75px;
 `;

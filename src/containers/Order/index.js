@@ -4,6 +4,7 @@ import {connect} from "react-redux";
 import * as appActions from "../../store/app/actions";
 import OrderComponet from "../../components/Order";
 import * as appSelectors from "../../store/app/selectors";
+import * as cartSelectors from "../../store/bucket/selectors";
 
 
 class Order extends Component {
@@ -12,6 +13,7 @@ class Order extends Component {
         super(props);
         this.state={
             order:{
+                sendPrice: 0,
                 addr: {}
             },
             step: 1,
@@ -22,7 +24,13 @@ class Order extends Component {
         if(!this.props.authenticated){
             this.props.actions.app.authenticationLogin(this.props.keycloak, this.props.authenticated)
         }
+        document.addEventListener("mapSelectBalloon", this.mapSelectBalloon);
+    }
 
+    mapSelectBalloon = (a) =>{
+        console.log("ok!!!", a.target.id);
+        this.nextStep();
+        this.setObjectAttr(a.target.id, "selfTakeOrgId");
     }
 
     setObjectAttr = (val, field)=> {
@@ -62,9 +70,11 @@ class Order extends Component {
     }
 }
 
-const mapStateToProps = ({app}) => ({
+const mapStateToProps = ({app, buscket}) => ({
     keycloak: appSelectors.getKeyckloak(app),
     authenticated: appSelectors.isAuthenticated(app),
+    cart: cartSelectors.getCart(buscket),
+    boxItemsCount: cartSelectors.getCartItemsCount(buscket),
     cities: [{
         data: { content: 'Saint-Petersburg' },
         options: { selectOnClick: false },
