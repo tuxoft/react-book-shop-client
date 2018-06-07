@@ -7,12 +7,12 @@ import Screen from "../../components/Screen";
 import ObjectEditList from "../../containers/ObjectEditList";
 
 
+
 import * as flashActions from "../../store/flash/actions";
 
-class AdminScreen extends Component {
+class ObjectEditListScreen extends Component {
 
   render() {
-
 
     return (
       <Screen horizontalCenter verticalCenter>
@@ -34,4 +34,4 @@ const mapDispatchToProps = (dispatch) => ({
   }
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(AdminScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(ObjectEditListScreen);

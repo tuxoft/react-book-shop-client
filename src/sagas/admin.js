@@ -1,42 +1,16 @@
-import { delay } from "redux-saga";
-import { all, call, take, put, takeLatest, takeEvery, select } from "redux-saga/effects";
+import { all, call, put, takeLatest, takeEvery, select } from "redux-saga/effects";
 import * as flashActions from "../store/flash/actions";
-import * as bookEditActions from "../store/bookEdit/actions";
-import * as bookEditSelectors from "../store/bookEdit/selectors";
+import * as objectEditActions from "../store/objectEdit/actions";
+import * as objectEditSelectors from "../store/objectEdit/selectors";
 import * as dictionaryActions from "../store/dictionary/actions";
 import Api from "../api";
 
 // WORKERS
-function* fetchBookEdit(action) {
-  try {
-    console.log("fetchBookEdit ", action.payload.value);
-    if (action.payload.value != 'new') {
-      const bookEdit = yield call(Api.admin.getBook, action.payload.value);
-      yield put(bookEditActions.setBookEdit(bookEdit.data));
-      yield put(bookEditActions.setCancelBookEdit(bookEdit.data));
-    } else {
-      yield put(bookEditActions.setNewBookEdit());
-    }
-  } catch (error) {
-    console.log("fetchBookEdit error", error);
-    yield put(
-      flashActions.showFlash(
-        "Ошибка! Данные не получены",
-        "danger",
-        true,
-      ),
-    );
-  }
-}
-
-// WORKERS
 function* searchDictionary(action) {
   try {
-    console.log("searchDictionary ", action.payload.value, action.payload.type);
     const dictionary = yield call(Api.admin.searchDictionary, {...action.payload.value, dictionary: action.payload.type});
     yield put(dictionaryActions.setDictionary(dictionary.data.data, action.payload.type));
   } catch (error) {
-    console.log("searchDictionary error", error);
     yield put(
       flashActions.showFlash(
         "Ошибка! Данные не получены",
@@ -50,12 +24,9 @@ function* searchDictionary(action) {
 // WORKERS
 function* fetchDictionary(action) {
   try {
-    console.log("fetchDictionary ", action.payload.value, action.payload.type);
     const dictionary = yield call(Api.admin.getDictionary, {...action.payload.value, dictionary: action.payload.type});
-    console.log("dictionary ", dictionary.data);
     yield put(dictionaryActions.setDictionary(dictionary.data.data, action.payload.type));
   } catch (error) {
-    console.log("fetchDictionary error", error);
     yield put(
       flashActions.showFlash(
         "Ошибка! Данные не получены",
@@ -67,15 +38,23 @@ function* fetchDictionary(action) {
 }
 
 // WORKERS
-function* saveChangeBookEdit(action) {
+function* saveChangeObjectEdit(action) {
   try {
-    console.log("saveChangeBookEdit ", action.payload.value);
-    const saveBookEdit = yield call(Api.admin.saveBook, {...action.payload.value});
-    console.log("saveBookEdit ", saveBookEdit.data);
-    yield put(bookEditActions.setBookEdit(saveBookEdit.data));
-    yield put(bookEditActions.setCancelBookEdit(saveBookEdit.data));
+    console.log("saveChangeObjectEdit ", action.payload.value);
+    const activeObject = yield select((state) => objectEditSelectors.getActiveObject(state.objectEdit));
+    const saveObjectEdit = yield call(Api.admin.saveObject, {...action.payload.value}, activeObject);
+    console.log("saveObjectEdit ", saveObjectEdit.data);
+    yield put(objectEditActions.setObjectEdit(saveObjectEdit.data));
+    yield put(objectEditActions.setCancelObjectEdit(saveObjectEdit.data));
+    yield put(
+      flashActions.showFlash(
+        "Внесенные изменения были сохранены",
+        "success",
+        true,
+      ),
+    );
   } catch (error) {
-    console.log("saveChangeBookEdit error", error);
+    console.log("saveChangeObjectEdit error", error);
     yield put(
       flashActions.showFlash(
         "Ошибка! Данные не получены",
@@ -89,12 +68,9 @@ function* saveChangeBookEdit(action) {
 // WORKERS
 function* saveCoverImage(action) {
   try {
-    console.log("saveCoverImage ", action.payload.value);
     const coverUrl = yield call(Api.admin.saveFile, action.payload.value);
-    console.log("coverUrl ", coverUrl.data);
-    yield put(bookEditActions.setCoverImage(coverUrl.data));
+    yield put(objectEditActions.setCoverImage(coverUrl.data));
   } catch (error) {
-    console.log("saveCoverImage error", error);
     yield put(
       flashActions.showFlash(
         "Ошибка! Данные не получены",
@@ -106,13 +82,17 @@ function* saveCoverImage(action) {
 }
 
 // WORKERS
-function* fetchBookEditList(action) {
+function* fetchObjectEdit(action) {
   try {
-    console.log("fetchBookEditList ", action.payload.value);
-    const bookEditList = yield call(Api.admin.getBookList, action.payload.value);
-    yield put(bookEditActions.setBookEditList(bookEditList.data));
+    if (action.payload.value !== 'new') {
+      const activeObject = yield select((state) => objectEditSelectors.getActiveObject(state.objectEdit));
+      const objectEdit = yield call(Api.admin.getObject, action.payload.value, activeObject);
+      yield put(objectEditActions.setObjectEdit(objectEdit.data));
+      yield put(objectEditActions.setCancelObjectEdit(objectEdit.data));
+    } else {
+      yield put(objectEditActions.setNewObjectEdit());
+    }
   } catch (error) {
-    console.log("fetchBookEditList error", error);
     yield put(
       flashActions.showFlash(
         "Ошибка! Данные не получены",
@@ -124,14 +104,13 @@ function* fetchBookEditList(action) {
 }
 
 // WORKERS
-function* changeSortField(action) {
+function* fetchObjectEditList(action) {
   try {
-    console.log("changeSortField ", action.payload.value);
-    yield put(bookEditActions.setSortField(action.payload.value));
-    const pageSize = yield select((state) => bookEditSelectors.getPageSize(state.bookEdit));
-    yield put(bookEditActions.fetchBookEditList({start: 0, pageSize: pageSize, sort:action.payload.value}));
+    const activeObject = yield select((state) => objectEditSelectors.getActiveObject(state.objectEdit));
+    const objectQueryParams = yield select((state) => objectEditSelectors.getObjectQueryParams(state.objectEdit));
+    const objectEditList = yield call(Api.admin.getObjectList, {...objectQueryParams, ...action.payload.value}, activeObject);
+    yield put(objectEditActions.setObjectEditList(objectEditList.data));
   } catch (error) {
-    console.log("changeSortField error", error);
     yield put(
       flashActions.showFlash(
         "Ошибка! Данные не получены",
@@ -142,9 +121,60 @@ function* changeSortField(action) {
   }
 }
 
-// WATCHERS
-function* fetchBookEditFlow() {
-  yield takeLatest(bookEditActions.FETCH_BOOK_EDIT, fetchBookEdit);
+// WORKERS
+function* changeSearchValueObject(action) {
+  try {
+    yield put(objectEditActions.setSearchValue(action.payload.value));
+    yield put(objectEditActions.fetchObjectEditList());
+  } catch (error) {
+    yield put(
+      flashActions.showFlash(
+        "Ошибка! Данные не получены",
+        "danger",
+        true,
+      ),
+    );
+  }
+}
+
+function* changeSortFieldObject(action) {
+  try {
+    yield put(objectEditActions.setSortField(action.payload.value));
+    yield put(objectEditActions.fetchObjectEditList());
+  } catch (error) {
+    yield put(
+      flashActions.showFlash(
+        "Ошибка! Данные не получены",
+        "danger",
+        true,
+      ),
+    );
+  }
+}
+
+// WORKERS
+function* deleteObjectEdit(action) {
+  try {
+    const activeObject = yield select((state) => objectEditSelectors.getActiveObject(state.objectEdit));
+    yield call(Api.admin.deleteObject, action.payload.value, activeObject);
+    yield put(objectEditActions.fetchObjectEditList());
+    yield put(
+      flashActions.showFlash(
+        "Запись была успешно удаленна",
+        "success",
+        true,
+      ),
+    );
+  } catch (error) {
+    console.log("saveChangeObjectEdit error", error);
+    yield put(
+      flashActions.showFlash(
+        "Ошибка! Удаление не произведенно",
+        "danger",
+        true,
+      ),
+    );
+  }
 }
 
 // WATCHERS
@@ -158,33 +188,50 @@ function* fetchDictionaryFlow() {
 }
 
 // WATCHERS
-function* saveChangeBookEditFlow() {
-  yield takeLatest(bookEditActions.SAVE_CHANGE_BOOK_EDIT, saveChangeBookEdit);
+function* saveChangeObjectEditFlow() {
+  yield takeLatest(objectEditActions.SAVE_CHANGE_OBJECT_EDIT, saveChangeObjectEdit);
 }
 
 // WATCHERS
 function* saveCoverImageFlow() {
-  yield takeLatest(bookEditActions.SAVE_COVER_IMAGE, saveCoverImage);
+  yield takeLatest(objectEditActions.SAVE_COVER_IMAGE, saveCoverImage);
 }
 
 // WATCHERS
-function* fetchBookEditListFlow() {
-  yield takeLatest(bookEditActions.FETCH_BOOK_EDIT_LIST, fetchBookEditList);
+function* fetchObjectEditFlow() {
+  yield takeLatest(objectEditActions.FETCH_OBJECT_EDIT, fetchObjectEdit);
 }
 
 // WATCHERS
-function* changeSortFieldFlow() {
-  yield takeLatest(bookEditActions.CHANGE_SORT_FIELD, changeSortField);
+function* fetchObjectEditListFlow() {
+  yield takeLatest(objectEditActions.FETCH_OBJECT_EDIT_LIST, fetchObjectEditList);
+}
+
+// WATCHERS
+function* changeSearchValueObjectFlow() {
+  yield takeLatest(objectEditActions.CHANGE_SEARCH_VALUE, changeSearchValueObject);
+}
+
+// WATCHERS
+function* changeSortFieldObjectFlow() {
+  yield takeLatest(objectEditActions.CHANGE_SORT_FIELD, changeSortFieldObject);
+}
+
+// WATCHERS
+function* deleteObjectEditFlow() {
+  yield takeLatest(objectEditActions.DELETE_OBJECT_EDIT, deleteObjectEdit);
 }
 
 export default function* admin() {
   yield all([
-    fetchBookEditFlow(),
     searchDictionaryFlow(),
     fetchDictionaryFlow(),
-    saveChangeBookEditFlow(),
+    saveChangeObjectEditFlow(),
     saveCoverImageFlow(),
-    fetchBookEditListFlow(),
-    changeSortFieldFlow()
+    fetchObjectEditFlow(),
+    fetchObjectEditListFlow(),
+    changeSearchValueObjectFlow(),
+    changeSortFieldObjectFlow(),
+    deleteObjectEditFlow()
   ]);
 }

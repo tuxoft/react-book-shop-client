@@ -43,6 +43,7 @@ class SearchInput extends Component {
                   onKeyPress={ (e) => {
                       switch (e.key) {
                         case 'Enter': this.props.rightPictureClick(); break;
+                        default: break;
                       }
                   }}
                 />

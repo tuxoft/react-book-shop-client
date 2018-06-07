@@ -1,6 +1,5 @@
 import React from "react";
 import * as styles from "./styles";
-import { Link } from "react-router-dom";
 
 const HeaderMenu = (props) => {
   return (
@@ -9,7 +8,10 @@ const HeaderMenu = (props) => {
            {props.menuItems && props.menuItems.map((item, indx)=>(
                <styles.MenuItem key={"mi"+indx}>
                    <styles.MenuItemHeadWrapper>
-                     <styles.TextLink to={item.url?item.url:"/"}><styles.MenuBoldText>{item.name}</styles.MenuBoldText></styles.TextLink>
+                     {item.url
+                       ? <styles.TextLink to={item.url}><styles.MenuBoldText>{item.name}</styles.MenuBoldText></styles.TextLink>
+                       : <styles.MenuBoldText>{item.name}</styles.MenuBoldText>
+                     }
                    </styles.MenuItemHeadWrapper>
                    {item.subItems &&
                        <styles.MenuSubItemWrapper>

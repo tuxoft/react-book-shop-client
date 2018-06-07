@@ -1,5 +1,4 @@
 export const getBigBook = (state) => {
-    console.log("getBook", state);
     return state.book;
 };
 
@@ -37,14 +36,14 @@ export const getSuggestions = (state) => {
     let productItems = [];
     let authorItems = [];
     let seriesItems = [];
-    state.suggestionSearch.map((book) => {
+    state.suggestionSearch.forEach((book) => {
       let searchBook = {
         title: book.title,
         url: '/book/' + book.id + '/description',
         authors: []
       };
       if (book.bookAuthors) {
-        book.bookAuthors.map((bookAuthor) => {
+        book.bookAuthors.forEach((bookAuthor) => {
           searchBook.authors.push({
             id: bookAuthor.author.id,
             title: (bookAuthor.author.firstName ? bookAuthor.author.firstName.slice(0,1) + ". ":"") + (bookAuthor.author.lastName ? bookAuthor.author.lastName : ""),
@@ -53,7 +52,7 @@ export const getSuggestions = (state) => {
         });
       }
       productItems.push(searchBook);
-      searchBook.authors.map((author) => {
+      searchBook.authors.forEach((author) => {
         authorItems.findIndex((a) => a.id === author.id);
         if (authorItems.findIndex((a) => a.id === author.id) === -1) {
           authorItems.push(author);

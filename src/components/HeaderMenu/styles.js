@@ -15,7 +15,8 @@ export const MenuSubItemWrapper = styled.div`
 
 export const MenuBoldText = styled.b`
   color: #000;
-  text-decoration: none;  
+  text-decoration: none;
+  cursor: pointer;
 `;
 
 export const MenuItemHeadWrapper = styled.div`

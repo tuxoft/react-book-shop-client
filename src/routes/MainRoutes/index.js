@@ -6,13 +6,9 @@ import SearchScreen from "../../Screens/SearchScreen/index";
 import CategoryScreen from "../../Screens/CategoryScreen/index";
 import BookScreen from "../../Screens/BookScreen/index";
 import CartScreen from "../../Screens/CartScreen/index";
-import BookEditScreen from "../../Screens/BookEditScreen/index";
+import ObjectEditScreen from "../../Screens/ObjectEditScreen/index";
+import ObjectEditListScreen from "../../Screens/ObjectEditListScreen/index";
 import OrderScreen from "../../Screens/OrderScreen/index";
-import BookEditListScreen from "../../Screens/BookEditListScreen/index";
-import CategoryEditScreen from "../../Screens/CategoryEditScreen/index";
-import AuthorsEditScreen from "../../Screens/AuthorsEditScreen/index";
-import PublisherEditScreen from "../../Screens/PublisherEditScreen/index";
-import BookSeriesEditScreen from "../../Screens/BookSeriesEditScreen/index";
 import AdminScreen from "../../Screens/AdminScreen/index";
 import NotFound from "../../Screens/NotFoundScreen/index";
 
@@ -80,41 +76,16 @@ const Routes = (props) => {
             render={(props) => <AdminScreen {...props} />}
             {...props}
         />
-
         <Route
             exact
-            path="/admin/book-edit/:id"
-            render={(props) => <BookEditScreen {...props} />}
+            path="/admin/change/item/:object/:id"
+            render={(props) => <ObjectEditScreen {...props} />}
             {...props}
         />
         <Route
             exact
-            path="/admin/book-edit-list"
-            render={(props) => <BookEditListScreen {...props} />}
-            {...props}
-        />
-            <Route
-                exact
-                path="/admin/category-edit/:id"
-                render={(props) => <CategoryEditScreen {...props} />}
-                {...props}
-            />
-            <Route
-                exact
-                path="/admin/authors-edit/:id"
-                render={(props) => <AuthorsEditScreen {...props} />}
-                {...props}
-            />
-        <Route
-            exact
-            path="/admin/publisher-edit/:id"
-            render={(props) => <PublisherEditScreen {...props} />}
-            {...props}
-        />
-        <Route
-            exact
-            path="/admin/book-series-edit/:id"
-            render={(props) => <BookSeriesEditScreen {...props} />}
+            path="/admin/change/list/:object"
+            render={(props) => <ObjectEditListScreen {...props} />}
             {...props}
         />
         <Route
