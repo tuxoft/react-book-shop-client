@@ -426,6 +426,17 @@ export const CartOrderItem = styled.div`
     `}   
 `;
 
+export const EditWrapper = styled.div`
+    text-decoration: none;
+    color: #26a9e0;
+    margin-left: 15px;
+    font-size: 12px;
+    cursor: pointer;
+    &:hover {
+      color: #005477;
+    }
+`;
+
 export const CartOrderItemDescription = styled.div`
     display: flex;
     flex-direction: row;

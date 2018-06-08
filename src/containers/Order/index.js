@@ -2,9 +2,11 @@ import React, {Component} from "react";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import * as appActions from "../../store/app/actions";
+import * as orderActions from "../../store/order/actions";
 import OrderComponet from "../../components/Order";
 import * as appSelectors from "../../store/app/selectors";
 import * as cartSelectors from "../../store/bucket/selectors";
+import * as orderSelectors from "../../store/order/selectors";
 
 
 class Order extends Component {
@@ -12,10 +14,6 @@ class Order extends Component {
     constructor(props) {
         super(props);
         this.state={
-            order:{
-                sendPrice: 0,
-                addr: {}
-            },
             step: 1,
         }
     }
@@ -34,13 +32,9 @@ class Order extends Component {
     }
 
     setObjectAttr = (val, field)=> {
-        let order = this.state.order;
-        this.setState({
-            order: {
-                ...this.state.order,
-                [field]: val,
-            }
-        })
+        let order = {...this.props.order};
+        order[field]=val;
+        this.props.actions.order.setOrder(order);
     };
 
     setObjectAddr = (val, field)=> {
@@ -53,10 +47,26 @@ class Order extends Component {
         this.setState({
             step: this.state.step+1
         });
-    }
+    };
+
+    setStep = (val) => {
+        this.setState({
+            step: val
+        });
+    };
+
+    makeOrder = () => {
+        console.log("make order", this.props.order);
+        this.props.actions.order.makeOrder(this.props.order);
+    };
+    selectCity = (city) => {
+        console.log("make city", city);
+        this.props.actions.order.selectCity(city);
+    };
 
     render() {
         console.log("order", this.props.order);
+        console.log("selectCity", this.props.selectCity);
         return (
             <OrderComponet
                 {...this.state}
@@ -64,59 +74,30 @@ class Order extends Component {
                 setObjectAttr={this.setObjectAttr}
                 setObjectAddr={this.setObjectAddr}
                 nextStep = {this.nextStep}
-                onCitySelect = {(city)=>{console.log("select city", city)}}
+                makeOrder = {this.makeOrder}
+                onCitySelect = {this.selectCity}
+                setStep={this.setStep}
             />
         );
     }
 }
 
-const mapStateToProps = ({app, buscket}) => ({
+const mapStateToProps = ({app, buscket, order}) => ({
     keycloak: appSelectors.getKeyckloak(app),
     authenticated: appSelectors.isAuthenticated(app),
     cart: cartSelectors.getCart(buscket),
     boxItemsCount: cartSelectors.getCartItemsCount(buscket),
-    cities: [{
-        data: { content: 'Saint-Petersburg' },
-        options: { selectOnClick: false },
-        coords: [55.76, 37.64],
-    }],
-    selectCity: {data: { content: 'Saint-Petersburg' },
-        options: { selectOnClick: false },
-        coords: [55.76, 37.64],},
-    placemarks: [{"geometry": {"coordinates": [55.76, 37.64]},
-        "properties": {
-            "balloonContent": "organization",
-            orgId: "1",
-            orgName: "PickPoint",
-            orgWorkPeriod: "09:-20:00",
-            orgIconUrl: "http://placehold.it/85x22",
-            orgAddr: "Улан-Удэ, Республика Бурятия, 670961, Улан-Удэ, Смолина ул., 54",
-            payCase: "Наличные и банковская карта"
-        },
-        "options": {
-            "preset": "islands#icon",
-            "iconColor": "#0095b6"
-        }},
-        {"geometry": {"coordinates": [55.76, 37.65]},
-            "properties": {
-                "balloonContent": "organization",
-                orgId: "2",
-                orgName: "PickPoint2",
-                orgWorkPeriod: "09:-20:00",
-                orgIconUrl: "http://placehold.it/85x22",
-                orgAddr: "Улан-Удэ, Республика Бурятия, 670961, Улан-Удэ, Смолина ул., 54",
-                payCase: "Наличные и банковская карта"
-            },
-            "options": {
-                "preset": "islands#icon",
-                "iconColor": "#0095b6"
-            }}],
+    cities: orderSelectors.getCities(order),
+    selectCity: orderSelectors.getSelectCity(order),
+    placemarks: orderSelectors.getPickupPoint(order),
+    order: orderSelectors.getOrder(order),
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
     actions: {
         ...ownProps.actions,
         app: bindActionCreators(appActions, dispatch),
+        order: bindActionCreators(orderActions, dispatch),
     },
 });
 

@@ -6,7 +6,7 @@ import Checkbox from "../simpleComponents/Checkbox";
 import {YMaps, Map, Placemark, Clusterer, ListBox, ListBoxItem, } from 'react-yandex-maps';
 
 
-const Order = ({order, setObjectAttr, cart, step, nextStep, makeOrder, setObjectAddr, placemarks, cities, onCitySelect, selectCity, boxItemsCount, }) => {
+const Order = ({order, setObjectAttr, cart, step, nextStep, makeOrder, setObjectAddr, placemarks, cities, onCitySelect, selectCity, boxItemsCount, setStep}) => {
 
     const getInput = (indx, name, parametrName, object, setObjectAttr) => {
         return (
@@ -26,6 +26,7 @@ const Order = ({order, setObjectAttr, cart, step, nextStep, makeOrder, setObject
                 <styles.StepRow>
                     {icon}
                     <styles.Label lm15 bold>{text}</styles.Label>
+                    {!(number >= step)&&<styles.EditWrapper onClick={()=>{setStep(number)}}>[изменить]</styles.EditWrapper>}
                 </styles.StepRow>
                 <styles.StepRow>
                     <styles.Label>{note}</styles.Label>

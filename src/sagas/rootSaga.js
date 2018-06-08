@@ -7,6 +7,7 @@ import cart from "./cart";
 import content from "./content";
 import admin from "./admin";
 import authentication from "./authentication";
+import order from "./order";
 
 export default function* rootSaga() {
   yield all([
@@ -18,5 +19,6 @@ export default function* rootSaga() {
       content(),
       admin(),
       authentication(),
+      order(),
   ]);
 }
