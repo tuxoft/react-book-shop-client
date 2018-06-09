@@ -5,7 +5,6 @@ import * as cartActions from "../../store/bucket/actions";
 import CartComponet from "../../components/Cart";
 import * as cartSelectors from "../../store/bucket/selectors";
 
-
 class Cart extends Component {
 
     constructor(props) {
@@ -80,12 +79,13 @@ class Cart extends Component {
                 selectId={this.selectId}
                 selectAll={this.selectAll}
                 deselectAll={this.deselectAll}
+
             />
         );
     }
 }
 
-const mapStateToProps = ({buscket}) => ({
+const mapStateToProps = ({app, buscket}) => ({
     cart: cartSelectors.getCart(buscket),
     boxItemsCount: cartSelectors.getCartItemsCount(buscket),
 });

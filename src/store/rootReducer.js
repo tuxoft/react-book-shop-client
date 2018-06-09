@@ -8,6 +8,7 @@ import books from "./books/reducers";
 import objectEdit from "./objectEdit/reducers";
 import dictionary from "./dictionary/reducers";
 import content from "./content/reducers";
+import order from "./order/reducers";
 
 const rootReducer = combineReducers({
   app,
@@ -18,7 +19,8 @@ const rootReducer = combineReducers({
   books,
   dictionary,
   objectEdit,
-  content
+  content,
+  order
 });
 
 export default rootReducer;
