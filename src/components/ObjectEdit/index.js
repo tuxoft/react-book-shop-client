@@ -1,6 +1,7 @@
 import React from "react";
 import * as styles from "./styles";
 import {MdClear} from 'react-icons/lib/md/';
+import Checkbox from "../simpleComponents/Checkbox";
 
 
 const ObjectEdit = ({
@@ -130,7 +131,21 @@ const ObjectEdit = ({
     </styles.Row>)
   };
 
-  const getSelect = (indx, name, parametrName, object, data, setObjAttr) => {
+  const getCheckBox = (indx, name, dictionary, parametrName, object, setObjAttr) => {
+    return (<styles.Row key={indx ? "row" + indx : "row"}>
+      <styles.RowItem>
+        <styles.Label bold>{parametrName}</styles.Label>
+      </styles.RowItem>
+      <styles.RowItem big>
+        <Checkbox isCheckedControl isChecked={object[name]}
+                  labelText="" onClick={() => {
+          setObjAttr(name, !object[name])
+        }}/>
+      </styles.RowItem>
+    </styles.Row>)
+  };
+
+  const getSelect = (indx, name, dictionary, parametrName, object, data, setObjAttr) => {
     return (<styles.Row key={indx ? "row" + indx : "row"}>
       <styles.RowItem>
         <styles.Label bold>{parametrName}</styles.Label>
@@ -138,12 +153,12 @@ const ObjectEdit = ({
       <styles.RowItem big>
         <styles.Select
           onChange={(e) => {
-            setObjAttr(name, data[name].find((pub, indx) => pub.id === Number(e.target.value)))
+            setObjAttr(name, data[dictionary].find((pub, indx) => pub.id === Number(e.target.value)))
           }
           }
           value={object[name] ? object[name].id : ""}>
           <option disabled value={""}>выберите значение</option>
-          {data[name].map((item, indx) =>
+          {data[dictionary].map((item, indx) =>
             <option key={item.id} value={item.id}>
               {item.name}
             </option>)}
@@ -176,7 +191,7 @@ const ObjectEdit = ({
           <styles.CoverImage src={object[name]}/>
           <styles.UploadButton
             onChange={(val) => {
-              setImage(val)
+              setImage(val, name)
             }}
             label={
               object[name] == null
@@ -201,10 +216,12 @@ const ObjectEdit = ({
       </styles.ButtonRow>
       {options.map((option, indx) => {
         switch (option.type) {
+          case "checkBox":
+            return getCheckBox(indx, option.name, option.dictionary?option.dictionary:option.name, option.parametrName, object, setObjAttr);
           case "oneFromList":
             return getOneFromList(indx, option.name, option.dictionary?option.dictionary:option.name, option.parametrName, object, data, setObjAttr, searchInDictionary, clearSuggest);
           case "select":
-            return getSelect(indx, option.name, option.parametrName, object, data, setObjAttr);
+            return getSelect(indx, option.name, option.dictionary?option.dictionary:option.name, option.parametrName, object, data, setObjAttr);
           case "input":
             return getInput(indx, option.name, option.parametrName, object, setObjAttr, option.valueType);
           case "textArea":

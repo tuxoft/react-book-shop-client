@@ -2,10 +2,12 @@ import React from "react";
 import * as styles from "./styles";
 import HeaderMenu from "../HeaderMenu/index";
 import {Link} from "react-router-dom";
+import ProfileBlock from "../../containers/ProfileBlock";
 const logo = require("../../assets/images/logo.png");
 
 const AdminHeader = (props) => (
   <styles.HeaderWrapper>
+    <ProfileBlock/>
     <styles.RowWrapper>
       <styles.LogoWrapper>
         <Link to={`/`}>

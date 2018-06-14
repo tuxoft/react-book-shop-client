@@ -34,12 +34,17 @@ class ObjectEditList extends Component {
     let indx = field.split(".");
     let value = object;
     for (let i = 0; i< indx.length; i++) {
-      if (value[indx[i]]) {
+      if (value !== null && typeof value[indx[i]] !== "undefined") {
         value = value[indx[i]]
       } else {
         value = "";
         break;
       }
+    }
+    if (value === true) {
+      value = "Да"
+    } else if (value === false) {
+      value = "Нет"
     }
     return value;
 

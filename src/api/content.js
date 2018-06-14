@@ -26,5 +26,8 @@ export default {
         const ENDPOINT = Contur.get().API;
         return axios.get(ENDPOINT + "/api/admin/menu", {params: params});
     },
-
+    getUserMenu: (params) => {
+        const ENDPOINT = Contur.get().API;
+        return axios.get(ENDPOINT + "/api/userMenu", {params: params});
+    }
 };

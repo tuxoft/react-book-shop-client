@@ -109,21 +109,23 @@ export const changeSortField = (value) => ({
   }
 });
 
-export const SAVE_COVER_IMAGE = "SAVE_COVER_IMAGE";
+export const SAVE_IMAGE = "SAVE_IMAGE";
 
-export const saveCoverImage = (value) => ({
-  type: SAVE_COVER_IMAGE,
+export const saveImage = (value, field) => ({
+  type: SAVE_IMAGE,
   payload: {
-    value
+    value,
+    field
   }
 });
 
-export const SET_COVER_IMAGE = "SET_COVER_IMAGE";
+export const SET_IMAGE = "SET_IMAGE";
 
-export const setCoverImage = (value) => ({
-  type: SET_COVER_IMAGE,
+export const setImage = (value, field) => ({
+  type: SET_IMAGE,
   payload: {
-    value
+    value,
+    field
   }
 })
 

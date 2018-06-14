@@ -12,7 +12,9 @@ const initialState = {
     adminMenu: {
       top: null,
       footer: null
-    }
+    },
+    userMenu: []
+
 };
 
 const content = (state = initialState, action) => {
@@ -35,6 +37,9 @@ const content = (state = initialState, action) => {
     }
     case actions.SET_ADMIN_MENU: {
       return setAdminMenu(state, action);
+    }
+    case actions.SET_USER_MENU: {
+      return setUserMenu(state, action);
     }
     default: {
       return state;
@@ -81,6 +86,13 @@ const setAdminMenu = (state, action) => {
   return {
     ...state,
     adminMenu: action.payload.value
+  };
+};
+
+const setUserMenu = (state, action) => {
+  return {
+    ...state,
+    userMenu: action.payload.value
   };
 };
 

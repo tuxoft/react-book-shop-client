@@ -93,3 +93,19 @@ export const setAdminMenu = (value) => ({
     value
   }
 });
+
+export const FETCH_USER_MENU = "FETCH_USER_MENU";
+export const fetchUserMenu = (value) => ({
+  type: FETCH_USER_MENU,
+  payload: {
+    value
+  }
+});
+
+export const SET_USER_MENU = "SET_USER_MENU";
+export const setUserMenu = (value) => ({
+  type: SET_USER_MENU,
+  payload: {
+    value
+  }
+});

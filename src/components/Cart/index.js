@@ -13,7 +13,7 @@ const Cart = ({cart, block, boxItemsCount, setBookCount, selectedBooks, selectAl
                     removeBookFromCart();
                 }}>Удалить
                 </styles.RemoveButton>
-                <styles.Label fs14 white underline onClick={() => {
+                <styles.Label fs14 white underline cursor onClick={() => {
                     deselectAll();
                 }}> Отменить выбор
                 </styles.Label>

@@ -45,6 +45,7 @@ export const Button = styled.button`
   height: 40px;
   border: 0;  
   background-color: #1b75bb;
+  color: #fff;
   width: 11%;
   ${props => props.rightSide && `
     border-radius: 0 5px 5px 0;

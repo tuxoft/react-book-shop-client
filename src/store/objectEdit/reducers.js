@@ -37,6 +37,16 @@ const initialState = {
       pageListTitle: "Языки",
       pageItemTitle: "Редактирование языков",
       newObjectButtonCaption: "Новый язык"
+    },
+    promoPicture: {
+      pageListTitle: "Промо-слайдер",
+      pageItemTitle: "Редактирование промо-картинки",
+      newObjectButtonCaption: "Новая промо-картинка"
+    },
+    categoryCarousel: {
+      pageListTitle: "Карусели категории",
+      pageItemTitle: "Редактирование карусели",
+      newObjectButtonCaption: "Новая карусель"
     }
   },
   options: {
@@ -238,6 +248,37 @@ const initialState = {
         dictionary: "",
         type: "input"
       },
+    ],
+    promoPicture: [
+      {
+        name: "url",
+        parametrName: "Ссылка для перехода",
+        dictionary: "",
+        type: "input"
+      },
+      {
+        name: "pictureUrl",
+        parametrName: "Изображение для слайда",
+        type: "inputImage"
+      },
+      {
+        name: "active",
+        parametrName: "Активен",
+        type: "checkBox"
+      }
+    ],
+    categoryCarousel: [
+      {
+        name: "category",
+        parametrName: "Категория",
+        dictionary: "category",
+        type: "oneFromList"
+      },
+      {
+        name: "active",
+        parametrName: "Активен",
+        type: "checkBox"
+      }
     ]
   },
   editObject: {
@@ -247,7 +288,9 @@ const initialState = {
     category: {},
     bookSeries: {},
     city: {},
-    language: {}
+    language: {},
+    promoPicture: {},
+    categoryCarousel: {}
   },
   cancelObject: {
     author: {},
@@ -256,7 +299,9 @@ const initialState = {
     category: {},
     bookSeries: {},
     city: {},
-    language: {}
+    language: {},
+    promoPicture: {},
+    categoryCarousel: {}
   },
   editList: {
     author: {},
@@ -265,7 +310,9 @@ const initialState = {
     category: {},
     bookSeries: {},
     city: {},
-    language: {}
+    language: {},
+    promoPicture: {},
+    categoryCarousel: {}
   },
   headersForEditList: {
     author: [
@@ -369,6 +416,38 @@ const initialState = {
         title: "Код языка",
         name: "codeLanguage"
       }
+    ],
+    promoPicture: [
+      {
+        title: "Ид",
+        name: "id"
+      },
+      {
+        title: "Ссылка",
+        name: "url"
+      },
+      {
+        title: "Слайд",
+        name: "pictureUrl"
+      },
+      {
+        title: "Активен",
+        name: "active"
+      }
+    ],
+    categoryCarousel: [
+      {
+        title: "Ид",
+        name: "id"
+      },
+      {
+        title: "Категория",
+        name: "category.name"
+      },
+      {
+        title: "Активен",
+        name: "active"
+      }
     ]
   },
   queryParams: {
@@ -413,6 +492,18 @@ const initialState = {
       pageSize: 20,
       sort: "id",
       query: ""
+    },
+    promoPicture: {
+      start: 0,
+      pageSize: 20,
+      sort: "id",
+      query: ""
+    },
+    categoryCarousel: {
+      start: 0,
+      pageSize: 20,
+      sort: "id",
+      query: ""
     }
   }
 };
@@ -443,8 +534,8 @@ const objectEdit = (state = initialState, action) => {
     case actions.SET_SORT_FIELD: {
       return setSortField(state, action);
     }
-    case actions.SET_COVER_IMAGE: {
-      return setCoverImage(state, action)
+    case actions.SET_IMAGE: {
+      return setImage(state, action)
     }
     default: {
       return state;
@@ -548,15 +639,15 @@ const setSortField = (state, action) => {
   };
 };
 
-// SET_COVER_IMAGE
-const setCoverImage = (state, action) => {
+// SET_IMAGE
+const setImage = (state, action) => {
   return {
     ...state,
     editObject: {
       ...state.editObject,
-      book: {
-        ...state.editObject.book,
-        coverUrl: action.payload.value
+      [state.activeObject]: {
+        ...state.editObject[state.activeObject],
+        [action.payload.field]: action.payload.value
       }
     }
   };
