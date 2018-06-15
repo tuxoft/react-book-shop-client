@@ -16,9 +16,7 @@ const initialState = {
             coords: [51.811704, 107.623283],
         }],
     selectCity:{
-        data: { content: 'Saint-Petersburg' },
-        options: { selectOnClick: false },
-        coords: [55.76, 37.64]
+       coords: [55.76, 37.64]
     },
     pickupPoint:[{"geometry": {"coordinates": [55.76, 37.64]},
         "properties": {
@@ -93,9 +91,13 @@ const setPickupPoint = (state, action) => {
 };
 // SET_PICKUP_CITIES
 const setPickupCities = (state, action) => {
+    let selectCity = action.payload.cities && action.payload.cities.length>0?{
+        coords: action.payload.cities[0].coords,
+    }:{coords: [55.76, 37.64]};
     return {
         ...state,
-        cities: action.payload.cities
+        cities: action.payload.cities,
+        selectCity: selectCity
     };
 };
 

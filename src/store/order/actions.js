@@ -1,8 +1,14 @@
 export const FETCH_ORDER = "FETCH_ORDER";
-export const fetchOrder = (params) => ({
+export const fetchOrder = (id) => ({
     type: FETCH_ORDER,
     payload: {
-        params
+        id
+    }
+});
+export const INIT_ORDER = "INIT_ORDER";
+export const initOrder = () => ({
+    type: INIT_ORDER,
+    payload: {
     }
 });
 export const GET_PICKUP_POINT = "GET_PICKUP_POINT";
@@ -20,11 +26,9 @@ export const setPickupPoint = (pickupPoint) => ({
     }
 });
 export const GET_PICKUP_CITIES = "GET_PICKUP_CITIES";
-export const getPickupCities = (params) => ({
+export const getPickupCities = () => ({
     type: GET_PICKUP_CITIES,
-    payload: {
-        params
-    }
+    payload: {}
 });
 export const SET_PICKUP_CITIES = "SET_PICKUP_CITIES";
 export const setPickupCities = (cities) => ({

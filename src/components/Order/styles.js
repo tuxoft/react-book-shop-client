@@ -15,14 +15,12 @@ export const ContentWrapper = styled.div`
 `;
 
 export const RadioBox = styled.div`
-        margin-bottom: 15px;
         display: flex;
         flex-direction: column;
         align-items: start;
 `;
 
 export const RadioRow = styled.div`
-        margin-bottom: 15px;
         display: flex;
         flex-direction: row;
         align-items: start;
@@ -33,6 +31,7 @@ export const RadioRow = styled.div`
 
 export const RadioLabel = styled.div`
         margin-bottom: 15px;
+        margin-right: 25px;
         display: flex;
         flex-direction: column;
         align-items: start;
@@ -112,6 +111,11 @@ export const Label = styled.div`
     ${props => props.lm15 && `
        margin-left: 15px;
     `}
+    ${props => props.redAlert && `
+       font-size: 12px;
+       color: red;
+    `}
+    
 `;
 
 export const Input = styled.input.attrs({ type: "text" })`
@@ -127,6 +131,9 @@ export const Input = styled.input.attrs({ type: "text" })`
     margin: 0;
     background-color: white;
     cursor: text;
+    ${props => props.redAlert && `
+       border-color: red;
+    `}
 `;
 
 export const InputText = styled.textarea.attrs({ type: "text" })`
@@ -391,7 +398,7 @@ export const CartTableHeaderItem = styled.div`
     font-size: 12px;
     line-height: 30px;
     color: gray;
-    ${props => props.name && `
+    ${props => props.naming && `
        width: 380px;
     `}
      ${props => props.count && `

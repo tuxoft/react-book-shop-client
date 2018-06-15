@@ -3,19 +3,22 @@ import ReactDOMServer from 'react-dom/server';
 import * as styles from "./styles";
 import {FaPhone, FaCheck, FaMapMarker, FaClockO, FaCreditCardAlt, FaCircleO, FaDotCircleO} from 'react-icons/lib/fa/';
 import Checkbox from "../simpleComponents/Checkbox";
-import {YMaps, Map, Placemark, Clusterer, ListBox, ListBoxItem, } from 'react-yandex-maps';
+import {YMaps, Map, Placemark, Clusterer, ListBox, ListBoxItem,} from 'react-yandex-maps';
 
 
-const Order = ({order, setObjectAttr, cart, step, nextStep, makeOrder, setObjectAddr, placemarks, cities, onCitySelect, selectCity, boxItemsCount, setStep}) => {
+const Order = ({order, setObjectAttr, cart, step, nextStep, makeOrder, setObjectAddr, setObjectMultiAttr, placemarks, cities, onCitySelect, selectCity, setStep, doValid, validatorText, validatorEmail, validatorNumber}) => {
 
-    const getInput = (indx, name, parametrName, object, setObjectAttr) => {
+    const getInput = (indx, name, parametrName, object, setObjectAttr, validator, doValid, alertText) => {
         return (
             <styles.RowItem big key={indx ? "row" + indx : "row"}>
-                <styles.Input onChange={(val) => {
+                <styles.Input redAlert={(doValid && !validator)} onChange={(val) => {
                     setObjectAttr(val.target.value, name)
                 }} value={object[name]} placeholder={parametrName}/>
+                {(doValid && !validator) && <styles.Label redAlert>{alertText}</styles.Label>}
             </styles.RowItem>)
     };
+
+
 
     const getStep = (number, text, icon, note, step, active) => {
         return (<styles.Step>
@@ -26,7 +29,9 @@ const Order = ({order, setObjectAttr, cart, step, nextStep, makeOrder, setObject
                 <styles.StepRow>
                     {icon}
                     <styles.Label lm15 bold>{text}</styles.Label>
-                    {!(number >= step)&&<styles.EditWrapper onClick={()=>{setStep(number)}}>[изменить]</styles.EditWrapper>}
+                    {!(number >= step) && <styles.EditWrapper onClick={() => {
+                        setStep(number)
+                    }}>[изменить]</styles.EditWrapper>}
                 </styles.StepRow>
                 <styles.StepRow>
                     <styles.Label>{note}</styles.Label>
@@ -68,14 +73,14 @@ const Order = ({order, setObjectAttr, cart, step, nextStep, makeOrder, setObject
             properties={{
                 balloonContentHeader: ReactDOMServer.renderToStaticMarkup(getBalloonContentHeader(placemarc.properties)),
                 balloonContentBody: ReactDOMServer.renderToStaticMarkup(getBalloonContentBody(placemarc.properties)),
-                balloonContentFooter: '<div id="'+placemarc.properties.orgId+'" style="padding-top: 5px;padding-left: 5px;width: 90px;height: 30px;background: #26a9e0;color: #fff;display: block;border-radius: 5px;cursor: pointer;box-sizing: border-box;" onclick="{var event; if (document.createEvent) {event = document.createEvent(`HTMLEvents`);event.initEvent(`mapSelectBalloon`, true, true);} else {event = document.createEventObject();event.eventType = `mapSelectBalloon`;}event.eventName = `mapSelectBalloon`;if (document.createEvent) {this.dispatchEvent(event);} else { this.fireEvent(`on` + event.eventType, event);}}">заберу отсюда</div>'
+                balloonContentFooter: '<div id="' + placemarc.properties.orgId + '" style="padding-top: 5px;padding-left: 5px;width: 90px;height: 30px;background: #26a9e0;color: #fff;display: block;border-radius: 5px;cursor: pointer;box-sizing: border-box;" onclick="{var event; if (document.createEvent) {event = document.createEvent(`HTMLEvents`);event.initEvent(`mapSelectBalloon`, true, true);} else {event = document.createEventObject();event.eventType = `mapSelectBalloon`;}event.eventName = `mapSelectBalloon`;if (document.createEvent) {this.dispatchEvent(event);} else { this.fireEvent(`on` + event.eventType, event);}}">заберу отсюда</div>'
             }}
             options={placemarc.options}
         />);
     };
 
     const getTextArea = (indx, name, order, setObjectAttr) => {
-        return (<styles.Row mb25 fromStart key={indx?"row"+indx:"row"}>
+        return (<styles.Row mb25 fromStart key={indx ? "row" + indx : "row"}>
             <styles.RowItem big>
                 <styles.InputText
                     onChange={(val) => {
@@ -94,11 +99,11 @@ const Order = ({order, setObjectAttr, cart, step, nextStep, makeOrder, setObject
                     {getStep(1, "Контактные данные", (<FaPhone
                         style={{color: "#26a9e0"}}/>), "Укажите свои контактные данные, чтобы мы знали, кому доставить заказ", step, step === 1)}
                     {step === 1 && <styles.Column>
-                        {getInput(2, "lastname", "Фамилия", order, setObjectAttr)}
-                        {getInput(3, "firstname", "Имя", order, setObjectAttr)}
-                        {getInput(4, "midlename", "Отчество", order, setObjectAttr)}
-                        {getInput(5, "email", "Эл. почта", order, setObjectAttr)}
-                        {getInput(6, "phone", "Телефон +7 (XXX) XXX-XX-XX", order, setObjectAttr)}
+                        {getInput(2, "lastName", "Фамилия", order, setObjectAttr, validatorText(order.lastName), doValid, "Введите фамилию")}
+                        {getInput(3, "firstName", "Имя", order, setObjectAttr, validatorText(order.firstName), doValid, "Введите имя")}
+                        {getInput(4, "middleName", "Отчество", order, setObjectAttr, true, doValid, "Введите отчество")}
+                        {getInput(5, "email", "Эл. почта", order, setObjectAttr, validatorEmail(order.email), (doValid), "Введите почту")}
+                        {getInput(6, "phone", "Телефон +7 (XXX) XXX-XX-XX", order, setObjectAttr, validatorNumber(order.phone), (doValid), "Введите телефон")}
                         <Checkbox isCheckedControl isChecked={order.isTakeStatusEmail}
                                   labelText="Получать статус заказа по e-mail" onClick={() => {
                             setObjectAttr(!order.isTakeStatusEmail, "isTakeStatusEmail")
@@ -107,11 +112,14 @@ const Order = ({order, setObjectAttr, cart, step, nextStep, makeOrder, setObject
                                   labelText="Получать статус заказа в СМС" onClick={() => {
                             setObjectAttr(!order.isTakeStatusSMS, "isTakeStatusSMS")
                         }}/>
+                        {(doValid && !order.isTakeStatusEmail && !order.isTakeStatusSMS) &&
+                        <styles.Label redAlert>Выберите хотя бы 1 способ оповещения</styles.Label>}
                         <Checkbox isCheckedControl isChecked={order.isAge18}
                                   labelText="Да, мне больше 18 лет, и я даю добровольное согласие на обработку своих персональных данных"
                                   onClick={() => {
                                       setObjectAttr(!order.isAge18, "isAge18")
                                   }}/>
+                        {(doValid && !order.isAge18) && <styles.Label redAlert>Согласие обязательно</styles.Label>}
                         <styles.OrderButton onClick={nextStep}>Выбрать способ доставки</styles.OrderButton>
                     </styles.Column>}
 
@@ -119,14 +127,14 @@ const Order = ({order, setObjectAttr, cart, step, nextStep, makeOrder, setObject
                         style={{color: "#26a9e0"}}/>), "Самовывоз из пунктов выдачи • Курьер • Почта", step, step === 2)}
                     {step === 2 && <styles.Column>
                         <styles.SelectBlock onClick={() => {
-                            setObjectAttr("selftake", "sendtype")
+                            setObjectMultiAttr([{field: "sendType", val: "selftake"}, {field: "curierService", val: ""}, {field: "mailService", val: ""}, {field: "sendPrice", val: 0}]);
                         }}>
                             <styles.SelectBlockRow>
                                 <styles.Label bold>Самовывоз из пунктов выдачи</styles.Label>
                                 <styles.Label>0-493 ₽</styles.Label>
                             </styles.SelectBlockRow>
                         </styles.SelectBlock>
-                        {order.sendtype === "selftake" && <styles.Column>
+                        {order.sendType === "selftake" && <styles.Column>
                             <YMaps>
                                 <Map state={mapState} width={1000} height={900}>
                                     <ListBox data={{content: 'Выберите город'}} options={{float: 'right'}}>
@@ -154,61 +162,80 @@ const Order = ({order, setObjectAttr, cart, step, nextStep, makeOrder, setObject
                             </YMaps>
                         </styles.Column>}
                         <styles.SelectBlock onClick={() => {
-                            setObjectAttr("curier", "sendtype")
+                            setObjectAttr("curier", "sendType")
                         }}>
                             <styles.SelectBlockRow>
                                 <styles.Label bold>Курьер</styles.Label>
                                 <styles.Label>380 ₽</styles.Label>
                             </styles.SelectBlockRow>
                         </styles.SelectBlock>
-                        {order.sendtype === "curier" && <styles.Column>
+                        {order.sendType === "curier" && <styles.Column>
                             <styles.Label bold>Адрес</styles.Label>
-                            {getInput(6, "city", "Город", order, setObjectAddr)}
-                            {getInput(7, "index", "Индекс", order, setObjectAddr)}
-                            {getInput(8, "street", "Улица", order, setObjectAddr)}
-                            {getInput(8, "street", "Дом", order, setObjectAddr)}
-                            {getInput(8, "street", "Корпус", order, setObjectAddr)}
-                            {getInput(8, "street", "Строение", order, setObjectAddr)}
-                            {getInput(8, "street", "Квартира", order, setObjectAddr)}
+                            {getInput(7, "city", "Город", order, setObjectAddr, validatorText(order.addr.city), doValid, "Введите город")}
+                            {getInput(8, "index", "Индекс", order, setObjectAddr, validatorText(order.addr.index), doValid, "Введите индекс")}
+                            {getInput(9, "street", "Улица", order, setObjectAddr, validatorText(order.addr.street), doValid, "Введите улицу")}
+                            {getInput(10, "house", "Дом", order, setObjectAddr, validatorText(order.addr.house), doValid, "Введите дом")}
+                            {getInput(11, "housing", "Корпус", order, setObjectAddr, true, doValid, "Введите корпус")}
+                            {getInput(12, "building", "Строение", order, setObjectAddr, true, doValid, "Введите строение")}
+                            {getInput(13, "room", "Квартира", order, setObjectAddr, validatorText(order.addr.room), doValid, "Введите номер квартиры")}
                             <styles.Label bold>Курьерская служба</styles.Label>
                             <styles.RadioBox>
                                 <styles.RadioRow>
-                                    <styles.InputRadio/>
+                                    {!(order.curierService === 'DPD') && <FaCircleO style={{width: 60}}
+                                                                                    onClick={() => {setObjectMultiAttr([{field: "curierService", val: "DPD"}, {field: "sendPrice", val: 300}]);}}/>}
+                                    {order.curierService === 'DPD' &&
+                                    <FaDotCircleO style={{color: "#26a9e0", width: 60}}
+                                                  onClick={() => {setObjectMultiAttr([{field: "curierService", val: "DPD"}, {field: "sendPrice", val: 300}]);}}/>}
                                     <styles.RadioLabel>
                                         <span>DPD</span>
                                     </styles.RadioLabel>
-                                    <styles.Label>380 ₽</styles.Label>
-                                    <styles.Label>Только наличные, Максимальный вес заказа: 31кг.</styles.Label>
+                                    <styles.RadioLabel>
+                                        <styles.Label fs14>380 ₽</styles.Label>
+                                    </styles.RadioLabel>
+                                    <styles.RadioLabel>
+                                        <styles.Label fs14>Только наличные, Максимальный вес заказа: 31кг.</styles.Label>
+                                    </styles.RadioLabel>
                                 </styles.RadioRow>
                             </styles.RadioBox>
+                            {(doValid && (!order.curierService || order.curierService === '')) &&
+                            <styles.Label redAlert>выберите курьерскую службу</styles.Label>}
                             <styles.OrderButton onClick={nextStep}>Указать способ оплаты</styles.OrderButton>
                         </styles.Column>}
 
                         <styles.SelectBlock onClick={() => {
-                            setObjectAttr("ruMail", "sendtype")
+                            setObjectAttr("ruMail", "sendType")
                         }}>
                             <styles.Label bold>Почта</styles.Label>
                         </styles.SelectBlock>
-                        {order.sendtype === "ruMail" && <styles.Column>
+                        {order.sendType === "ruMail" && <styles.Column>
                             <styles.Label bold>Адрес</styles.Label>
-                            {getInput(6, "city", "Город", order, setObjectAddr)}
-                            {getInput(7, "index", "Индекс", order, setObjectAddr)}
-                            {getInput(8, "street", "Улица", order, setObjectAddr)}
-                            {getInput(8, "street", "Дом", order, setObjectAddr)}
-                            {getInput(8, "street", "Корпус", order, setObjectAddr)}
-                            {getInput(8, "street", "Строение", order, setObjectAddr)}
-                            {getInput(8, "street", "Квартира", order, setObjectAddr)}
+                            {getInput(7, "city", "Город", order, setObjectAddr, validatorText(order.addr.city), doValid, "Введите город")}
+                            {getInput(8, "index", "Индекс", order, setObjectAddr, validatorText(order.addr.index), doValid, "Введите индекс")}
+                            {getInput(9, "street", "Улица", order, setObjectAddr, validatorText(order.addr.street), doValid, "Введите улицу")}
+                            {getInput(10, "house", "Дом", order, setObjectAddr, validatorText(order.addr.house), doValid, "Введите дом")}
+                            {getInput(11, "housing", "Корпус", order, setObjectAddr, true, doValid, "Введите корпус")}
+                            {getInput(12, "building", "Строение", order, setObjectAddr, true, doValid, "Введите строение")}
+                            {getInput(13, "room", "Квартира", order, setObjectAddr, validatorText(order.addr.room), doValid, "Введите номер квартиры")}
 
                             <styles.RadioBox>
                                 <styles.RadioRow>
-                                    <styles.InputRadio/>
+                                    {!(order.mailService === 'banderol') && <FaCircleO style={{width: 60}}
+                                                                                    onClick={() => {
+                                                                                        setObjectMultiAttr([{field: "mailService", val: "banderol"},
+                                                       {field: "sendPrice", val: order.orderItemList.reduce((accumulator, item) => ((item.book.weight * item.count) + accumulator), 0)*0.5}]);}}/>}
+                                    {order.mailService === 'banderol' &&
+                                    <FaDotCircleO style={{color: "#26a9e0", width: 60}}
+                                                  onClick={() => {setObjectMultiAttr([{field: "mailService", val: "banderol"},
+                                                      {field: "sendPrice", val: order.orderItemList.reduce((accumulator, item) => ((item.book.weight * item.count) + accumulator), 0)*0.5}]);}}/>}
                                     <styles.RadioLabel>
                                         <span>Бандероль наложенным платежом</span>
-                                        <styles.Label>Стоимость доставки: 100 ₽</styles.Label>
-                                        <styles.Label>Комиссия за наложенный платеж: 97.15 ₽</styles.Label>
+                                        <styles.Label fs14>Стоимость доставки: 100 ₽</styles.Label>
+                                        <styles.Label fs14>Комиссия за наложенный платеж: 97.15 ₽</styles.Label>
                                     </styles.RadioLabel>
                                 </styles.RadioRow>
                             </styles.RadioBox>
+                            {(doValid && (!order.mailService || order.mailService === '')) &&
+                            <styles.Label redAlert>выберите способ отправки</styles.Label>}
                             <styles.OrderButton onClick={nextStep}>Указать способ оплаты</styles.OrderButton>
                         </styles.Column>}
                     </styles.Column>}
@@ -218,26 +245,36 @@ const Order = ({order, setObjectAttr, cart, step, nextStep, makeOrder, setObject
                     {step === 3 && <styles.Column>
                         <styles.RadioBox>
                             <styles.RadioRow>
-                                {!(order.payCase==='card') && <FaCircleO style={{width: 60}} onClick={()=>setObjectAttr('card','payCase')}/>}
-                                {order.payCase==='card' && <FaDotCircleO style={{color: "#26a9e0", width: 60}} onClick={()=>setObjectAttr('card','payCase')}/>}
+                                {!(order.paymentMethod === 'card') &&
+                                <FaCircleO style={{width: 60}} onClick={() => setObjectAttr('card', 'paymentMethod')}/>}
+                                {order.paymentMethod === 'card' && <FaDotCircleO style={{color: "#26a9e0", width: 60}}
+                                                                                 onClick={() => setObjectAttr('card', 'paymentMethod')}/>}
 
-                                <styles.RadioLabel active={order.payCase==='card'}>
+                                <styles.RadioLabel active={order.paymentMethod === 'card'}>
                                     <styles.Label bold>Оплата на сайте</styles.Label>
-                                    <styles.Label>Оплата банковской картой. После завершения оформления заказа Вы будете перенаправлены на страницу банка для оплаты.
-                                        Также вы можете оплатить заказ в Личном кабинете. </styles.Label>
+                                    <styles.Label>Оплата банковской картой. После завершения оформления заказа Вы будете
+                                        перенаправлены на страницу банка для оплаты.
+                                        Также вы можете оплатить заказ в Личном кабинете.
+                                    </styles.Label>
                                 </styles.RadioLabel>
                             </styles.RadioRow>
 
                             <styles.RadioRow>
-                                {!(order.payCase==='cash') && <FaCircleO style={{width: 30}} onClick={()=>setObjectAttr('cash','payCase')}/>}
-                                {order.payCase==='cash' && <FaDotCircleO style={{color: "#26a9e0", width: 30}} onClick={()=>setObjectAttr('cash','payCase')}/>}
+                                {!(order.paymentMethod === 'cash') &&
+                                <FaCircleO style={{width: 30}} onClick={() => setObjectAttr('cash', 'paymentMethod')}/>}
+                                {order.paymentMethod === 'cash' && <FaDotCircleO style={{color: "#26a9e0", width: 30}}
+                                                                                 onClick={() => setObjectAttr('cash', 'paymentMethod')}/>}
 
-                                <styles.RadioLabel active={order.payCase==='cash'}>
+                                <styles.RadioLabel active={order.paymentMethod === 'cash'}>
                                     <styles.Label bold>Оплата при получении заказа</styles.Label>
-                                    <styles.Label>Оплата банковской картой или наличными (подставляется из информации после выбора доставки)</styles.Label>
+                                    <styles.Label>Оплата банковской картой или наличными (подставляется из информации
+                                        после выбора доставки)
+                                    </styles.Label>
                                 </styles.RadioLabel>
                             </styles.RadioRow>
                         </styles.RadioBox>
+                        {(doValid && !(order.paymentMethod === 'cash' || order.paymentMethod === 'card')) &&
+                        <styles.Label redAlert>выберите способ оплаты</styles.Label>}
                         <styles.OrderButton onClick={nextStep}>Подтвердить данные</styles.OrderButton>
                     </styles.Column>}
                     {getStep(4, "Подтверждение", (<FaCreditCardAlt
@@ -250,35 +287,41 @@ const Order = ({order, setObjectAttr, cart, step, nextStep, makeOrder, setObject
                         <styles.Label bold>Состав заказа</styles.Label>
                         <styles.CartWrapper>
                             <styles.CartTableHeader>
-                                <styles.CartTableHeaderItem name>Товар</styles.CartTableHeaderItem>
+                                <styles.CartTableHeaderItem naming>Товар</styles.CartTableHeaderItem>
                                 <styles.CartTableHeaderItem count>Количество</styles.CartTableHeaderItem>
                                 <styles.CartTableHeaderItem price>Сумма</styles.CartTableHeaderItem>
                             </styles.CartTableHeader>
-                            {(cart.cartItemList && boxItemsCount !== 0) && cart.cartItemList.map((item, indx) => (
+                            {(order.orderItemList && order.orderItemList.length !== 0) && order.orderItemList.map((item, indx) => (
                                 <styles.SimpleLink to={"/book/" + item.book.id} key={"item" + indx}>
-                                <styles.CartOrderItem last>
-                                    <styles.CartOrderItemDescription>
-                                        <styles.CartOrderItemDescriptionInfo>
-                                            <styles.Label fs14 >{item.book.title}</styles.Label>
-                                        </styles.CartOrderItemDescriptionInfo>
-                                        <styles.CartOrderItemDescriptionRightInfo>
-                                            <styles.CartOrderItemDescriptionRightInfoCount>
-                                                {item.count} шт.
-                                            </styles.CartOrderItemDescriptionRightInfoCount>
-                                            <styles.CartOrderItemDescriptionRightInfoPrice>
-                                                <styles.Label fs14 bold>{item.book.price * item.count}</styles.Label>
-                                                <styles.Label fs12 gray>{item.book.price} ₽ х {item.count} шт.</styles.Label>
-                                            </styles.CartOrderItemDescriptionRightInfoPrice>
-                                        </styles.CartOrderItemDescriptionRightInfo>
-                                    </styles.CartOrderItemDescription>
-                                </styles.CartOrderItem></styles.SimpleLink>))
+                                    <styles.CartOrderItem last={indx === (order.orderItemList.length - 1)}>
+                                        <styles.CartOrderItemDescription>
+                                            <styles.CartOrderItemDescriptionInfo>
+                                                <styles.Label fs14>{item.book.title}</styles.Label>
+                                            </styles.CartOrderItemDescriptionInfo>
+                                            <styles.CartOrderItemDescriptionRightInfo>
+                                                <styles.CartOrderItemDescriptionRightInfoCount>
+                                                    {item.count} шт.
+                                                </styles.CartOrderItemDescriptionRightInfoCount>
+                                                <styles.CartOrderItemDescriptionRightInfoPrice>
+                                                    <styles.Label fs14
+                                                                  bold>{item.book.price * item.count}</styles.Label>
+                                                    <styles.Label fs12 gray>{item.book.price} ₽ х {item.count} шт.
+                                                    </styles.Label>
+                                                </styles.CartOrderItemDescriptionRightInfoPrice>
+                                            </styles.CartOrderItemDescriptionRightInfo>
+                                        </styles.CartOrderItemDescription>
+                                    </styles.CartOrderItem>
+                                </styles.SimpleLink>))
                             }
-                            {(cart.cartItemList && boxItemsCount !== 0) &&
+                            {(order.orderItemList && order.orderItemList.length !== 0) &&
                             <styles.OrderBlockRow left>
                                 <styles.OrderBlock>
                                     <styles.OrderRow>
                                         <styles.Label fs14>Общая сумма:</styles.Label>
-                                        <styles.Label fs14>{cart.cartItemList.reduce((accumulator ,item)=>((item.book.price* item.count)+accumulator),0)} ₽</styles.Label>
+                                        <styles.Label
+                                            fs14>{order.orderItemList.reduce((accumulator, item) => ((item.book.price * item.count) + accumulator), 0)}
+                                            ₽
+                                        </styles.Label>
                                     </styles.OrderRow>
                                     <styles.OrderRow>
                                         <styles.Label fs14>Доставка:</styles.Label>
@@ -286,12 +329,15 @@ const Order = ({order, setObjectAttr, cart, step, nextStep, makeOrder, setObject
                                     </styles.OrderRow>
                                     <styles.OrderRow>
                                         <styles.Label fs14>Скидка:</styles.Label>
-                                        <styles.Label fs14>0 ₽</styles.Label>
+                                        <styles.Label fs14>{order.discount} ₽</styles.Label>
                                     </styles.OrderRow>
                                     <br/>
                                     <styles.OrderRow>
                                         <styles.Label bold fs14>Итого к оплате:</styles.Label>
-                                        <styles.Label bold fs14>{cart.cartItemList.reduce((accumulator ,item)=>((item.book.price* item.count)+accumulator),0)} ₽</styles.Label>
+                                        <styles.Label bold
+                                                      fs14>{order.orderItemList.reduce((accumulator, item) => ((item.book.price * item.count) + accumulator), 0)}
+                                            ₽
+                                        </styles.Label>
                                     </styles.OrderRow>
                                 </styles.OrderBlock>
                             </styles.OrderBlockRow>
@@ -303,24 +349,24 @@ const Order = ({order, setObjectAttr, cart, step, nextStep, makeOrder, setObject
 
 
                 <styles.Column rightside>
-                    {(cart && cart.cartItemList) && <styles.OrderBlockRow>
+                    {(order && order.orderItemList) && <styles.OrderBlockRow>
                         <styles.OrderBlock>
                             <styles.Label bold>Общая информация по заказу</styles.Label>
                             <br/>
                             <styles.OrderRow>
                                 <styles.Label>Количество товаров:</styles.Label>
-                                <styles.Label>{cart.cartItemList.reduce((accumulator, item) => (item.count + accumulator), 0)}</styles.Label>
+                                <styles.Label>{order.orderItemList.reduce((accumulator, item) => (item.count + accumulator), 0)}</styles.Label>
                             </styles.OrderRow>
                             <br/>
                             <styles.OrderRow>
                                 <styles.Label>Сумма заказа:</styles.Label>
-                                <styles.Label>{cart.cartItemList.reduce((accumulator, item) => ((item.book.price * item.count) + accumulator), 0)}
+                                <styles.Label>{order.orderItemList.reduce((accumulator, item) => ((item.book.price * item.count) + accumulator), 0)}
                                     ₽
                                 </styles.Label>
                             </styles.OrderRow>
                             <styles.OrderRow>
                                 <styles.Label>Скидка:</styles.Label>
-                                <styles.Label>0 ₽</styles.Label>
+                                <styles.Label>{order.discount} ₽</styles.Label>
                             </styles.OrderRow>
                             <styles.OrderRow>
                                 <styles.Label>Доставка:</styles.Label>
@@ -329,7 +375,10 @@ const Order = ({order, setObjectAttr, cart, step, nextStep, makeOrder, setObject
                             <br/>
                             <styles.OrderRow>
                                 <styles.Label bold>Итого к оплате:</styles.Label>
-                                <styles.Label bold>{cart.cartItemList.reduce((accumulator ,item)=>((item.book.price* item.count)+accumulator),0)} ₽</styles.Label>
+                                <styles.Label
+                                    bold>{order.orderItemList.reduce((accumulator, item) => ((item.book.price * item.count) + accumulator), 0)}
+                                    ₽
+                                </styles.Label>
                             </styles.OrderRow>
                         </styles.OrderBlock>
                     </styles.OrderBlockRow>}

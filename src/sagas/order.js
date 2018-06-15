@@ -2,13 +2,14 @@ import { all, call, put, takeLatest } from "redux-saga/effects";
 import * as flashActions from "../store/flash/actions";
 import * as orderActions from "../store/order/actions";
 import Api from "../api";
+import Contur from "../constants/contur";
 
 // WORKERS
 function* fetchOrder(action) {
     try {
-        console.log("fetchOrder ", action.payload.params);
-        //const books = yield call(Api.books.search, action.payload.params);
-        //yield put(booksActions.setSearchBooks(books.data, action.payload.params.query));
+        console.log("fetchOrder ", action.payload.id);
+        const order = yield call(Api.order.getById, action.payload.id);
+        yield put(orderActions.setOrder(order.data));
     } catch (error) {
         console.log("fetchOrder error", error);
         yield put(
@@ -21,11 +22,28 @@ function* fetchOrder(action) {
     }
 }
 // WORKERS
+function* initOrder(action) {
+    try {
+        console.log("initOrder ");
+        const order = yield call(Api.order.getInit);
+        yield put(orderActions.setOrder(order.data));
+    } catch (error) {
+        console.log("initOrder error", error);
+        yield put(
+            flashActions.showFlash(
+                "Ошибка! Данные не получены",
+                "danger",
+                true,
+            ),
+        );
+    }
+}
+// WORKERS
 function* getPickupPoint(action) {
     try {
-        console.log("getPickupPoint ", action.payload.params);
-        //const books = yield call(Api.books.search, action.payload.params);
-        //yield put(booksActions.setSearchBooks(books.data, action.payload.params.query));
+        console.log("getPickupPoint ", action.payload.cityId);
+        const pickupPoint = yield call(Api.order.getPickupPoint, action.payload.cityId);
+        yield put(orderActions.setPickupPoint(pickupPoint.data));
     } catch (error) {
         console.log("getPickupPoint error", error);
         yield put(
@@ -40,9 +58,12 @@ function* getPickupPoint(action) {
 // WORKERS
 function* getPickupCities(action) {
     try {
-        console.log("getPickupCities ", action.payload.params);
-        //const books = yield call(Api.books.search, action.payload.params);
-        //yield put(booksActions.setSearchBooks(books.data, action.payload.params.query));
+        console.log("getPickupCities ");
+        const cities = yield call(Api.order.getCities);
+        yield put(orderActions.setPickupCities(cities.data));
+        if(cities.data.length && cities.data.length>0){
+            yield put(orderActions.getPickupPoint(cities.data[0].id));
+        }
     } catch (error) {
         console.log("getPickupCities error", error);
         yield put(
@@ -57,9 +78,11 @@ function* getPickupCities(action) {
 // WORKERS
 function* makeOrder(action) {
     try {
-        console.log("makeOrder ", action.payload.params);
-        //const books = yield call(Api.books.search, action.payload.params);
-        //yield put(booksActions.setSearchBooks(books.data, action.payload.params.query));
+        console.log("makeOrder ", action.payload.order);
+        const url = yield call(Api.order.makeOrder, action.payload.order);
+        //yield put(orderActions.setPickupCities(cities.data));
+        console.log("haveMake", url, Contur.get().PAY_URL + url.data);
+        window.location.replace(Contur.get().PAY_URL + url.data);
     } catch (error) {
         console.log("makeOrder error", error);
         yield put(
@@ -77,6 +100,9 @@ function* makeOrder(action) {
 function* fetchOrderFlow() {
     yield takeLatest(orderActions.FETCH_ORDER, fetchOrder);
 }
+function* initOrderFlow() {
+    yield takeLatest(orderActions.INIT_ORDER, initOrder);
+}
 function* getPickupPointFlow() {
     yield takeLatest(orderActions.GET_PICKUP_POINT, getPickupPoint);
 }
@@ -90,6 +116,7 @@ function* makeOrderFlow() {
 export default function* order() {
   yield all([
       fetchOrderFlow(),
+      initOrderFlow(),
       getPickupPointFlow(),
       getPickupCitiesFlow(),
       makeOrderFlow(),
