@@ -29,3 +29,7 @@ export const getAdminMenuTop = (state) => {
 export const getAdminMenuFooter = (state) => {
   return state.adminMenu.footer;
 };
+
+export const getUserMenu = (state) => {
+  return state.userMenu;
+};

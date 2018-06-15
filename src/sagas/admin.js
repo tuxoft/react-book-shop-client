@@ -66,10 +66,10 @@ function* saveChangeObjectEdit(action) {
 }
 
 // WORKERS
-function* saveCoverImage(action) {
+function* saveImage(action) {
   try {
-    const coverUrl = yield call(Api.admin.saveFile, action.payload.value);
-    yield put(objectEditActions.setCoverImage(coverUrl.data));
+    const imageUrl = yield call(Api.admin.saveFile, action.payload.value);
+    yield put(objectEditActions.setImage(imageUrl.data, action.payload.field));
   } catch (error) {
     yield put(
       flashActions.showFlash(
@@ -193,8 +193,8 @@ function* saveChangeObjectEditFlow() {
 }
 
 // WATCHERS
-function* saveCoverImageFlow() {
-  yield takeLatest(objectEditActions.SAVE_COVER_IMAGE, saveCoverImage);
+function* saveImageFlow() {
+  yield takeLatest(objectEditActions.SAVE_IMAGE, saveImage);
 }
 
 // WATCHERS
@@ -227,7 +227,7 @@ export default function* admin() {
     searchDictionaryFlow(),
     fetchDictionaryFlow(),
     saveChangeObjectEditFlow(),
-    saveCoverImageFlow(),
+    saveImageFlow(),
     fetchObjectEditFlow(),
     fetchObjectEditListFlow(),
     changeSearchValueObjectFlow(),

@@ -29,8 +29,6 @@ const Flash = ({flash, actions}) => {
       icon = <FaInfoCircle/>;
   }
 
-  console.log("callback",callback);
-
   return (
     <styles.Flash
       type={type}
@@ -47,7 +45,10 @@ const Flash = ({flash, actions}) => {
       )}
       {!autoHide && type === "confirm" && (
         <styles.Controls>
-          <styles.Control small onClick={callback}>
+          <styles.Control small onClick={() => {
+            actions.hideFlash();
+            callback();
+          }}>
             Да
           </styles.Control>
           <styles.Control small onClick={actions.hideFlash}>

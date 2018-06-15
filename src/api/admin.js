@@ -23,6 +23,8 @@ export default {
       case "bookSeries":  return axios.put(ENDPOINT + "/api/admin/bookSeries", params);
       case "city":  return axios.put(ENDPOINT + "/api/admin/cities", params);
       case "language":  return axios.put(ENDPOINT + "/api/admin/languages", params);
+      case "promoPicture":  return axios.put(ENDPOINT + "/api/admin/promoPictures", params);
+      case "categoryCarousel":  return axios.put(ENDPOINT + "/api/admin/categoryCarousels", params);
       default: return axios.put(ENDPOINT + "/api/admin/books", params);
     }
   },
@@ -38,6 +40,8 @@ export default {
       case "bookSeries":  return axios.delete(ENDPOINT + "/api/admin/bookSeries/" + params);
       case "city":  return axios.delete(ENDPOINT + "/api/admin/cities/" + params);
       case "language":  return axios.delete(ENDPOINT + "/api/admin/languages/" + params);
+      case "promoPicture":  return axios.delete(ENDPOINT + "/api/admin/promoPictures/" + params);
+      case "categoryCarousel":  return axios.delete(ENDPOINT + "/api/admin/categoryCarousels/" + params);
       default: return axios.delete(ENDPOINT + "/api/admin/books/" + params);
     }
   },
@@ -59,6 +63,8 @@ export default {
       case "bookSeries":  return axios.get(ENDPOINT + "/api/admin/bookSeries/" + params);
       case "city":  return axios.get(ENDPOINT + "/api/admin/cities/" + params);
       case "language":  return axios.get(ENDPOINT + "/api/admin/languages/" + params);
+      case "promoPicture":  return axios.get(ENDPOINT + "/api/admin/promoPictures/" + params);
+      case "categoryCarousel":  return axios.get(ENDPOINT + "/api/admin/categoryCarousels/" + params);
       default: return axios.get(ENDPOINT + "/api/admin/books/" + params);
     }
   },
@@ -73,6 +79,8 @@ export default {
       case "bookSeries":  return axios.get(ENDPOINT + "/api/admin/bookSeries", {params: params});
       case "city":  return axios.get(ENDPOINT + "/api/admin/cities", {params: params});
       case "language":  return axios.get(ENDPOINT + "/api/admin/languages", {params: params});
+      case "promoPicture":  return axios.get(ENDPOINT + "/api/admin/promoPictures", {params: params});
+      case "categoryCarousel":  return axios.get(ENDPOINT + "/api/admin/categoryCarousels", {params: params});
       default: return axios.get(ENDPOINT + "/api/admin/books", {params: params});
     }
   },

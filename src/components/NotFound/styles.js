@@ -27,3 +27,5 @@ export const PriceLabel = styled.div`
     margin-bottom: 10px;
 `;
 
+export const Image = styled.img`    
+`;

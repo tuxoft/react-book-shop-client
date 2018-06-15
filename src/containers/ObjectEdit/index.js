@@ -103,16 +103,16 @@ class ObjectEdit extends Component {
       const inputElement = ReactDOM.findDOMNode(document.getElementById(id));
       inputElement.value = "";
     }
-  }
+  };
 
-  setImage = (e) => {
+  setImage = (e, field) => {
     let file = e.target.files[0];
     if (!file.type.match(/image.*/)) {
       alert(
         "Выбранный файл не является изображением. Пожалуйста выберите другой файл",
       );
     } else {
-      this.props.actions.objectEdit.saveCoverImage(file);
+      this.props.actions.objectEdit.saveImage(file, field);
     }
   };
 

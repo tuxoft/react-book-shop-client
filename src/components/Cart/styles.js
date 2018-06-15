@@ -162,6 +162,9 @@ export const Label = styled.div`
     ${props => props.underline && `
        text-decoration: underline;
     `}    
+    ${props => props.cursor && `
+       cursor: pointer;
+    `}
 `;
 
 export const CartOrderItemDescriptionRightInfo = styled.div`
@@ -228,7 +231,7 @@ export const SelectPanel = styled.div`
     position: fixed;
     bottom: 0;
     background-color: rgba(27,117,187,.9);
-    z-index: 1;
+    z-index: 10;
     display: flex;
     flex-direction: row;
     align-items: center;

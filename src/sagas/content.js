@@ -107,6 +107,24 @@ function* fetchAdminMenu(action) {
   }
 }
 
+// WORKERS
+function* fetchUserMenu(action) {
+  try {
+    console.log("fetchUserMenu ", action.payload.value);
+    const menu = yield call(Api.content.getUserMenu, action.payload.value);
+    yield put(contentActions.setUserMenu(menu.data));
+  } catch (error) {
+    console.log("fetchUserMenu error", error);
+    yield put(
+      flashActions.showFlash(
+        "Ошибка! Данные не получены",
+        "danger",
+        true,
+      ),
+    );
+  }
+}
+
 // WATCHERS
 function* fetchMenuFlow() {
     yield takeLatest(contentActions.FETCH_MENU, fetchMenu);
@@ -132,6 +150,10 @@ function* fetchAdminMenuFlow() {
   yield takeLatest(contentActions.FETCH_ADMIN_MENU, fetchAdminMenu);
 }
 
+function* fetchUserMenuFlow() {
+  yield takeLatest(contentActions.FETCH_USER_MENU, fetchUserMenu);
+}
+
 export default function* menu() {
   yield all([
       fetchMenuFlow(),
@@ -139,6 +161,7 @@ export default function* menu() {
       fetchPromoPictureFlow(),
       fetchNavigationMenuTopFlow(),
       fetchNavigationMenuLeftFlow(),
-      fetchAdminMenuFlow()
+      fetchAdminMenuFlow(),
+      fetchUserMenuFlow()
   ]);
 }

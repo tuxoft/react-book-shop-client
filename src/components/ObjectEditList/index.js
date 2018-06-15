@@ -30,6 +30,7 @@ const ObjectEditList = ({
     </styles.ActionRow>);
   }
 
+
   return (
     <styles.ContentWrapper>
       <styles.Label bold>{objectInfo.pageListTitle}</styles.Label>
@@ -65,7 +66,7 @@ const ObjectEditList = ({
         {objectList.map((object, indx) => (
            <styles.TableRow key={"row-"+indx} onClick={() => openObjectEdit(object.id)}>
               {headers && headers.map((header, indx2) => (
-                  <styles.TableCell left={typeof(getCellValue(object,header.name)) === "string"} key={"row-"+indx+"-cell-"+indx2}>{getCellValue(object,header.name)}</styles.TableCell>
+                  <styles.TableCell left={typeof(getCellValue(object,header.name)) === "string"} key={"row-"+indx+"-cell-"+indx2}>{getCellValue(object, header.name)}</styles.TableCell>
               ))}
              <styles.TableCell key={"row-"+indx+"-cell-action"}>{getObjectAction(object.id, deleteActionHandler)}</styles.TableCell>
            </styles.TableRow>

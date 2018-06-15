@@ -5,15 +5,19 @@ import {
     applyMiddleware,
     compose
 } from "redux";
+import { withLastLocation } from "react-router-last-location";
 import {connect} from "react-redux";
 import styled from "styled-components";
 import Keycloak from "keycloak-js";
 import axios from "axios";
 import * as appActions from "../../store/app/actions";
+import * as contentActions from "../../store/content/actions";
 import Button from "../../components/simpleComponents/Button";
 import * as appSelectors from "../../store/app/selectors";
+import * as contentSelectors from "../../store/content/selectors";
 import {Link} from "react-router-dom";
 import Contur from "../../constants/contur";
+import {FaSignIn, FaSignOut, FaChevronCircleDown, FaUser, FaHome, FaEdit} from 'react-icons/lib/fa/';
 
 export const Control = styled.div`
     height: 100%;
@@ -62,9 +66,67 @@ export const Wrapper = styled.div`
     align-items: center;
     justify-content: flex-end;
     width: 100%;
-    height: 30px;    
+    height: 30px;
+    border-bottom: 1px solid #69c3e8;
+    z-index: 100;
 `;
 
+export const UserMenuItem = styled.div`
+    padding: 5px;
+    cursor: pointer;
+    &:hover {
+        background-color: #b2b2b2;
+        color: #fff;
+    };
+`;
+
+export const UserMenuItemWrapper = styled.div`
+    position: absolute;
+    display: none;
+    flex-direction: column;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 2px 2px 0px;
+    margin-top: 15px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: #28A9E0;
+    border: 1px solid #b2b2b2;
+    border-radius: 10px;
+    left: -19px;
+    top: 10px;
+    min-width: 230px;
+    &:before, :after {
+        content: ''; 
+        position: absolute;
+        left: 20px; top: -20px;
+        border: 10px solid transparent;
+        border-bottom: 10px solid #b2b2b2;
+    };
+    &:after {
+        border-bottom: 10px solid #28A9E0;
+        top: -19px; 
+    };
+`;
+
+
+export const UserMenuWrapper = styled.div`
+    font-size: 14px;
+    display: block;
+    min-width: 210px;
+    margin-right: 20px;
+    flex-direction: column;    
+    align-content:stretch;
+    position: relative;
+    cursor: pointer;
+    &:hover {             
+        > ${UserMenuItemWrapper} {
+            display: flex;
+           }
+    }    
+`;
+
+export const UserMenuTitle = styled.div`
+    margin: 5px;
+`;
 
 class ProfileBlock extends Component {
 
@@ -82,6 +144,7 @@ class ProfileBlock extends Component {
                 this.props.actions.app.authenticationInitSuccess(authenticated, kc);
                 if(authenticated){
                     this.props.actions.app.authenticationToken(kc);
+                    this.props.actions.content.fetchUserMenu();
                 }
             }).error(function () {
                 console.log("kc failed", kc);
@@ -98,19 +161,39 @@ class ProfileBlock extends Component {
         console.log("ProfileBlock isAuthenticated", this.props.isAuthenticated);
         console.log("ProfileBlock keycloak", this.props.keycloak);
         if (!this.props.isInitialized) {
-            return <Wrapper>Загрузка</Wrapper>
+            return <Wrapper>
+                <Control>
+                    Загрузка
+                </Control>
+            </Wrapper>
         }
         if (this.props.isAuthenticated) {
             return (
                 <Wrapper>
-                    {(this.props.keycloak && this.props.keycloak.idTokenParsed && this.props.keycloak.idTokenParsed.name) && <Control>
-                        {this.props.keycloak.idTokenParsed.name}
-                    </Control>}
-                    <Control onClick={() => {
-                        this.props.actions.app.authenticationLogout(this.props.keycloak, this.props.isAuthenticated);
-                    }}>
-                        ВЫЙТИ
-                    </Control>
+                    {(this.props.keycloak && this.props.keycloak.idTokenParsed && this.props.keycloak.idTokenParsed.name) && <UserMenuWrapper>
+                        <UserMenuTitle>
+                        <FaChevronCircleDown/>{" "}{this.props.keycloak.idTokenParsed.name}
+                        </UserMenuTitle>
+                            <UserMenuItemWrapper>
+                                {this.props.userMenu && this.props.userMenu.map((menuItem) => {
+                                    const icon = menuItem.url === "/profile" ? <FaUser style={{verticalAlign: "text-top"}}/> :
+                                      menuItem.url === "/home" ? <FaHome style={{verticalAlign: "text-top"}}/> :
+                                      menuItem.url === "/admin" ? <FaEdit style={{verticalAlign: "text-top"}}/> : null;
+                                    return (
+                                        <UserMenuItem onClick={() => {
+                                          this.props.history.push(menuItem.url)
+                                        }}>
+                                          {icon}{" "}{menuItem.name}
+                                        </UserMenuItem>);
+                                })}
+                                <UserMenuItem onClick={() => {
+                                  this.props.actions.app.authenticationLogout(this.props.keycloak, this.props.isAuthenticated);
+                                }}>
+                                    <FaSignOut/>{" "}Выйти
+                                </UserMenuItem>
+                            </UserMenuItemWrapper>
+                        </UserMenuWrapper>
+                    }
                 </Wrapper>
             );
         } else {
@@ -119,7 +202,7 @@ class ProfileBlock extends Component {
                     <Control onClick={() => {
                         this.props.actions.app.authenticationLogin(this.props.keycloak, this.props.isAuthenticated);
                     }}>
-                        ВОЙТИ
+                        <FaSignIn/>Войти
                     </Control>
                 </Wrapper>
             );
@@ -127,17 +210,19 @@ class ProfileBlock extends Component {
     }
 }
 
-const mapStateToProps = ({app}) => ({
+const mapStateToProps = ({app, content}) => ({
     keycloak: appSelectors.getKeyckloak(app),
     isAuthenticated: appSelectors.isAuthenticated(app),
     isInitialized: appSelectors.isInitialized(app),
+    userMenu: contentSelectors.getUserMenu(content)
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
     actions: {
         ...ownProps.actions,
-        app: bindActionCreators(appActions, dispatch)
+        app: bindActionCreators(appActions, dispatch),
+        content: bindActionCreators(contentActions, dispatch)
     },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProfileBlock);
+export default withLastLocation(connect(mapStateToProps, mapDispatchToProps)(ProfileBlock));

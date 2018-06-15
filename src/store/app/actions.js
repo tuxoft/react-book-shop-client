@@ -52,6 +52,7 @@ export const LOGOUT_AUTHENTICATION = "LOGOUT_AUTHENTICATION";
 export const authenticationLogout = (keycloak, isAuthenticated) => ({
     type: LOGOUT_AUTHENTICATION,
     payload: {
+        keycloak,
         isAuthenticated
     }
 });
