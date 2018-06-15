@@ -19,7 +19,6 @@ const Order = ({order, setObjectAttr, cart, step, nextStep, makeOrder, setObject
     };
 
 
-
     const getStep = (number, text, icon, note, step, active) => {
         return (<styles.Step>
             {(number >= step) && <styles.StepNumber active={active}>{number}</styles.StepNumber>}
@@ -127,7 +126,10 @@ const Order = ({order, setObjectAttr, cart, step, nextStep, makeOrder, setObject
                         style={{color: "#26a9e0"}}/>), "Самовывоз из пунктов выдачи • Курьер • Почта", step, step === 2)}
                     {step === 2 && <styles.Column>
                         <styles.SelectBlock onClick={() => {
-                            setObjectMultiAttr([{field: "sendType", val: "selftake"}, {field: "curierService", val: ""}, {field: "mailService", val: ""}, {field: "sendPrice", val: 0}]);
+                            setObjectMultiAttr([{field: "sendType", val: "selftake"}, {
+                                field: "curierService",
+                                val: ""
+                            }, {field: "mailService", val: ""}, {field: "sendPrice", val: 0}]);
                         }}>
                             <styles.SelectBlockRow>
                                 <styles.Label bold>Самовывоз из пунктов выдачи</styles.Label>
@@ -182,10 +184,23 @@ const Order = ({order, setObjectAttr, cart, step, nextStep, makeOrder, setObject
                             <styles.RadioBox>
                                 <styles.RadioRow>
                                     {!(order.curierService === 'DPD') && <FaCircleO style={{width: 60}}
-                                                                                    onClick={() => {setObjectMultiAttr([{field: "curierService", val: "DPD"}, {field: "sendPrice", val: 300}]);}}/>}
+                                                                                    onClick={() => {
+                                                                                        setObjectMultiAttr([{
+                                                                                            field: "curierService",
+                                                                                            val: "DPD"
+                                                                                        }, {
+                                                                                            field: "sendPrice",
+                                                                                            val: 300
+                                                                                        }]);
+                                                                                    }}/>}
                                     {order.curierService === 'DPD' &&
                                     <FaDotCircleO style={{color: "#26a9e0", width: 60}}
-                                                  onClick={() => {setObjectMultiAttr([{field: "curierService", val: "DPD"}, {field: "sendPrice", val: 300}]);}}/>}
+                                                  onClick={() => {
+                                                      setObjectMultiAttr([{
+                                                          field: "curierService",
+                                                          val: "DPD"
+                                                      }, {field: "sendPrice", val: 300}]);
+                                                  }}/>}
                                     <styles.RadioLabel>
                                         <span>DPD</span>
                                     </styles.RadioLabel>
@@ -193,7 +208,8 @@ const Order = ({order, setObjectAttr, cart, step, nextStep, makeOrder, setObject
                                         <styles.Label fs14>380 ₽</styles.Label>
                                     </styles.RadioLabel>
                                     <styles.RadioLabel>
-                                        <styles.Label fs14>Только наличные, Максимальный вес заказа: 31кг.</styles.Label>
+                                        <styles.Label fs14>Только наличные, Максимальный вес заказа: 31кг.
+                                        </styles.Label>
                                     </styles.RadioLabel>
                                 </styles.RadioRow>
                             </styles.RadioBox>
@@ -220,13 +236,25 @@ const Order = ({order, setObjectAttr, cart, step, nextStep, makeOrder, setObject
                             <styles.RadioBox>
                                 <styles.RadioRow>
                                     {!(order.mailService === 'banderol') && <FaCircleO style={{width: 60}}
-                                                                                    onClick={() => {
-                                                                                        setObjectMultiAttr([{field: "mailService", val: "banderol"},
-                                                       {field: "sendPrice", val: order.orderItemList.reduce((accumulator, item) => ((item.book.weight * item.count) + accumulator), 0)*0.5}]);}}/>}
+                                                                                       onClick={() => {
+                                                                                           setObjectMultiAttr([{
+                                                                                               field: "mailService",
+                                                                                               val: "banderol"
+                                                                                           },
+                                                                                               {
+                                                                                                   field: "sendPrice",
+                                                                                                   val: order.orderItemList.reduce((accumulator, item) => ((item.book.weight * item.count) + accumulator), 0) * 0.5
+                                                                                               }]);
+                                                                                       }}/>}
                                     {order.mailService === 'banderol' &&
                                     <FaDotCircleO style={{color: "#26a9e0", width: 60}}
-                                                  onClick={() => {setObjectMultiAttr([{field: "mailService", val: "banderol"},
-                                                      {field: "sendPrice", val: order.orderItemList.reduce((accumulator, item) => ((item.book.weight * item.count) + accumulator), 0)*0.5}]);}}/>}
+                                                  onClick={() => {
+                                                      setObjectMultiAttr([{field: "mailService", val: "banderol"},
+                                                          {
+                                                              field: "sendPrice",
+                                                              val: order.orderItemList.reduce((accumulator, item) => ((item.book.weight * item.count) + accumulator), 0) * 0.5
+                                                          }]);
+                                                  }}/>}
                                     <styles.RadioLabel>
                                         <span>Бандероль наложенным платежом</span>
                                         <styles.Label fs14>Стоимость доставки: 100 ₽</styles.Label>
@@ -335,7 +363,7 @@ const Order = ({order, setObjectAttr, cart, step, nextStep, makeOrder, setObject
                                     <styles.OrderRow>
                                         <styles.Label bold fs14>Итого к оплате:</styles.Label>
                                         <styles.Label bold
-                                                      fs14>{order.orderItemList.reduce((accumulator, item) => ((item.book.price * item.count) + accumulator), 0)}
+                                                      fs14>{order.orderItemList.reduce((accumulator, item) => ((item.book.price * item.count) + accumulator), 0) + order.sendPrice - order.discount}
                                             ₽
                                         </styles.Label>
                                     </styles.OrderRow>
@@ -376,7 +404,7 @@ const Order = ({order, setObjectAttr, cart, step, nextStep, makeOrder, setObject
                             <styles.OrderRow>
                                 <styles.Label bold>Итого к оплате:</styles.Label>
                                 <styles.Label
-                                    bold>{order.orderItemList.reduce((accumulator, item) => ((item.book.price * item.count) + accumulator), 0)}
+                                    bold>{order.orderItemList.reduce((accumulator, item) => ((item.book.price * item.count) + accumulator), 0) + order.sendPrice - order.discount}
                                     ₽
                                 </styles.Label>
                             </styles.OrderRow>
