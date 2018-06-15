@@ -5,22 +5,29 @@ import AdminFooter from "../../containers/AdminFooter";
 import AdminHeader from "../../containers/AdminHeader";
 import Screen from "../../components/Screen";
 import ObjectEditList from "../../containers/ObjectEditList";
-
+import ProfileBlock from "../../containers/ProfileBlock";
 
 import * as flashActions from "../../store/flash/actions";
 
 class AdminScreen extends Component {
 
   render() {
-
-
-    return (
-      <Screen horizontalCenter verticalCenter>
-        <AdminHeader/>
-        <ObjectEditList {...this.props}/>
-        <AdminFooter/>
-      </Screen>
-    );
+      if(this.props.app.isInitialized){
+          return (
+              <Screen horizontalCenter verticalCenter>
+                  <ProfileBlock/>
+                  <AdminHeader/>
+                  <ObjectEditList {...this.props}/>
+                  <AdminFooter/>
+              </Screen>
+          );
+      }else{
+          return (
+              <Screen horizontalCenter verticalCenter>
+                  <ProfileBlock/>
+              </Screen>
+          );
+      }
   }
 }
 

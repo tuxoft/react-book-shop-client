@@ -6,6 +6,7 @@ import Footer from "../../containers/Footer";
 import Header from "../../containers/Header";
 import Screen from "../../components/Screen";
 import HomeContent from "../../containers/HomeContent";
+import ProfileBlock from "../../containers/ProfileBlock";
 
 
 import * as flashActions from "../../store/flash/actions";
@@ -13,14 +14,22 @@ import * as flashActions from "../../store/flash/actions";
 class MainScreen extends Component {
 
     render() {
-
-        return (
-            <Screen horizontalCenter verticalCenter>
-                <Header {...this.props}/>
-                <HomeContent {...this.props}/>
-                <Footer{...this.props}/>
-            </Screen>
-        );
+        if(this.props.app.isInitialized){
+            return (
+                <Screen horizontalCenter verticalCenter>
+                    <ProfileBlock/>
+                    <Header/>
+                    <HomeContent {...this.props}/>
+                    <Footer/>
+                </Screen>
+            );
+        }else{
+            return (
+                <Screen horizontalCenter verticalCenter>
+                    <ProfileBlock/>
+                </Screen>
+            );
+        }
     }
 }
 

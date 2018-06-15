@@ -5,7 +5,7 @@ import Footer from "../../containers/Footer";
 import Header from "../../containers/Header";
 import Screen from "../../components/Screen";
 import Order from "../../containers/Order";
-
+import ProfileBlock from "../../containers/ProfileBlock";
 
 
 import * as flashActions from "../../store/flash/actions";
@@ -14,14 +14,22 @@ class OrderScreen extends Component {
 
     render() {
 
-
-        return (
-            <Screen horizontalCenter verticalCenter>
-                <Header/>
-                <Order {...this.props}/>
-                <Footer/>
-            </Screen>
-        );
+        if(this.props.app.isInitialized){
+            return (
+                <Screen horizontalCenter verticalCenter>
+                    <ProfileBlock/>
+                    <Header/>
+                    <Order {...this.props}/>
+                    <Footer/>
+                </Screen>
+            );
+        }else{
+            return (
+                <Screen horizontalCenter verticalCenter>
+                    <ProfileBlock/>
+                </Screen>
+            );
+        }
     }
 }
 

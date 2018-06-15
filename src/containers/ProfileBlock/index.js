@@ -5,7 +5,7 @@ import {
     applyMiddleware,
     compose
 } from "redux";
-import { withLastLocation } from "react-router-last-location";
+import {withLastLocation} from "react-router-last-location";
 import {connect} from "react-redux";
 import styled from "styled-components";
 import Keycloak from "keycloak-js";
@@ -57,7 +57,7 @@ export const SimpleLink = styled((props) => <Link {...props} />)`
 `;
 
 export const Wrapper = styled.div`
-    background: transparent;
+    background: #28A9E0;
     margin: 0px;
     color: #fff;
     padding: 3px;
@@ -136,13 +136,20 @@ class ProfileBlock extends Component {
         if (!this.props.isInitialized) {
             let kc = Keycloak({
                 realm: "book-realm",
-                url: ENDPOINT+"/auth",
+                url: ENDPOINT + "/auth",
                 clientId: "front-end",
             });
             kc.init({onLoad: 'check-sso', checkLoginIframe: false}).success(authenticated => {
                 console.log("kc success", kc);
+                if (authenticated) {
+                    axios.interceptors.request.use(config => {
+                        config.headers.Authorization = 'Bearer ' + kc.token;
+                        console.log("axios set config", config);
+                        return config;
+                    });
+                }
                 this.props.actions.app.authenticationInitSuccess(authenticated, kc);
-                if(authenticated){
+                if (authenticated) {
                     this.props.actions.app.authenticationToken(kc);
                     this.props.actions.content.fetchUserMenu();
                 }
@@ -170,29 +177,32 @@ class ProfileBlock extends Component {
         if (this.props.isAuthenticated) {
             return (
                 <Wrapper>
-                    {(this.props.keycloak && this.props.keycloak.idTokenParsed && this.props.keycloak.idTokenParsed.name) && <UserMenuWrapper>
+                    {(this.props.keycloak && this.props.keycloak.idTokenParsed && this.props.keycloak.idTokenParsed.name) &&
+                    <UserMenuWrapper>
                         <UserMenuTitle>
-                        <FaChevronCircleDown/>{" "}{this.props.keycloak.idTokenParsed.name}
+                            <FaChevronCircleDown/>{" "}{this.props.keycloak.idTokenParsed.name}
                         </UserMenuTitle>
-                            <UserMenuItemWrapper>
-                                {this.props.userMenu && this.props.userMenu.map((menuItem) => {
-                                    const icon = menuItem.url === "/profile" ? <FaUser style={{verticalAlign: "text-top"}}/> :
-                                      menuItem.url === "/home" ? <FaHome style={{verticalAlign: "text-top"}}/> :
-                                      menuItem.url === "/admin" ? <FaEdit style={{verticalAlign: "text-top"}}/> : null;
-                                    return (
-                                        <UserMenuItem onClick={() => {
-                                          this.props.history.push(menuItem.url)
-                                        }}>
-                                          {icon}{" "}{menuItem.name}
-                                        </UserMenuItem>);
-                                })}
-                                <UserMenuItem onClick={() => {
-                                  this.props.actions.app.authenticationLogout(this.props.keycloak, this.props.isAuthenticated);
-                                }}>
-                                    <FaSignOut/>{" "}Выйти
-                                </UserMenuItem>
-                            </UserMenuItemWrapper>
-                        </UserMenuWrapper>
+                        <UserMenuItemWrapper>
+                            {this.props.userMenu && this.props.userMenu.map((menuItem) => {
+                                const icon = menuItem.url === "/profile" ?
+                                    <FaUser style={{verticalAlign: "text-top"}}/> :
+                                    menuItem.url === "/home" ? <FaHome style={{verticalAlign: "text-top"}}/> :
+                                        menuItem.url === "/admin" ?
+                                            <FaEdit style={{verticalAlign: "text-top"}}/> : null;
+                                return (
+                                    <UserMenuItem onClick={() => {
+                                        this.props.history.push(menuItem.url)
+                                    }}>
+                                        {icon}{" "}{menuItem.name}
+                                    </UserMenuItem>);
+                            })}
+                            <UserMenuItem onClick={() => {
+                                this.props.actions.app.authenticationLogout(this.props.keycloak, this.props.isAuthenticated);
+                            }}>
+                                <FaSignOut/>{" "}Выйти
+                            </UserMenuItem>
+                        </UserMenuItemWrapper>
+                    </UserMenuWrapper>
                     }
                 </Wrapper>
             );

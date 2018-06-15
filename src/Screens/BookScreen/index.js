@@ -5,7 +5,7 @@ import Footer from "../../containers/Footer";
 import Header from "../../containers/Header";
 import Screen from "../../components/Screen";
 import BookBigCard from "../../containers/BookBigCard";
-
+import ProfileBlock from "../../containers/ProfileBlock";
 
 
 import * as flashActions from "../../store/flash/actions";
@@ -13,15 +13,22 @@ import * as flashActions from "../../store/flash/actions";
 class BookScreen extends Component {
 
     render() {
-
-
-        return (
-            <Screen horizontalCenter verticalCenter>
-                <Header/>
-                <BookBigCard {...this.props}/>
-                <Footer/>
-            </Screen>
-        );
+        if(this.props.app.isInitialized){
+            return (
+                <Screen horizontalCenter verticalCenter>
+                    <ProfileBlock/>
+                    <Header/>
+                    <BookBigCard {...this.props}/>
+                    <Footer/>
+                </Screen>
+            );
+        }else{
+            return (
+                <Screen horizontalCenter verticalCenter>
+                    <ProfileBlock/>
+                </Screen>
+            );
+        }
     }
 }
 
