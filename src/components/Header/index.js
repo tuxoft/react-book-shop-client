@@ -3,14 +3,12 @@ import * as styles from "./styles";
 import {FaSearch} from 'react-icons/lib/fa/';
 import SearchInput from "../simpleComponents/SearchInput/index";
 import HeaderMenu from "../HeaderMenu/index";
-import ProfileBlock from "../../containers/ProfileBlock";
 import {Link} from "react-router-dom";
 const logo = require("../../assets/images/logo.png");
 const cart = require("../../assets/images/cart.png");
 
 const HeaderBody = (props) => (
     <styles.HeaderWrapper>
-        <ProfileBlock/>
         <styles.RowWrapper>
             <styles.LogoWrapper>
                 <Link to={`/`}>

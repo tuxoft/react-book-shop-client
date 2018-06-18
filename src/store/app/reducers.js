@@ -31,14 +31,14 @@ const app = (state = initialState, action) => {
 };
 
 // SET_INITIALIZED
-const setKeycloak = (state, action) => {
+const setInitialized = (state, action) => {
     return {
         ...state,
         isInitialized: action.payload.isInitialized,
     };
 };
 // APP_SET_KEYCLOAK
-const setInitialized = (state, action) => {
+const setKeycloak = (state, action) => {
     return {
         ...state,
         keycloak: action.payload.keycloak,

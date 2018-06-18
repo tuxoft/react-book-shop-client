@@ -5,6 +5,7 @@ import Footer from "../../containers/Footer";
 import Header from "../../containers/Header";
 import Screen from "../../components/Screen";
 import SearchBooks from "../../containers/SearchBooks";
+import ProfileBlock from "../../containers/ProfileBlock";
 
 
 
@@ -13,15 +14,22 @@ import * as flashActions from "../../store/flash/actions";
 class SearchScreen extends Component {
 
     render() {
-
-
-        return (
-            <Screen horizontalCenter verticalCenter>
-                <Header {...this.props} />
-                <SearchBooks {...this.props} />
-                <Footer {...this.props} />
-            </Screen>
-        );
+        if(this.props.app.isInitialized){
+            return (
+                <Screen horizontalCenter verticalCenter>
+                    <ProfileBlock/>
+                    <Header/>
+                    <SearchBooks {...this.props}/>
+                    <Footer/>
+                </Screen>
+            );
+        }else{
+            return (
+                <Screen horizontalCenter verticalCenter>
+                    <ProfileBlock/>
+                </Screen>
+            );
+        }
     }
 }
 
