@@ -4,7 +4,7 @@ import Contur from "../constants/contur";
 export default {
     getInit: () => {
         const ENDPOINT = Contur.get().API;
-        return axios.get(ENDPOINT + "/api/order");
+        return axios.get(ENDPOINT + "/api/order/template");
     },
     getById: (id) => {
         const ENDPOINT = Contur.get().API;

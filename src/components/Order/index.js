@@ -102,7 +102,7 @@ const Order = ({order, setObjectAttr, cart, step, nextStep, makeOrder, setObject
                         {getInput(3, "firstName", "Имя", order, setObjectAttr, validatorText(order.firstName), doValid, "Введите имя")}
                         {getInput(4, "middleName", "Отчество", order, setObjectAttr, true, doValid, "Введите отчество")}
                         {getInput(5, "email", "Эл. почта", order, setObjectAttr, validatorEmail(order.email), (doValid), "Введите почту")}
-                        {getInput(6, "phone", "Телефон +7 (XXX) XXX-XX-XX", order, setObjectAttr, validatorNumber(order.phone), (doValid), "Введите телефон")}
+                        {getInput(6, "phoneNumber", "Телефон +7 (XXX) XXX-XX-XX", order, setObjectAttr, validatorNumber(order.phoneNumber), (doValid), "Введите телефон")}
                         <Checkbox isCheckedControl isChecked={order.isTakeStatusEmail}
                                   labelText="Получать статус заказа по e-mail" onClick={() => {
                             setObjectAttr(!order.isTakeStatusEmail, "isTakeStatusEmail")
