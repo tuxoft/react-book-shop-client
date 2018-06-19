@@ -58,7 +58,7 @@ const Order = ({order, isAuthenticated, keycloak, actions, history, userMenu}) =
                         </styles.Column>
                         <styles.Column leftside w220 rm25>
                             <styles.Label fs12 gray>Телефон</styles.Label>
-                            <styles.Label fs14>{order.phone}</styles.Label>
+                            <styles.Label fs14>{order.phoneNumber}</styles.Label>
                         </styles.Column>
                         <styles.Column leftside w220 rm25>
                             <styles.Label fs12 gray>Способ оповещения</styles.Label>

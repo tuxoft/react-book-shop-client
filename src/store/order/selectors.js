@@ -2,6 +2,11 @@ export const getOrder = (state) => {
     return state.order;
 };
 
+export const getOrders = (state) => {
+    if(!state.order) return null;
+    return [{...state.order}, {...state.order}, {...state.order}, {...state.order}, {...state.order}];
+};
+
 export const getCities = (state) => {
     return state.cities?state.cities.map((citi, indx)=>({
         data: { content: citi.name },

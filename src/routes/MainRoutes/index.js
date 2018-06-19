@@ -10,6 +10,7 @@ import ObjectEditScreen from "../../Screens/ObjectEditScreen/index";
 import ObjectEditListScreen from "../../Screens/ObjectEditListScreen/index";
 import OrderScreen from "../../Screens/OrderScreen/index";
 import OrderStatusScreen from "../../Screens/OrderStatusScreen/index";
+import OrderListStatusScreen from "../../Screens/OrderListStatusScreen/index";
 import AdminScreen from "../../Screens/AdminScreen/index";
 import NotFound from "../../Screens/NotFoundScreen/index";
 
@@ -87,6 +88,18 @@ const Routes = (props) => {
             exact
             path="/admin/change/list/:object"
             render={(props) => <ObjectEditListScreen {...props} />}
+            {...props}
+        />
+        <Route
+            exact
+            path="/order-list/:id"
+            render={(props) => <OrderListStatusScreen {...props} />}
+            {...props}
+        />
+        <Route
+            exact
+            path="/order-list"
+            render={(props) => <Redirect to={"/order-list/all"} {...props} />}
             {...props}
         />
         <Route
