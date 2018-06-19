@@ -183,14 +183,14 @@ class ProfileBlock extends Component {
                             <FaChevronCircleDown/>{" "}{this.props.keycloak.idTokenParsed.name}
                         </UserMenuTitle>
                         <UserMenuItemWrapper>
-                            {this.props.userMenu && this.props.userMenu.map((menuItem) => {
+                            {this.props.userMenu && this.props.userMenu.map((menuItem, indx) => {
                                 const icon = menuItem.url === "/profile" ?
                                     <FaUser style={{verticalAlign: "text-top"}}/> :
                                     menuItem.url === "/home" ? <FaHome style={{verticalAlign: "text-top"}}/> :
                                         menuItem.url === "/admin" ?
                                             <FaEdit style={{verticalAlign: "text-top"}}/> : null;
                                 return (
-                                    <UserMenuItem onClick={() => {
+                                    <UserMenuItem key={"menuItem-"+indx} onClick={() => {
                                         this.props.history.push(menuItem.url)
                                     }}>
                                         {icon}{" "}{menuItem.name}

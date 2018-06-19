@@ -78,7 +78,7 @@ export const CartTableHeaderItem = styled.div`
     font-size: 12px;
     line-height: 30px;
     color: gray;
-    ${props => props.name && `
+    ${props => props.product && `
        width: 850px;
     `}
      ${props => props.count && `

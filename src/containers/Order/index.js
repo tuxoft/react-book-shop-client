@@ -94,7 +94,7 @@ class Order extends Component {
         if(!this.validatorText(order.lastName))return true;
         if(!this.validatorText(order.firstName))return true;
         if(!this.validatorEmail(order.email))return true;
-        if(!this.validatorNumber(order.phone))return true;
+        if(!this.validatorNumber(order.phoneNumber))return true;
         if(!order.isTakeStatusEmail && !order.isTakeStatusSMS)return true;
         if(!order.isAge18)return true;
         return false;

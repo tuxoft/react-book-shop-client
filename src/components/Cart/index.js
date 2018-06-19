@@ -36,7 +36,7 @@ const Cart = ({cart, block, boxItemsCount, setBookCount, selectedBooks, selectAl
 
                 {(cart.cartItemList && boxItemsCount !== 0) &&
                 <styles.CartTableHeader>
-                    <styles.CartTableHeaderItem name>Товар</styles.CartTableHeaderItem>
+                    <styles.CartTableHeaderItem product>Товар</styles.CartTableHeaderItem>
                     <styles.CartTableHeaderItem count>Количество</styles.CartTableHeaderItem>
                     <styles.CartTableHeaderItem kg>Вес</styles.CartTableHeaderItem>
                     <styles.CartTableHeaderItem price>Сумма</styles.CartTableHeaderItem>
@@ -70,7 +70,6 @@ const Cart = ({cart, block, boxItemsCount, setBookCount, selectedBooks, selectAl
                                 ))}
                             </styles.CartOrderItemDescriptionInfo>
                             <styles.CartOrderItemDescriptionRightInfo>
-
                                 <styles.CartOrderItemDescriptionRightInfoCountControl>
                                     <styles.CartOrderItemDescriptionRightInfo>
                                         <styles.Button onClick={(val) => {
