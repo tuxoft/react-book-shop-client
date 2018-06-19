@@ -99,8 +99,6 @@ const ObjectEdit = ({
   };
 
   const getOneFromList = (indx, name, dictionary, parametrName, object, data, setObjAttr, searchInDictionary, clearSuggest) => {
-    console.log("object", object);
-    console.log("name", name);
     const disabled = (name === "bookSeries" && (object.publisher == null || object.publisher && object.publisher.id == null))? true : false;
     return (<styles.Row key={indx?"row"+indx:"row"}>
       <styles.RowItem>

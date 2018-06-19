@@ -12,18 +12,18 @@ export const getCities = (state) => {
 };
 
 export const getSelectCity = (state) => {
-    return state.selectCity;
+    return state.cities.find((city) => city.id == state.selectCity);
 };
 
 export const getPickupPoint = (state) => {
     return state.pickupPoint?state.pickupPoint.map((point, indx)=>({
         "geometry": {"coordinates": point.coords},
         "properties": {
-            orgId: point.orgId,
-            orgName: point.orgName,
-            orgWorkPeriod: point.orgWorkPeriod,
-            orgIconUrl: point.orgIconUrl,
-            orgAddr: point.orgAddr,
+            orgId: point.id,
+            orgName: point.name,
+            orgWorkPeriod: point.workPeriod,
+            orgIconUrl: point.iconUrl,
+            orgAddr: point.addr,
             payCase: point.payCase
         },
         "options": {
@@ -32,3 +32,28 @@ export const getPickupPoint = (state) => {
         }
     })):[];
 };
+
+export const getOriginalPickupPoints = (state) => {
+    return state.pickupPoint ? state.pickupPoint : [];
+};
+
+export const getPickupPointsRangeCost = (state) => {
+    let cost = "";
+    if (state.pickupPoint) {
+        let minCost, maxCost;
+        state.pickupPoint.forEach((pickupPoint, indx) => {
+            if (pickupPoint.sendPrice > maxCost || indx == 0) {
+                 maxCost = pickupPoint.sendPrice
+            };
+            if (pickupPoint.sendPrice < minCost || indx == 0) {
+              minCost = pickupPoint.sendPrice
+            };
+        });
+        if (minCost === maxCost) {
+            cost = minCost + " ₽"
+        } else {
+            cost = minCost + " - " + maxCost + " ₽"
+        }
+    }
+    return cost;
+}

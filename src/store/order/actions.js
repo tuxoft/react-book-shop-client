@@ -38,10 +38,10 @@ export const setPickupCities = (cities) => ({
     }
 });
 export const SELECT_CITY = "SELECT_CITY";
-export const selectCity = (city) => ({
+export const selectCity = (cityId) => ({
     type: SELECT_CITY,
     payload: {
-        city
+        cityId
     }
 });
 export const SET_ORDER_ORDER = "SET_ORDER_ORDER";

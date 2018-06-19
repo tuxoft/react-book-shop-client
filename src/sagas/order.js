@@ -27,6 +27,9 @@ function* initOrder(action) {
         console.log("initOrder ");
         const order = yield call(Api.order.getInit);
         yield put(orderActions.setOrder(order.data));
+        if (order.data && order.data.shopCity && order.data.shopCity.id) {
+          yield put(orderActions.selectCity(order.data.shopCity.id));
+        }
     } catch (error) {
         console.log("initOrder error", error);
         yield put(
@@ -61,9 +64,6 @@ function* getPickupCities(action) {
         console.log("getPickupCities ");
         const cities = yield call(Api.order.getCities);
         yield put(orderActions.setPickupCities(cities.data));
-        if(cities.data.length && cities.data.length>0){
-            yield put(orderActions.getPickupPoint(cities.data[0].id));
-        }
     } catch (error) {
         console.log("getPickupCities error", error);
         yield put(
@@ -95,6 +95,20 @@ function* makeOrder(action) {
     }
 }
 
+// WORKERS
+function* selectCity(action) {
+  try {
+    yield put(orderActions.getPickupPoint(action.payload.cityId));
+  } catch (error) {
+    yield put(
+      flashActions.showFlash(
+        "Ошибка! Данные не получены",
+        "danger",
+        true,
+      ),
+    );
+  }
+}
 
 // WATCHERS
 function* fetchOrderFlow() {
@@ -112,6 +126,9 @@ function* getPickupCitiesFlow() {
 function* makeOrderFlow() {
     yield takeLatest(orderActions.MAKE_ORDER, makeOrder);
 }
+function* selectCityFlow() {
+  yield takeLatest(orderActions.SELECT_CITY, selectCity);
+}
 
 export default function* order() {
   yield all([
@@ -120,5 +137,6 @@ export default function* order() {
       getPickupPointFlow(),
       getPickupCitiesFlow(),
       makeOrderFlow(),
+      selectCityFlow()
   ]);
 }

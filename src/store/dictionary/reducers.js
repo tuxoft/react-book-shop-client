@@ -8,7 +8,8 @@ const initialState = {
     ageLimit: [],
     coverType: [],
     city: [],
-    language: []
+    language: [],
+    shopCity: []
 };
 
 const dictionary = (state = initialState, action) => {

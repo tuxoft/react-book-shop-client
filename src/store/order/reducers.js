@@ -5,47 +5,11 @@ const initialState = {
         sendPrice: 0,
         addr: {}
     },
-    cities:[{
-        data: { content: 'Saint-Petersburg' },
-        options: { selectOnClick: false },
-        coords: [55.76, 37.64],
-    },
-        {
-            data: { content: 'U-U' },
-            options: { selectOnClick: false },
-            coords: [51.811704, 107.623283],
-        }],
+    cities:[],
     selectCity:{
-       coords: [55.76, 37.64]
+       coords: []
     },
-    pickupPoint:[{"geometry": {"coordinates": [55.76, 37.64]},
-        "properties": {
-            "balloonContent": "organization",
-            orgId: "1",
-            orgName: "PickPoint",
-            orgWorkPeriod: "09:-20:00",
-            orgIconUrl: "http://placehold.it/85x22",
-            orgAddr: "Улан-Удэ, Республика Бурятия, 670961, Улан-Удэ, Смолина ул., 54",
-            payCase: "Наличные и банковская карта"
-        },
-        "options": {
-            "preset": "islands#icon",
-            "iconColor": "#0095b6"
-        }},
-        {"geometry": {"coordinates": [55.76, 37.65]},
-            "properties": {
-                "balloonContent": "organization",
-                orgId: "2",
-                orgName: "PickPoint2",
-                orgWorkPeriod: "09:-20:00",
-                orgIconUrl: "http://placehold.it/85x22",
-                orgAddr: "Улан-Удэ, Республика Бурятия, 670961, Улан-Удэ, Смолина ул., 54",
-                payCase: "Наличные и банковская карта"
-            },
-            "options": {
-                "preset": "islands#icon",
-                "iconColor": "#0095b6"
-            }}]
+    pickupPoint:[]
 };
 
 const books = (state = initialState, action) => {
@@ -72,7 +36,7 @@ const books = (state = initialState, action) => {
 const selectCity = (state, action) => {
     return {
         ...state,
-        selectCity: action.payload.city
+        selectCity: action.payload.cityId
     };
 };
 // SET_ORDER_ORDER

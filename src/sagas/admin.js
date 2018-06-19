@@ -8,7 +8,7 @@ import Api from "../api";
 // WORKERS
 function* searchDictionary(action) {
   try {
-    const dictionary = yield call(Api.admin.searchDictionary, {...action.payload.value, dictionary: action.payload.type});
+    const dictionary = yield call(Api.dictionary.searchDictionary, {...action.payload.value, dictionary: action.payload.type});
     yield put(dictionaryActions.setDictionary(dictionary.data.data, action.payload.type));
   } catch (error) {
     yield put(
@@ -24,7 +24,7 @@ function* searchDictionary(action) {
 // WORKERS
 function* fetchDictionary(action) {
   try {
-    const dictionary = yield call(Api.admin.getDictionary, {...action.payload.value, dictionary: action.payload.type});
+    const dictionary = yield call(Api.dictionary.getDictionary, {...action.payload.value, dictionary: action.payload.type});
     yield put(dictionaryActions.setDictionary(dictionary.data.data, action.payload.type));
   } catch (error) {
     yield put(
