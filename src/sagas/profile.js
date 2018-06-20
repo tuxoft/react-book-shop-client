@@ -21,14 +21,36 @@ function* fetchProfile(action) {
         );
     }
 }
+// WORKERS
+function* saveProfile(action) {
+    try {
+        console.log("saveProfile ");
+        const profile = yield call(Api.profile.put);
+        yield put(profileActions.setProfile(profile.data));
+    } catch (error) {
+        console.log("saveProfile error", error);
+        yield put(
+            flashActions.showFlash(
+                "Ошибка! Данные не получены",
+                "danger",
+                true,
+            ),
+        );
+    }
+}
 
 // WATCHERS
 function* fetchProfileFlow() {
     yield takeLatest(profileActions.FETCH_PROFILE, fetchProfile);
 }
+// WATCHERS
+function* saveProfileFlow() {
+    yield takeLatest(profileActions.SAVE_PROFILE, saveProfile);
+}
 
 export default function* profile() {
   yield all([
       fetchProfileFlow(),
+      saveProfileFlow(),
   ]);
 }

@@ -11,4 +11,11 @@ export const setProfile = (profile) => ({
         profile
     }
 });
+export const SAVE_PROFILE = "SAVE_PROFILE";
+export const saveProfile = (profile) => ({
+    type: SAVE_PROFILE,
+    payload: {
+        profile
+    }
+});
 
