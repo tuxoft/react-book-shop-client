@@ -10,6 +10,7 @@ import ObjectEditScreen from "../../Screens/ObjectEditScreen/index";
 import ObjectEditListScreen from "../../Screens/ObjectEditListScreen/index";
 import OrderScreen from "../../Screens/OrderScreen/index";
 import OrderStatusScreen from "../../Screens/OrderStatusScreen/index";
+import MyProfileScreen from "../../Screens/MyProfileScreen/index";
 import OrderListStatusScreen from "../../Screens/OrderListStatusScreen/index";
 import AdminScreen from "../../Screens/AdminScreen/index";
 import NotFound from "../../Screens/NotFoundScreen/index";
@@ -112,6 +113,12 @@ const Routes = (props) => {
             exact
             path="/order"
             render={(props) => <OrderScreen {...props} />}
+            {...props}
+        />
+        <Route
+            exact
+            path="/my-profile"
+            render={(props) => <MyProfileScreen {...props} />}
             {...props}
         />
         <Route component={NotFound}/>

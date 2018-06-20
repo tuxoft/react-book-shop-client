@@ -10,6 +10,10 @@ export default {
         const ENDPOINT = Contur.get().API;
         return axios.get(ENDPOINT + "/api/order/"+id);
     },
+    getList: (id) => {
+        const ENDPOINT = Contur.get().API;
+        return axios.get(ENDPOINT + "/api/orders/"+id);
+    },
     makeOrder: (params) => {
         const ENDPOINT = Contur.get().API;
         return axios.put(

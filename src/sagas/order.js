@@ -94,11 +94,30 @@ function* makeOrder(action) {
         );
     }
 }
-
+// WORKERS
+function* fetchOrderList(action) {
+    try {
+        console.log("fetchOrderList ", action.payload.id);
+        const list = yield call(Api.order.getList, action.payload.id);
+        yield put(orderActions.setOrderList(list.data));
+    } catch (error) {
+        console.log("fetchOrderList error", error);
+        yield put(
+            flashActions.showFlash(
+                "Ошибка! Данные не получены",
+                "danger",
+                true,
+            ),
+        );
+    }
+}
 
 // WATCHERS
 function* fetchOrderFlow() {
     yield takeLatest(orderActions.FETCH_ORDER, fetchOrder);
+}
+function* fetchOrderListFlow() {
+    yield takeLatest(orderActions.FETCH_ORDER_LIST, fetchOrderList);
 }
 function* initOrderFlow() {
     yield takeLatest(orderActions.INIT_ORDER, initOrder);
@@ -116,6 +135,7 @@ function* makeOrderFlow() {
 export default function* order() {
   yield all([
       fetchOrderFlow(),
+      fetchOrderListFlow(),
       initOrderFlow(),
       getPickupPointFlow(),
       getPickupCitiesFlow(),

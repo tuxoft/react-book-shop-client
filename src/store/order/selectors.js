@@ -3,8 +3,7 @@ export const getOrder = (state) => {
 };
 
 export const getOrders = (state) => {
-    if(!state.order) return null;
-    return [{...state.order}, {...state.order}, {...state.order}, {...state.order}, {...state.order}];
+    return state.list;
 };
 
 export const getCities = (state) => {
