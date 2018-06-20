@@ -3,6 +3,7 @@ import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import * as appActions from "../../store/app/actions";
 import * as orderActions from "../../store/order/actions";
+import * as profileActions from "../../store/profile/actions";
 import MyProfileComponet from "../../components/MyProfile";
 import * as appSelectors from "../../store/app/selectors";
 import * as contentSelectors from "../../store/content/selectors";
@@ -17,6 +18,7 @@ class MyProfile extends Component {
             this.props.actions.app.authenticationLogin(this.props.keycloak, this.props.authenticated);
         }
         this.props.actions.order.fetchOrderList("active");
+        this.props.actions.profile.fetchProfile();
     }
 
     render() {
@@ -43,6 +45,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
         ...ownProps.actions,
         app: bindActionCreators(appActions, dispatch),
         order: bindActionCreators(orderActions, dispatch),
+        profile: bindActionCreators(profileActions, dispatch),
     },
 });
 
