@@ -9,6 +9,7 @@ function* fetchProfile(action) {
     try {
         console.log("fetchProfile ");
         const profile = yield call(Api.profile.get);
+        console.log("profile ", profile);
         yield put(profileActions.setProfile(profile.data));
     } catch (error) {
         console.log("fetchProfile error", error);
@@ -24,8 +25,8 @@ function* fetchProfile(action) {
 // WORKERS
 function* saveProfile(action) {
     try {
-        console.log("saveProfile ");
-        const profile = yield call(Api.profile.put);
+        console.log("saveProfile ", action.payload.profile);
+        const profile = yield call(Api.profile.put, action.payload.profile);
         yield put(profileActions.setProfile(profile.data));
     } catch (error) {
         console.log("saveProfile error", error);

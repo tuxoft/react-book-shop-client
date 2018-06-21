@@ -7,6 +7,8 @@ const initialState = {
         middleName: "Владимирович",
         lastName: "Путин",
         phoneNumber: "+79000000001",
+        sex: "male",
+        birthdate: null,
     },
 };
 

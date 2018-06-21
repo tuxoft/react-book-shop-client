@@ -13,6 +13,34 @@ import * as profileSelectors from "../../store/profile/selectors";
 
 class EditMyProfile extends Component {
 
+    setObjectAttr = (val, field)=>{
+        let profile = {
+            ...this.props.profile,
+            [field]: val,
+        };
+        this.props.actions.profile.setProfile(profile);
+    };
+
+    validatorEmail = (val) => {
+        if (!val) {
+            return false;
+        }
+        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(val.toLowerCase());
+    };
+
+    validatorNumber = (val) => {
+        if (!val) {
+            return false;
+        }
+        var re = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/;
+        return re.test(val.toLowerCase());
+    };
+
+    saveProfile = ()=>{
+        this.props.actions.profile.saveProfile(this.props.profile);
+    };
+
     componentDidMount() {
         if(!this.props.authenticated){
             this.props.actions.app.authenticationLogin(this.props.keycloak, this.props.authenticated);
@@ -22,10 +50,15 @@ class EditMyProfile extends Component {
     }
 
     render() {
+        console.log("profile rend", this.props.profile);
         return (
             <EditMyProfileComponet
                 {...this.state}
                 {...this.props}
+                setObjectAttr={this.setObjectAttr}
+                validatorEmail={this.validatorEmail}
+                validatorNumber={this.validatorNumber}
+                saveProfile={this.saveProfile}
             />
         );
     }

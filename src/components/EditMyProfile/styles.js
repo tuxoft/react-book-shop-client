@@ -38,6 +38,12 @@ export const Row = styled.div`
             justify-content: flex-end;
             margin-top: 5px;
         `}
+        ${props => props.w400 && `
+            width: 400px;
+        `}
+        ${props => props.mt0 && `
+            margin-top: 0px;
+        `}
 `;
 
 export const RowItem = styled.div`
@@ -85,6 +91,9 @@ export const Label = styled.div`
     `}    
     ${props => props.lm15 && `
        margin-left: 15px;
+    `}
+    ${props => props.rm15 && `
+       margin-right: 15px;
     `}
     ${props => props.mb10 && `
        margin-bottom: 10px;
@@ -234,4 +243,42 @@ export const CartWrapper = styled.div`
     flex-direction: column;
     align-items: center;
     width: 710px;
+`;
+
+export const OrderButton = styled.div`
+    display: block;
+    width: 200px;
+    height: 50px;
+    margin-top: 25px;
+    margin-bottom: 0;
+    font-size: 18px;
+    line-height: 45px;
+    background-color: #fb7543;
+    cursor: pointer;
+    border-radius: 5px;
+    color: #fff;
+    text-align: center;
+    padding-top: 5px;
+    margin-bottom: 25px;
+    ${props => props.short && `
+        width: 200px;
+    `}
+`;
+
+export const Input = styled.input.attrs({ type: "text" })`
+    width: 100%;
+    padding: 3px 0;
+    border: 0;
+    border-bottom: 1px solid gray;
+    color: #333;
+    transition: .3s;
+    line-height: normal;
+    font-family: 'PT Sans',sans-serif;
+    font: inherit;
+    margin: 0;
+    background-color: white;
+    cursor: text;
+    ${props => props.redAlert && `
+       border-color: red;
+    `}
 `;
