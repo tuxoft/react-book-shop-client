@@ -45,7 +45,6 @@ class EditMyProfile extends Component {
         if(!this.props.authenticated){
             this.props.actions.app.authenticationLogin(this.props.keycloak, this.props.authenticated);
         }
-        this.props.actions.order.fetchOrderList("active");
         this.props.actions.profile.fetchProfile();
     }
 

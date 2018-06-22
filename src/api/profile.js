@@ -9,8 +9,7 @@ export default {
     put: (params) => {
         const ENDPOINT = Contur.get().API;
         return axios.put(
-            ENDPOINT + "/api/profile",
-            {params}
+            ENDPOINT + "/api/profile", params
         );
     },
 };
