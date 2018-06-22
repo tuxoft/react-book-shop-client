@@ -32,13 +32,15 @@ class Order extends Component {
 
     mapSelectBalloon = (a) =>{
         const pickupPoint = this.props.pickupPoints.find((pickupPoint) => pickupPoint.id == a.target.id);
-        this.setObjectMultiAttr([{val: a.target.id, field: "selfTakeOrgId"}, {field: "sendPrice", val: pickupPoint && pickupPoint.sendPrice ? pickupPoint.sendPrice : 0}]);
+        this.setObjectMultiAttr([
+          {val: a.target.id, field: "sendOrgId"},
+          {field: "sendPrice", val: pickupPoint && pickupPoint.sendPrice ? pickupPoint.sendPrice : 0},
+          {field: "sendOrg", val: pickupPoint},
+        ]);
         this.nextStep();
     };
 
     setObjectAttr = (val, field)=> {
-        console.log("val", val);
-        console.log("field", field);
         let order = {...this.props.order};
         order[field]=val;
         this.props.actions.order.setOrder(order);
@@ -109,14 +111,12 @@ class Order extends Component {
     };
 
     validateStep2 = (order)=>{
-        if(order.sendType === "selftake")return false;
         if(!this.validatorText(order.addr.city))return true;
         if(!this.validatorText(order.addr.index))return true;
         if(!this.validatorText(order.addr.street))return true;
         if(!this.validatorText(order.addr.house))return true;
         if(!this.validatorText(order.addr.room))return true;
-        if(order.sendType === "curier" && (!order.curierService || order.curierService === ''))return true;
-        if(order.sendType === "ruMail" && (!order.mailService || order.mailService === ''))return true;
+        if(!order.sendOrgId || order.sendOrgId === "") return true;
         return false;
     };
 
@@ -180,8 +180,6 @@ class Order extends Component {
     };
 
     render() {
-        console.log("order", this.props.order);
-        console.log("selectCity", this.props.selectCity);
         return (
             <OrderComponet
                 {...this.state}
@@ -190,7 +188,6 @@ class Order extends Component {
                 setObjectAddr={this.setObjectAddr}
                 nextStep = {this.nextStep}
                 makeOrder = {this.makeOrder}
-                onCitySelect = {this.props.actions.order.selectCity}
                 setStep={this.setStep}
                 doValid={this.state.doValid}
                 validatorId={this.validatorId}
@@ -215,7 +212,10 @@ const mapStateToProps = ({app, buscket, order, dictionary}) => ({
     placemarks: orderSelectors.getPickupPoint(order),
     order: orderSelectors.getOrder(order),
     pickupPoints: orderSelectors.getOriginalPickupPoints(order),
+    courierService: orderSelectors.getCourierService(order),
+    mailService: orderSelectors.getMailService(order),
     pickupPointsRangeCost: orderSelectors.getPickupPointsRangeCost(order),
+    courierServiceRangeCost: orderSelectors.getCourierServiceRangeCost(order),
     data: dictionary
 });
 

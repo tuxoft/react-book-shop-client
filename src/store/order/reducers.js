@@ -9,7 +9,9 @@ const initialState = {
     selectCity:{
        coords: []
     },
-    pickupPoint:[]
+    pickupPoint:[],
+    courierService:[],
+    mailService:[],
 };
 
 const books = (state = initialState, action) => {
@@ -22,6 +24,12 @@ const books = (state = initialState, action) => {
         }
         case actions.SET_PICKUP_POINT: {
             return setPickupPoint(state, action);
+        }
+        case actions.SET_COURIER_SERVICE: {
+            return setCourierService(state, action);
+        }
+        case actions.SET_MAIL_SERVICE: {
+            return setMailService(state, action);
         }
         case actions.SET_PICKUP_CITIES: {
             return setPickupCities(state, action);
@@ -52,6 +60,20 @@ const setPickupPoint = (state, action) => {
         ...state,
         pickupPoint: action.payload.pickupPoint
     };
+};
+// SET_COURIER_SERVICE
+const setCourierService = (state, action) => {
+  return {
+    ...state,
+    courierService: action.payload.courierService
+  };
+};
+// SET_MAIL_SERVICE
+const setMailService = (state, action) => {
+  return {
+    ...state,
+    mailService: action.payload.mailService
+  };
 };
 // SET_PICKUP_CITIES
 const setPickupCities = (state, action) => {

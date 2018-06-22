@@ -1,9 +1,10 @@
 import React from "react";
 import ReactDOMServer from 'react-dom/server';
 import * as styles from "./styles";
-import {FaPhone, FaCheck, FaMapMarker, FaClockO, FaCreditCardAlt, FaCircleO, FaDotCircleO} from 'react-icons/lib/fa/';
+import {FaPhone, FaCheck, FaMapMarker, FaClockO, FaCreditCardAlt, FaCircleO, FaDotCircleO, FaHome} from 'react-icons/lib/fa/';
 import Checkbox from "../simpleComponents/Checkbox";
 import {YMaps, Map, Placemark, Clusterer, ListBox, ListBoxItem,} from 'react-yandex-maps';
+import { getAddress } from "../../utils"
 
 
 const Order = ({
@@ -16,8 +17,6 @@ const Order = ({
   setObjectAddr,
   setObjectMultiAttr,
   placemarks,
-  cities,
-  onCitySelect,
   selectCity,
   setStep,
   doValid,
@@ -28,7 +27,10 @@ const Order = ({
   data,
   searchInDictionary,
   clearSuggest,
-  pickupPointsRangeCost
+  pickupPointsRangeCost,
+  courierService,
+  courierServiceRangeCost,
+  mailService
 }) => {
   const getOneFromList = (indx, name, dictionary, parametrName, object, data, setObjAttr, searchInDictionary, clearSuggest, validator, doValid, alertText) => {
     return (<styles.RowItem big key={indx?"row"+indx:"row"}>
@@ -89,6 +91,25 @@ const Order = ({
             <styles.Label>
               <styles.Label fs14 bold black>{"Самовывоз из пунктов выдачи"}</styles.Label>
               <styles.Label fs14 bold black>{"Стоимость доставки: " + order.sendPrice + " ₽"}</styles.Label>
+              <styles.Label fs14 notBold black><FaHome style={{verticalAlign: "text-top"}}/>{" "}{order.sendOrg.addr}</styles.Label>
+              <styles.Label fs14 notBold black><FaClockO style={{verticalAlign: "text-top"}}/>{" "}{order.sendOrg.workPeriod}</styles.Label>
+            </styles.Label>
+          )
+        } else if (order.sendType == "courierService") {
+          return (
+            <styles.Label>
+              <styles.Label fs14 bold black>{"Доставка курьерской службой: " + order.sendOrg.name}</styles.Label>
+              <styles.Label fs14 bold black>{"Стоимость доставки: " + order.sendPrice + " ₽"}</styles.Label>
+              <styles.Label fs14 notBold black><FaHome style={{verticalAlign: "text-top"}}/>{" "}{getAddress(order.addr)}</styles.Label>
+            </styles.Label>
+          )
+        } else if (order.sendType == "mailService") {
+          return (
+            <styles.Label>
+              <styles.Label fs14 bold black>{"Доставка почтой"}</styles.Label>
+              <styles.Label fs14 bold black>{order.sendOrg.name}</styles.Label>
+              <styles.Label fs14 bold black>{"Стоимость доставки: " + order.sendPrice + " ₽"}</styles.Label>
+              <styles.Label fs14 notBold black><FaHome style={{verticalAlign: "text-top"}}/>{" "}{getAddress(order.addr)}</styles.Label>
             </styles.Label>
           )
         }
@@ -211,18 +232,27 @@ const Order = ({
           {getStep(2, "Доставка", (<FaPhone
             style={{color: "#26a9e0"}}/>), getNote(2, step > 2, order), step, step === 2)}
           {step === 2 && <styles.Column animationHeight>
-            <styles.SelectBlock onClick={() => {
-              setObjectMultiAttr([{field: "sendType", val: "selftake"}, {
-                field: "curierService",
-                val: ""
-              }, {field: "mailService", val: ""}]);
+            {placemarks && placemarks.length > 0 && <styles.SelectBlock onClick={() => {
+              const val = order.sendType === "selftake" ? "" : "selftake";
+              setObjectMultiAttr([{
+                field: "sendType",
+                val: val
+              },
+              {
+                field: "sendOrgId",
+                val: val === "" ? "" : order.sendOrgId
+              },
+              {
+                field: "sendPrice",
+                val: val === "" ? "" : order.sendPrice
+              }]);
             }}>
               <styles.SelectBlockRow>
                 <styles.Label bold>Самовывоз из пунктов выдачи</styles.Label>
                 <styles.Label>{pickupPointsRangeCost}</styles.Label>
               </styles.SelectBlockRow>
-            </styles.SelectBlock>
-            {order.sendType === "selftake" && <styles.Column>
+            </styles.SelectBlock>}
+            {order.sendType === "selftake" && <styles.Column animationHeight>
               <styles.YMapWrapper>
                 <YMaps>
                   <Map state={mapState} width={1000} height={600}>
@@ -241,104 +271,152 @@ const Order = ({
                 </YMaps>
               </styles.YMapWrapper>
             </styles.Column>}
-            <styles.SelectBlock onClick={() => {
-              setObjectAttr("curier", "sendType")
+            {courierService && courierService.length > 0 &&<styles.SelectBlock onClick={() => {
+              const val = order.sendType === "courierService" ? "" : "courierService";
+              setObjectMultiAttr([{
+                  field: "sendType",
+                  val: val
+                },
+                {
+                  field: "sendOrgId",
+                  val: val === "" ? "" : order.sendOrgId
+                },
+                {
+                  field: "sendPrice",
+                  val: val === "" ? "" : order.sendPrice
+                }]);
             }}>
               <styles.SelectBlockRow>
                 <styles.Label bold>Курьер</styles.Label>
-                <styles.Label>380 ₽</styles.Label>
+                <styles.Label>{courierServiceRangeCost}</styles.Label>
               </styles.SelectBlockRow>
-            </styles.SelectBlock>
-            {order.sendType === "curier" && <styles.Column>
+            </styles.SelectBlock>}
+            {order.sendType === "courierService" && <styles.Column animationHeight>
               <styles.Label bold>Адрес</styles.Label>
-              {getInput(7, "city", "Город", order, setObjectAddr, validatorText(order.addr.city), doValid, "Введите город")}
-              {getInput(8, "index", "Индекс", order, setObjectAddr, validatorText(order.addr.index), doValid, "Введите индекс")}
-              {getInput(9, "street", "Улица", order, setObjectAddr, validatorText(order.addr.street), doValid, "Введите улицу")}
-              {getInput(10, "house", "Дом", order, setObjectAddr, validatorText(order.addr.house), doValid, "Введите дом")}
-              {getInput(11, "housing", "Корпус", order, setObjectAddr, true, doValid, "Введите корпус")}
-              {getInput(12, "building", "Строение", order, setObjectAddr, true, doValid, "Введите строение")}
-              {getInput(13, "room", "Квартира", order, setObjectAddr, validatorText(order.addr.room), doValid, "Введите номер квартиры")}
+              {getInput(7, "city", "Город", order.addr, setObjectAddr, validatorText(order.addr.city), doValid, "Введите город")}
+              {getInput(8, "index", "Индекс", order.addr, setObjectAddr, validatorText(order.addr.index), doValid, "Введите индекс")}
+              {getInput(9, "street", "Улица", order.addr, setObjectAddr, validatorText(order.addr.street), doValid, "Введите улицу")}
+              {getInput(10, "house", "Дом", order.addr, setObjectAddr, validatorText(order.addr.house), doValid, "Введите дом")}
+              {getInput(11, "housing", "Корпус", order.addr, setObjectAddr, true, doValid, "Введите корпус")}
+              {getInput(12, "building", "Строение", order.addr, setObjectAddr, true, doValid, "Введите строение")}
+              {getInput(13, "room", "Квартира", order.addr, setObjectAddr, validatorText(order.addr.room), doValid, "Введите номер квартиры")}
               <styles.Label bold>Курьерская служба</styles.Label>
               <styles.RadioBox>
-                <styles.RadioRow>
-                  {!(order.curierService === 'DPD') && <FaCircleO style={{width: 60}}
+                {courierService && courierService.map((courier, indx) => (
+                  <styles.RadioRow key={"courierService-" + indx} active={order.sendOrgId === courier.id}>
+                  {!(order.sendOrgId === courier.id) && <FaCircleO style={{width: 60}}
                                                                   onClick={() => {
                                                                     setObjectMultiAttr([{
-                                                                      field: "curierService",
-                                                                      val: "DPD"
+                                                                      field: "sendOrgId",
+                                                                      val: courier.id
                                                                     }, {
                                                                       field: "sendPrice",
-                                                                      val: 300
+                                                                      val: courier.sendPrice
+                                                                    }, {
+                                                                      field: "sendOrg",
+                                                                      val: courier
                                                                     }]);
                                                                   }}/>}
-                  {order.curierService === 'DPD' &&
+                  {order.sendOrgId === courier.id &&
                   <FaDotCircleO style={{color: "#26a9e0", width: 60}}
                                 onClick={() => {
                                   setObjectMultiAttr([{
-                                    field: "curierService",
-                                    val: "DPD"
-                                  }, {field: "sendPrice", val: 300}]);
+                                    field: "sendOrgId",
+                                    val: ""
+                                  }, {
+                                    field: "sendPrice",
+                                    val: ""
+                                  }, {
+                                    field: "sendOrg",
+                                    val: ""
+                                  }]);
                                 }}/>}
                   <styles.RadioLabel>
-                    <span>DPD</span>
+                    <span>{courier.name}</span>
                   </styles.RadioLabel>
                   <styles.RadioLabel>
-                    <styles.Label fs14>380 ₽</styles.Label>
+                    <styles.Label fs14>{courier.sendPrice +" ₽"}</styles.Label>
                   </styles.RadioLabel>
                   <styles.RadioLabel>
-                    <styles.Label fs14>Только наличные, Максимальный вес заказа: 31кг.
+                    <styles.Label fs14>{courier.payCase + ", Максимальный вес заказа: " + courier.maxWeight + " кг."}
                     </styles.Label>
                   </styles.RadioLabel>
-                </styles.RadioRow>
+                </styles.RadioRow>))}
               </styles.RadioBox>
-              {(doValid && (!order.curierService || order.curierService === '')) &&
+              {(doValid && (!order.sendOrgId || order.sendOrgId === '')) &&
               <styles.Label redAlert>выберите курьерскую службу</styles.Label>}
               <styles.OrderButton onClick={nextStep}>Указать способ оплаты</styles.OrderButton>
             </styles.Column>}
 
-            <styles.SelectBlock onClick={() => {
-              setObjectAttr("ruMail", "sendType")
+            {mailService && mailService.length > 0 &&<styles.SelectBlock onClick={() => {
+              const val = order.sendType === "mailService" ? "" : "mailService";
+              setObjectMultiAttr([{
+                  field: "sendType",
+                  val: val
+                },
+                {
+                  field: "sendOrgId",
+                  val: val === "" ? "" : order.sendOrgId
+                },
+                {
+                  field: "sendPrice",
+                  val: val === "" ? "" : order.sendPrice
+                }]);
             }}>
               <styles.Label bold>Почта</styles.Label>
-            </styles.SelectBlock>
-            {order.sendType === "ruMail" && <styles.Column>
+            </styles.SelectBlock>}
+            {order.sendType === "mailService" && <styles.Column animationHeight>
               <styles.Label bold>Адрес</styles.Label>
-              {getInput(7, "city", "Город", order, setObjectAddr, validatorId(order.addr.city), doValid, "Введите город")}
-              {getInput(8, "index", "Индекс", order, setObjectAddr, validatorText(order.addr.index), doValid, "Введите индекс")}
-              {getInput(9, "street", "Улица", order, setObjectAddr, validatorText(order.addr.street), doValid, "Введите улицу")}
-              {getInput(10, "house", "Дом", order, setObjectAddr, validatorText(order.addr.house), doValid, "Введите дом")}
-              {getInput(11, "housing", "Корпус", order, setObjectAddr, true, doValid, "Введите корпус")}
-              {getInput(12, "building", "Строение", order, setObjectAddr, true, doValid, "Введите строение")}
-              {getInput(13, "room", "Квартира", order, setObjectAddr, validatorText(order.addr.room), doValid, "Введите номер квартиры")}
+              {getInput(7, "city", "Город", order.addr, setObjectAddr, validatorId(order.addr.city), doValid, "Введите город")}
+              {getInput(8, "index", "Индекс", order.addr, setObjectAddr, validatorText(order.addr.index), doValid, "Введите индекс")}
+              {getInput(9, "street", "Улица", order.addr, setObjectAddr, validatorText(order.addr.street), doValid, "Введите улицу")}
+              {getInput(10, "house", "Дом", order.addr, setObjectAddr, validatorText(order.addr.house), doValid, "Введите дом")}
+              {getInput(11, "housing", "Корпус", order.addr, setObjectAddr, true, doValid, "Введите корпус")}
+              {getInput(12, "building", "Строение", order.addr, setObjectAddr, true, doValid, "Введите строение")}
+              {getInput(13, "room", "Квартира", order.addr, setObjectAddr, validatorText(order.addr.room), doValid, "Введите номер квартиры")}
 
               <styles.RadioBox>
-                <styles.RadioRow>
-                  {!(order.mailService === 'banderol') && <FaCircleO style={{width: 60}}
+                {mailService && mailService.map((mail, indx) => (
+                <styles.RadioRowWrapper>
+                <styles.RadioRow key={"mailService-" + indx} active={order.sendOrgId === mail.id}>
+                  {!(order.sendOrgId === mail.id) && <FaCircleO style={{width: 60}}
                                                                      onClick={() => {
                                                                        setObjectMultiAttr([{
-                                                                         field: "mailService",
-                                                                         val: "banderol"
-                                                                       },
-                                                                         {
-                                                                           field: "sendPrice",
-                                                                           val: order.orderItemList.reduce((accumulator, item) => ((item.book.weight * item.count) + accumulator), 0) * 0.5
-                                                                         }]);
+                                                                         field: "sendOrgId",
+                                                                         val: mail.id
+                                                                       }, {
+                                                                         field: "sendPrice",
+                                                                         val: mail.sendPrice
+                                                                       }, {
+                                                                         field: "sendOrg",
+                                                                         val: mail
+                                                                       }]);
                                                                      }}/>}
-                  {order.mailService === 'banderol' &&
+                  {order.sendOrgId === mail.id &&
                   <FaDotCircleO style={{color: "#26a9e0", width: 60}}
                                 onClick={() => {
-                                  setObjectMultiAttr([{field: "mailService", val: "banderol"},
-                                    {
-                                      field: "sendPrice",
-                                      val: order.orderItemList.reduce((accumulator, item) => ((item.book.weight * item.count) + accumulator), 0) * 0.5
-                                    }]);
+                                  setObjectMultiAttr([{
+                                    field: "sendOrgId",
+                                    val: ""
+                                  }, {
+                                    field: "sendPrice",
+                                    val: ""
+                                  }, {
+                                    field: "sendOrg",
+                                    val: ""
+                                  }]);
                                 }}/>}
                   <styles.RadioLabel>
-                    <span>Бандероль наложенным платежом</span>
-                    <styles.Label fs14>Стоимость доставки: 100 ₽</styles.Label>
-                    <styles.Label fs14>Комиссия за наложенный платеж: 97.15 ₽</styles.Label>
+                    <styles.Label fs14 bold>{mail.name}</styles.Label>
+                    <styles.Label fs14>{"Стоимость доставки: " + mail.sendPriceCost + " ₽"}</styles.Label>
+                    <styles.Label fs14>{"Комиссия за наложенный платеж: " + mail.sendPriceCommission + " ₽"}</styles.Label>
                   </styles.RadioLabel>
                 </styles.RadioRow>
+                  <styles.Label fs14 justify>
+                    {mail.comment}
+                  </styles.Label>
+                </styles.RadioRowWrapper>
+                  ))}
               </styles.RadioBox>
               {(doValid && (!order.mailService || order.mailService === '')) &&
               <styles.Label redAlert>выберите способ отправки</styles.Label>}
@@ -354,8 +432,7 @@ const Order = ({
                 {!(order.paymentMethod === 'card') &&
                 <FaCircleO style={{width: 60}} onClick={() => setObjectAttr('card', 'paymentMethod')}/>}
                 {order.paymentMethod === 'card' && <FaDotCircleO style={{color: "#26a9e0", width: 60}}
-                                                                 onClick={() => setObjectAttr('card', 'paymentMethod')}/>}
-
+                                                                 onClick={() => setObjectAttr('', 'paymentMethod')}/>}
                 <styles.RadioLabel active={order.paymentMethod === 'card'}>
                   <styles.Label bold>Оплата на сайте</styles.Label>
                   <styles.Label>Оплата банковской картой. После завершения оформления заказа Вы будете
@@ -369,7 +446,7 @@ const Order = ({
                 {!(order.paymentMethod === 'cash') &&
                 <FaCircleO style={{width: 30}} onClick={() => setObjectAttr('cash', 'paymentMethod')}/>}
                 {order.paymentMethod === 'cash' && <FaDotCircleO style={{color: "#26a9e0", width: 30}}
-                                                                 onClick={() => setObjectAttr('cash', 'paymentMethod')}/>}
+                                                                 onClick={() => setObjectAttr('', 'paymentMethod')}/>}
 
                 <styles.RadioLabel active={order.paymentMethod === 'cash'}>
                   <styles.Label bold>Оплата при получении заказа</styles.Label>
@@ -425,24 +502,22 @@ const Order = ({
                   <styles.OrderRow>
                     <styles.Label fs14>Общая сумма:</styles.Label>
                     <styles.Label
-                      fs14>{order.orderItemList.reduce((accumulator, item) => ((item.book.price * item.count) + accumulator), 0)}
-                      ₽
+                      fs14>{order.orderItemList.reduce((accumulator, item) => ((item.book.price * item.count) + accumulator), 0) + " ₽"}
                     </styles.Label>
                   </styles.OrderRow>
                   <styles.OrderRow>
                     <styles.Label fs14>Доставка:</styles.Label>
-                    <styles.Label fs14>{order.sendPrice} ₽</styles.Label>
+                    <styles.Label fs14>{order.sendPrice+" ₽"}</styles.Label>
                   </styles.OrderRow>
                   <styles.OrderRow>
                     <styles.Label fs14>Скидка:</styles.Label>
-                    <styles.Label fs14>{order.discount} ₽</styles.Label>
+                    <styles.Label fs14>{order.discount + " ₽"}</styles.Label>
                   </styles.OrderRow>
                   <br/>
                   <styles.OrderRow>
                     <styles.Label bold fs14>Итого к оплате:</styles.Label>
                     <styles.Label bold
-                                  fs14>{order.orderItemList.reduce((accumulator, item) => ((item.book.price * item.count) + accumulator), 0) + order.sendPrice - order.discount}
-                      ₽
+                                  fs14>{(order.orderItemList.reduce((accumulator, item) => ((item.book.price * item.count) + accumulator), 0) + order.sendPrice - order.discount) + " ₽"}
                     </styles.Label>
                   </styles.OrderRow>
                 </styles.OrderBlock>
@@ -466,24 +541,22 @@ const Order = ({
               <br/>
               <styles.OrderRow>
                 <styles.Label>Сумма заказа:</styles.Label>
-                <styles.Label>{order.orderItemList.reduce((accumulator, item) => ((item.book.price * item.count) + accumulator), 0)}
-                  ₽
+                <styles.Label>{order.orderItemList.reduce((accumulator, item) => ((item.book.price * item.count) + accumulator), 0) + " ₽"}
                 </styles.Label>
               </styles.OrderRow>
               <styles.OrderRow>
                 <styles.Label>Скидка:</styles.Label>
-                <styles.Label>{order.discount} ₽</styles.Label>
+                <styles.Label>{order.discount + " ₽"}</styles.Label>
               </styles.OrderRow>
               <styles.OrderRow>
                 <styles.Label>Доставка:</styles.Label>
-                <styles.Label>{order.sendPrice} ₽</styles.Label>
+                <styles.Label>{(order.sendPrice === null ? "" : order.sendPrice ) + " ₽"}</styles.Label>
               </styles.OrderRow>
               <br/>
               <styles.OrderRow>
                 <styles.Label bold>Итого к оплате:</styles.Label>
                 <styles.Label
-                  bold>{order.orderItemList.reduce((accumulator, item) => ((item.book.price * item.count) + accumulator), 0) + order.sendPrice - order.discount}
-                  ₽
+                  bold>{(order.orderItemList.reduce((accumulator, item) => ((item.book.price * item.count) + accumulator), 0) + order.sendPrice - order.discount) + " ₽"}
                 </styles.Label>
               </styles.OrderRow>
             </styles.OrderBlock>

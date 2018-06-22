@@ -45,3 +45,15 @@ export const getAuthors = (authors) => {
     (author.author.firstName!==undefined && author.author.firstName!== null?(author.author.firstName.substring(0,1)+"."):"") +
     (author.author.middleName!==undefined && author.author.middleName!==null?(author.author.middleName.substring(0,1)+"."):"")) : []
 };
+
+export const getAddress = (address) => {
+  let result ="";
+  for (let key in address) {
+    if (address[key] && address[key].trim() !== "") {
+      result += address[key].trim() + ",";
+    }
+  }
+  result = result.substring(0,result.lastIndexOf(","));
+  return result;
+};
+

@@ -58,6 +58,43 @@ function* getPickupPoint(action) {
         );
     }
 }
+
+// WORKERS
+function* getCourierService(action) {
+  try {
+    console.log("getCourierService ", action.payload.cityId);
+    const courierService = yield call(Api.order.getCourierService, action.payload.cityId);
+    yield put(orderActions.setCourierService(courierService.data));
+  } catch (error) {
+    console.log("getCourierService error", error);
+    yield put(
+      flashActions.showFlash(
+        "Ошибка! Данные не получены",
+        "danger",
+        true,
+      ),
+    );
+  }
+}
+
+// WORKERS
+function* getMailService(action) {
+  try {
+    console.log("getMailService ", action.payload.cityId);
+    const mailService = yield call(Api.order.getMailService, action.payload.cityId);
+    yield put(orderActions.setMailService(mailService.data));
+  } catch (error) {
+    console.log("getMailService error", error);
+    yield put(
+      flashActions.showFlash(
+        "Ошибка! Данные не получены",
+        "danger",
+        true,
+      ),
+    );
+  }
+}
+
 // WORKERS
 function* getPickupCities(action) {
     try {
@@ -99,6 +136,8 @@ function* makeOrder(action) {
 function* selectCity(action) {
   try {
     yield put(orderActions.getPickupPoint(action.payload.cityId));
+    yield put(orderActions.getCourierService(action.payload.cityId));
+    yield put(orderActions.getMailService(action.payload.cityId));
   } catch (error) {
     yield put(
       flashActions.showFlash(
@@ -120,6 +159,12 @@ function* initOrderFlow() {
 function* getPickupPointFlow() {
     yield takeLatest(orderActions.GET_PICKUP_POINT, getPickupPoint);
 }
+function* getCourierServiceFlow() {
+  yield takeLatest(orderActions.GET_COURIER_SERVICE, getCourierService);
+}
+function* getMailServiceFlow() {
+  yield takeLatest(orderActions.GET_MAIL_SERVICE, getMailService);
+}
 function* getPickupCitiesFlow() {
     yield takeLatest(orderActions.GET_PICKUP_CITIES, getPickupCities);
 }
@@ -135,6 +180,8 @@ export default function* order() {
       fetchOrderFlow(),
       initOrderFlow(),
       getPickupPointFlow(),
+      getCourierServiceFlow(),
+      getMailServiceFlow(),
       getPickupCitiesFlow(),
       makeOrderFlow(),
       selectCityFlow()

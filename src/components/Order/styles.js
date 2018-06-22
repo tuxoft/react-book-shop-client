@@ -21,12 +21,20 @@ export const RadioBox = styled.div`
         align-items: start;
 `;
 
+export const RadioRowWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
 export const RadioRow = styled.div`
         display: flex;
         flex-direction: row;
         align-items: start;
         ${props => props.big && `
             
+        `}
+        ${props => props.active && `
+            color:#26a9e0;
         `}
 `;
 
@@ -121,6 +129,9 @@ export const Label = styled.div`
     ${props => props.redAlert && `
        font-size: 12px;
        color: red;
+    `}
+    ${props => props.justify && `
+       text-align: justify;
     `}
     
 `;

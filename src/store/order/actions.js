@@ -25,6 +25,34 @@ export const setPickupPoint = (pickupPoint) => ({
         pickupPoint
     }
 });
+export const GET_MAIL_SERVICE = "GET_MAIL_SERVICE";
+export const getMailService = (cityId) => ({
+  type: GET_MAIL_SERVICE,
+  payload: {
+    cityId
+  }
+});
+export const SET_MAIL_SERVICE = "SET_MAIL_SERVICE";
+export const setMailService = (mailService) => ({
+  type: SET_MAIL_SERVICE,
+  payload: {
+    mailService
+  }
+});
+export const GET_COURIER_SERVICE = "GET_COURIER_SERVICE";
+export const getCourierService = (cityId) => ({
+  type: GET_COURIER_SERVICE,
+  payload: {
+    cityId
+  }
+});
+export const SET_COURIER_SERVICE = "SET_COURIER_SERVICE";
+export const setCourierService = (courierService) => ({
+  type: SET_COURIER_SERVICE,
+  payload: {
+    courierService
+  }
+});
 export const GET_PICKUP_CITIES = "GET_PICKUP_CITIES";
 export const getPickupCities = () => ({
     type: GET_PICKUP_CITIES,
