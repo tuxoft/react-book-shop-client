@@ -118,7 +118,7 @@ const Routes = (props) => {
         />
         <Route
             exact
-            path="/my-profile"
+            path="/profile"
             render={(props) => <MyProfileScreen {...props} />}
             {...props}
         />
