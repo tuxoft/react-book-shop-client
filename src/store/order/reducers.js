@@ -12,6 +12,7 @@ const initialState = {
     pickupPoint:[],
     courierService:[],
     mailService:[],
+    list:[],
 };
 
 const books = (state = initialState, action) => {
@@ -33,6 +34,9 @@ const books = (state = initialState, action) => {
         }
         case actions.SET_PICKUP_CITIES: {
             return setPickupCities(state, action);
+        }
+        case actions.SET_ORDER_LIST: {
+            return setOrderList(state, action);
         }
         default: {
             return state;
@@ -74,6 +78,12 @@ const setMailService = (state, action) => {
     ...state,
     mailService: action.payload.mailService
   };
+// SET_ORDER_LIST
+const setOrderList = (state, action) => {
+    return {
+        ...state,
+        list: action.payload.list
+    };
 };
 // SET_PICKUP_CITIES
 const setPickupCities = (state, action) => {

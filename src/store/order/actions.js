@@ -5,6 +5,20 @@ export const fetchOrder = (id) => ({
         id
     }
 });
+export const FETCH_ORDER_LIST = "FETCH_ORDER_LIST";
+export const fetchOrderList = (id) => ({
+    type: FETCH_ORDER_LIST,
+    payload: {
+        id
+    }
+});
+export const SET_ORDER_LIST = "SET_ORDER_LIST";
+export const setOrderList = (list) => ({
+    type: SET_ORDER_LIST,
+    payload: {
+        list
+    }
+});
 export const INIT_ORDER = "INIT_ORDER";
 export const initOrder = () => ({
     type: INIT_ORDER,

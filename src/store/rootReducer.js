@@ -9,6 +9,7 @@ import objectEdit from "./objectEdit/reducers";
 import dictionary from "./dictionary/reducers";
 import content from "./content/reducers";
 import order from "./order/reducers";
+import profile from "./profile/reducers";
 
 const rootReducer = combineReducers({
   app,
@@ -20,7 +21,8 @@ const rootReducer = combineReducers({
   dictionary,
   objectEdit,
   content,
-  order
+  order,
+  profile
 });
 
 export default rootReducer;

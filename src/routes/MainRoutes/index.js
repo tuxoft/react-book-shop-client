@@ -9,6 +9,10 @@ import CartScreen from "../../Screens/CartScreen/index";
 import ObjectEditScreen from "../../Screens/ObjectEditScreen/index";
 import ObjectEditListScreen from "../../Screens/ObjectEditListScreen/index";
 import OrderScreen from "../../Screens/OrderScreen/index";
+import OrderStatusScreen from "../../Screens/OrderStatusScreen/index";
+import MyProfileScreen from "../../Screens/MyProfileScreen/index";
+import EditMyProfileScreen from "../../Screens/EditMyProfileScreen/index";
+import OrderListStatusScreen from "../../Screens/OrderListStatusScreen/index";
 import AdminScreen from "../../Screens/AdminScreen/index";
 import NotFound from "../../Screens/NotFoundScreen/index";
 
@@ -90,8 +94,38 @@ const Routes = (props) => {
         />
         <Route
             exact
+            path="/order-list/:id"
+            render={(props) => <OrderListStatusScreen {...props} />}
+            {...props}
+        />
+        <Route
+            exact
+            path="/order-list"
+            render={(props) => <Redirect to={"/order-list/all"} {...props} />}
+            {...props}
+        />
+        <Route
+            exact
+            path="/order/:id"
+            render={(props) => <OrderStatusScreen {...props} />}
+            {...props}
+        />
+        <Route
+            exact
             path="/order"
             render={(props) => <OrderScreen {...props} />}
+            {...props}
+        />
+        <Route
+            exact
+            path="/profile"
+            render={(props) => <MyProfileScreen {...props} />}
+            {...props}
+        />
+        <Route
+            exact
+            path="/edit-profile"
+            render={(props) => <EditMyProfileScreen {...props} />}
             {...props}
         />
         <Route component={NotFound}/>
