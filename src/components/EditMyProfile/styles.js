@@ -266,7 +266,7 @@ export const OrderButton = styled.div`
 `;
 
 export const Input = styled.input.attrs({ type: "text" })`
-    width: 100%;
+    width: 300px;
     padding: 3px 0;
     border: 0;
     border-bottom: 1px solid gray;
