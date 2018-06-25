@@ -17,7 +17,7 @@ export const Row = styled.div`
         margin-top: 15px;
         display: flex;
         flex-direction: row;
-        align-items: center;
+        align-items: flex-start;
         width: 100%;
         justify-content: center;
 `;
@@ -54,6 +54,12 @@ export const Label = styled.div`
     ${props => props.white && `
        color: white;
     `}
+     ${props => props.ellipsis && `
+       text-overflow: ellipsis;
+       white-space: nowrap;
+       overflow: hidden;
+       max-width: 150px;
+    `}
     ${props => props.underline && `
        text-decoration: underline;
     `}    
@@ -75,6 +81,32 @@ export const Input = styled.input.attrs({ type: props => props.valueType ? props
     padding-left: 5px;
     text-align: start;
     background-color: ${({ disabled }) => disabled ? '#ccc' : '#fff'};
+`;
+
+export const InputSuggest = styled.input.attrs({ type: props => props.valueType ? props.valueType : "text" })`
+    width: 600px;
+    font-size: 16px;
+    font-family: 'PT Sans', sans-serif;
+    font-weight: 400;
+    line-height: 31px;
+    vertical-align: top;
+    color: #333;
+    height: 30px;
+    background-color: #fff;
+    padding-left: 5px;
+    text-align: start;
+    box-sizing: border-box;
+    border: 1px solid #b3b3b3;
+    border-radius: 3px;
+`;
+
+export const InputWrapper = styled.div`
+        width: 600px;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: stretch;        
+        justify-content: flex-start;        
 `;
 
 export const InputText = styled.textarea.attrs({ type: "text" })`
@@ -110,7 +142,6 @@ export const Select = styled.select`
 `;
 
 export const Column = styled.div`
-        margin-top: 3px;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -132,7 +163,7 @@ export const Line = styled.div`
 `;
 
 export const Container = styled.div`
-        width: 100%;
+        min-width: 0px;
         display: flex;
         flex-flow: row wrap;
         justify-content: start;
@@ -143,7 +174,10 @@ export const Item = styled.div`
         color: #fff;
         background-color: #26a9e0;
         padding: 5px;
-        margin: 5px;
+        margin-right: 5px;
+        margin-bottom: 5px;
+        display: flex;
+        flex: row;
 `;
 
 export const ButtonRow = styled.div`

@@ -18,6 +18,7 @@ class ObjectEdit extends Component {
         this.props.actions.dictionary.clearDictionary(option.dictionary);
       }
     });
+    this.setState({suggestValues:[]});
     this.getDictionaryForSelect();
   }
 
@@ -99,10 +100,10 @@ class ObjectEdit extends Component {
 
   clearSuggest = (dictionary, id) => {
     this.props.actions.dictionary.clearDictionary(dictionary);
-    if (document.getElementById) {
+    /*if (document.getElementById) {
       const inputElement = ReactDOM.findDOMNode(document.getElementById(id));
       inputElement.value = "";
-    }
+    }*/
   };
 
   setImage = (e, field) => {
@@ -114,6 +115,15 @@ class ObjectEdit extends Component {
     } else {
       this.props.actions.objectEdit.saveImage(file, field);
     }
+  };
+
+  setSuggestValue= (val, name)=>{
+    this.setState({
+        suggestValues: {
+            ...this.state.suggestValues,
+            [name]: val,
+        }
+    });
   };
 
   getTitle = (object) => {
@@ -151,6 +161,7 @@ class ObjectEdit extends Component {
         getTitle={this.getTitle}
         clearSuggest={this.clearSuggest}
         setImage={this.setImage}
+        setSuggestValue={this.setSuggestValue}
       />
     );
   }
