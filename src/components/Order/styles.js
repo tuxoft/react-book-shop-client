@@ -537,3 +537,11 @@ export const CartOrderItemDescriptionRightInfoCount = styled.div`
     justify-content: center;
     width: 75px;
 `;
+export const InputWrapper = styled.div`
+        width: 300px;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: stretch;        
+        justify-content: flex-start;        
+`;

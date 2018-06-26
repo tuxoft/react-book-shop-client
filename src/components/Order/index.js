@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOMServer from 'react-dom/server';
+import Autosuggest from 'react-autosuggest';
 import * as styles from "./styles";
 import {FaPhone, FaCheck, FaMapMarker, FaClockO, FaCreditCardAlt, FaCircleO, FaDotCircleO, FaHome} from 'react-icons/lib/fa/';
 import Checkbox from "../simpleComponents/Checkbox";
@@ -31,30 +32,68 @@ const Order = ({
   courierService,
   courierServiceRangeCost,
   mailService,
+  suggestValues,
+  setSuggestValue,
   paymentMethod
 }) => {
   const getOneFromList = (indx, name, dictionary, parametrName, object, data, setObjAttr, searchInDictionary, clearSuggest, validator, doValid, alertText) => {
     return (<styles.RowItem big key={indx?"row"+indx:"row"}>
         <styles.Label bold>{parametrName}</styles.Label>
-        <styles.Column>
-          <styles.Container>
-            {object[name] && object[name].name &&<styles.Item>{object[name].name}</styles.Item>}
-          </styles.Container>
-          <styles.Input redAlert={(doValid && !validator)} id={name}
-                        onChange={(e) => {
-                          searchInDictionary(dictionary, e.target.value);
-                        }}
-                        onBlur={() => clearSuggest(dictionary, name)}
-          />
-          {data[dictionary].map((obj, indx) =>
-            <styles.Line key={name + indx}
-                         onMouseDown={(val) => {
-                           setObjAttr(obj, name)
-                         }}>
-              {obj.name}
-            </styles.Line>)}
-          {(doValid && !validator) && <styles.Label redAlert>{alertText}</styles.Label>}
-        </styles.Column>
+
+      <Autosuggest id={"Autosuggest-"+name}
+                   suggestions={data[dictionary]}
+                   onSuggestionsFetchRequested={({value}) => {
+                       searchInDictionary(dictionary, value)
+                   }}
+                   onSuggestionsClearRequested={() => {
+                       clearSuggest(dictionary, name);
+                   }}
+                   getSuggestionValue={(obj) => obj.name}
+                   onSuggestionSelected={(event, {suggestion, suggestionValue, suggestionIndex, sectionIndex, method}) => {
+                       setObjAttr(suggestion, name)
+                   }}
+                   focusInputOnSuggestionClick={false}
+                   renderSuggestion={(obj, indx) => (<styles.Line key={name + indx} >
+                       {obj.name}
+                   </styles.Line>)}
+                   inputProps={{
+                       placeholder: '',
+                       value: !suggestValues[name] ? "" : suggestValues[name],
+                       onChange: (event, { newValue, method }) => {
+                           console.log("onChange", newValue, event.target.value);
+                           searchInDictionary(dictionary, event.target.value? event.target.value : "");
+                           setSuggestValue(event.target.value? event.target.value : "", name);
+                       },
+                       onBlur: (event, { highlightedSuggestion })=>{console.log("onBlur", highlightedSuggestion);}
+                   }}
+                   renderInputComponent={inputProps => (<styles.InputWrapper>
+                     <styles.Container>
+                         {object[name] && object[name].name && <styles.Item>{object[name].name}</styles.Item>}
+                     </styles.Container>
+                     <styles.Input {...inputProps}
+                                          id={name}
+                                          redAlert={(doValid && !validator)}
+                     />
+                       {(doValid && !validator) && <styles.Label redAlert>{alertText}</styles.Label>}
+                   </styles.InputWrapper>)}
+                   theme={{
+                       suggestionsList: {
+                           width: "300px",
+                           padding: 0,
+                           listStyleType: "none"
+                       },
+                       suggestion: {
+                           cursor: "pointer",
+                           boxSizing: "border-box",
+                           width: "100%",
+                           backgroundColor: "#fff",
+                       },
+                       suggestionHighlighted: {
+                           backgroundColor: "#dfd",
+                           width: "100%"
+                       }
+                   }}
+      />
     </styles.RowItem>)
   };
 

@@ -17,7 +17,8 @@ class Order extends Component {
         super(props);
         this.state={
             step: 1,
-            doValid: false
+            doValid: false,
+            suggestValues:[]
         }
     }
 
@@ -182,6 +183,15 @@ class Order extends Component {
         return re.test(val.toLowerCase());
     };
 
+    setSuggestValue= (val, name)=>{
+        this.setState({
+            suggestValues: {
+                ...this.state.suggestValues,
+                [name]: val,
+            }
+        });
+    };
+
     render() {
         return (
             <OrderComponet
@@ -200,6 +210,7 @@ class Order extends Component {
                 setObjectMultiAttr={this.setObjectMultiAttr}
                 searchInDictionary={this.searchInDictionary}
                 clearSuggest={this.clearSuggest}
+                setSuggestValue={this.setSuggestValue}
             />
         );
     }
