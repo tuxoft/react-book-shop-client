@@ -117,26 +117,63 @@ const ObjectEdit = ({
                 <styles.Label bold>{parametrName}</styles.Label>
             </styles.RowItem>
             <styles.RowItem big>
-                <styles.Column>
-                    <styles.Container>
-                        {object[name] && object[name].map((obj, indx) => <styles.Item key={indx}>
-                            {getTitle(obj.author)} <MdClear
-                            onClick={() => removeObjWithOrder(object[name], obj)}/></styles.Item>)}
-                    </styles.Container>
-                    <styles.Input
-                        id={name}
-                        onChange={(e) => {
-                            console.log("doSearch", e);
-                            searchInDictionary(dictionary, e.target.value);
-                        }}
-                        onBlur={() => clearSuggest(dictionary, name)}
-                    />
-                    {data[dictionary].map((obj, indx) =>
-                        <styles.Line key={name + indx}
-                                     onMouseDown={() => addObjWithOrder(object[name], obj)}>
-                            {getTitle(obj)}
-                        </styles.Line>)}
-                </styles.Column>
+
+                <Autosuggest id={"Autosuggest-"+name}
+                             suggestions={data[dictionary]}
+                             onSuggestionsFetchRequested={({value}) => {
+                                 searchInDictionary(dictionary, value)
+                             }}
+                             onSuggestionsClearRequested={() => {
+                                 clearSuggest(dictionary, name);
+                                 //searchInDictionary(dictionary, "");
+                             }}
+                             getSuggestionValue={(obj) => getTitle(obj)}
+                             onSuggestionSelected={(event, {suggestion, suggestionValue, suggestionIndex, sectionIndex, method}) => {
+                                 addObjWithOrder(object[name], suggestion);
+                             }}
+                             focusInputOnSuggestionClick={false}
+                             renderSuggestion={(obj, indx) => (<styles.Line key={name + indx} >
+                                 {obj.name}
+                             </styles.Line>)}
+                             inputProps={{
+                                 placeholder: '',
+                                 value: !suggestValues[name] ? "" : suggestValues[name],
+                                 onChange: (event, { newValue, method }) => {
+                                     console.log("onChange", newValue, event.target.value);
+                                     searchInDictionary(dictionary, event.target.value? event.target.value : "");
+                                     setSuggestValue(event.target.value? event.target.value : "", name);
+                                 },
+                                 onBlur: (event, { highlightedSuggestion })=>{console.log("onBlur", highlightedSuggestion);}
+                             }}
+                             renderInputComponent={inputProps => (<styles.InputWrapper>
+                                 <styles.Container>
+                                     {object[name] && object[name].map((obj, indx) => <styles.Item key={indx}>
+                                         <styles.Label white fs14 ellipsis title={getTitle(obj.author)}>{getTitle(obj.author)}</styles.Label>
+                                         <MdClear onClick={() => removeObjWithOrder(object[name], obj)}/>
+                                     </styles.Item>)}
+                                 </styles.Container>
+                                 <styles.InputSuggest {...inputProps}
+                                                      id={name}
+                                 />
+                             </styles.InputWrapper>)}
+                             theme={{
+                                 suggestionsList: {
+                                     width: "600px",
+                                     padding: 0,
+                                     listStyleType: "none"
+                                 },
+                                 suggestion: {
+                                     cursor: "pointer",
+                                     boxSizing: "border-box",
+                                     width: "100%",
+                                     backgroundColor: "#fff",
+                                 },
+                                 suggestionHighlighted: {
+                                     backgroundColor: "#dfd",
+                                     width: "100%"
+                                 }
+                             }}
+                />
             </styles.RowItem>
         </styles.Row>)
     };
@@ -150,26 +187,61 @@ const ObjectEdit = ({
                 <styles.Label bold>{parametrName}</styles.Label>
             </styles.RowItem>
             <styles.RowItem big>
-                <styles.Column>
-                    <styles.Container>
-                        {object[name] && object[name].name && <styles.Item>{object[name].name}</styles.Item>}
-                    </styles.Container>
-                    <styles.Input id={name}
-                                  disabled={disabled}
-                                  onChange={(e) => {
-                                      searchInDictionary(dictionary, e.target.value);
-                                  }}
-                                  onBlur={() => clearSuggest(dictionary, name)}
-                                  placeholder={disabled ? "Выберите издателя" : ""}
-                    />
-                    {data[dictionary].map((obj, indx) =>
-                        <styles.Line key={name + indx}
-                                     onMouseDown={(val) => {
-                                         setObjAttr(name, obj)
-                                     }}>
-                            {obj.name}
-                        </styles.Line>)}
-                </styles.Column>
+
+                <Autosuggest id={"Autosuggest-"+name}
+                             suggestions={data[dictionary]}
+                             onSuggestionsFetchRequested={({value}) => {
+                                 searchInDictionary(dictionary, value)
+                             }}
+                             onSuggestionsClearRequested={() => {
+                                 clearSuggest(dictionary, name);
+                             }}
+                             getSuggestionValue={(obj) => obj.name}
+                             onSuggestionSelected={(event, {suggestion, suggestionValue, suggestionIndex, sectionIndex, method}) => {
+                                 setObjAttr(name, suggestion)
+                             }}
+                             focusInputOnSuggestionClick={false}
+                             renderSuggestion={(obj, indx) => (<styles.Line key={name + indx} >
+                                 {obj.name}
+                             </styles.Line>)}
+                             inputProps={{
+                                 placeholder: '',
+                                 value: !suggestValues[name] ? "" : suggestValues[name],
+                                 onChange: (event, { newValue, method }) => {
+                                     console.log("onChange", newValue, event.target.value);
+                                     searchInDictionary(dictionary, event.target.value? event.target.value : "");
+                                     setSuggestValue(event.target.value? event.target.value : "", name);
+                                 },
+                                 onBlur: (event, { highlightedSuggestion })=>{console.log("onBlur", highlightedSuggestion);}
+                             }}
+                             renderInputComponent={inputProps => (<styles.InputWrapper>
+                                 <styles.Container>
+                                     {object[name] && object[name].name && <styles.Item>{object[name].name}</styles.Item>}
+                                 </styles.Container>
+                                 <styles.InputSuggest {...inputProps}
+                                                      id={name}
+                                                      disabled={disabled}
+                                                      placeholder={disabled ? "Выберите издателя" : ""}
+                                 />
+                             </styles.InputWrapper>)}
+                             theme={{
+                                 suggestionsList: {
+                                     width: "600px",
+                                     padding: 0,
+                                     listStyleType: "none"
+                                 },
+                                 suggestion: {
+                                     cursor: "pointer",
+                                     boxSizing: "border-box",
+                                     width: "100%",
+                                     backgroundColor: "#fff",
+                                 },
+                                 suggestionHighlighted: {
+                                     backgroundColor: "#dfd",
+                                     width: "100%"
+                                 }
+                             }}
+                />
             </styles.RowItem>
         </styles.Row>)
     };

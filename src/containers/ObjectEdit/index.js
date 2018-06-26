@@ -10,6 +10,13 @@ import * as objectEditSelectors from "../../store/objectEdit/selectors";
 
 class ObjectEdit extends Component {
 
+    constructor(props) {
+        super(props);
+        this.state={
+            suggestValues:[]
+        }
+    }
+
   componentDidMount() {
     this.props.actions.objectEdit.setActiveObject(this.props.match.params.object);
     this.props.actions.objectEdit.fetchObjectEdit(this.props.match.params.id);
