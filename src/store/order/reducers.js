@@ -12,6 +12,7 @@ const initialState = {
     pickupPoint:[],
     courierService:[],
     mailService:[],
+    paymentMethod:[],
     list:[],
 };
 
@@ -31,6 +32,9 @@ const books = (state = initialState, action) => {
         }
         case actions.SET_MAIL_SERVICE: {
             return setMailService(state, action);
+        }
+        case actions.SET_PAYMENT_METHOD: {
+            return setPaymentMethod(state, action);
         }
         case actions.SET_PICKUP_CITIES: {
             return setPickupCities(state, action);
@@ -78,6 +82,14 @@ const setMailService = (state, action) => {
     ...state,
     mailService: action.payload.mailService
   };
+}
+// SET_COURIER_SERVICE
+const setPaymentMethod = (state, action) => {
+  return {
+    ...state,
+    paymentMethod: action.payload.paymentMethod
+  };
+};
 // SET_ORDER_LIST
 const setOrderList = (state, action) => {
     return {

@@ -56,10 +56,10 @@ export const getPickupPointsRangeCost = (state) => {
         state.pickupPoint.forEach((pickupPoint, indx) => {
             if (pickupPoint.sendPrice > maxCost || indx == 0) {
                  maxCost = pickupPoint.sendPrice
-            };
+            }
             if (pickupPoint.sendPrice < minCost || indx == 0) {
               minCost = pickupPoint.sendPrice
-            };
+            }
         });
         if (minCost === maxCost) {
             cost = minCost + " ₽"
@@ -68,7 +68,7 @@ export const getPickupPointsRangeCost = (state) => {
         }
     }
     return cost;
-}
+};
 
 export const getCourierServiceRangeCost = (state) => {
   let cost = "";
@@ -77,10 +77,10 @@ export const getCourierServiceRangeCost = (state) => {
     state.courierService.forEach((courierService, indx) => {
       if (courierService.sendPrice > maxCost || indx == 0) {
         maxCost = courierService.sendPrice
-      };
+      }
       if (courierService.sendPrice < minCost || indx == 0) {
         minCost = courierService.sendPrice
-      };
+      }
     });
     if (minCost === maxCost) {
       cost = minCost + " ₽"
@@ -89,4 +89,8 @@ export const getCourierServiceRangeCost = (state) => {
     }
   }
   return cost;
-}
+};
+
+export const getPaymentMethod = (state) => {
+  return state.paymentMethod ? state.paymentMethod : [];
+};

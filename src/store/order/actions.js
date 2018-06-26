@@ -86,6 +86,21 @@ export const selectCity = (cityId) => ({
         cityId
     }
 });
+export const GET_PAYMENT_METHOD = "GET_PAYMENT_METHOD";
+export const getPaymentMethod = (sendType, sendOrgId) => ({
+  type: GET_PAYMENT_METHOD,
+  payload: {
+    sendType,
+    sendOrgId,
+  }
+});
+export const SET_PAYMENT_METHOD = "SET_PAYMENT_METHOD";
+export const setPaymentMethod = (paymentMethod) => ({
+  type: SET_PAYMENT_METHOD,
+  payload: {
+    paymentMethod
+  }
+});
 export const SET_ORDER_ORDER = "SET_ORDER_ORDER";
 export const setOrder = (order) => ({
     type: SET_ORDER_ORDER,
@@ -101,4 +116,5 @@ export const makeOrder = (order) => ({
         order
     }
 });
+
 

@@ -30,7 +30,8 @@ const Order = ({
   pickupPointsRangeCost,
   courierService,
   courierServiceRangeCost,
-  mailService
+  mailService,
+  paymentMethod
 }) => {
   const getOneFromList = (indx, name, dictionary, parametrName, object, data, setObjAttr, searchInDictionary, clearSuggest, validator, doValid, alertText) => {
     return (<styles.RowItem big key={indx?"row"+indx:"row"}>
@@ -86,7 +87,7 @@ const Order = ({
       }
     } else if (step === 2) {
       if (finish) {
-        if (order.sendType == "selftake") {
+        if (order.sendType == "pickupPoint") {
           return (
             <styles.Label>
               <styles.Label fs14 bold black>{"Самовывоз из пунктов выдачи"}</styles.Label>
@@ -233,18 +234,22 @@ const Order = ({
             style={{color: "#26a9e0"}}/>), getNote(2, step > 2, order), step, step === 2)}
           {step === 2 && <styles.Column animationHeight>
             {placemarks && placemarks.length > 0 && <styles.SelectBlock onClick={() => {
-              const val = order.sendType === "selftake" ? "" : "selftake";
+              const val = order.sendType === "pickupPoint" ? "" : "pickupPoint";
               setObjectMultiAttr([{
                 field: "sendType",
                 val: val
-              },
-              {
+              }, {
                 field: "sendOrgId",
                 val: val === "" ? "" : order.sendOrgId
-              },
-              {
+              }, {
                 field: "sendPrice",
                 val: val === "" ? "" : order.sendPrice
+              }, {
+                  field: "totalCost",
+                  val: val === "" ? order.orderItemList.reduce((accumulator, item) => ((item.book.price * item.count) + accumulator), 0) - order.discount : order.orderItemList.reduce((accumulator, item) => ((item.book.price * item.count) + accumulator), 0) + order.sendPrice - order.discount,
+              }, {
+                  field: "toPay",
+                  val: val === "" ? order.orderItemList.reduce((accumulator, item) => ((item.book.price * item.count) + accumulator), 0) - order.discount : order.orderItemList.reduce((accumulator, item) => ((item.book.price * item.count) + accumulator), 0) + order.sendPrice - order.discount,
               }]);
             }}>
               <styles.SelectBlockRow>
@@ -252,7 +257,7 @@ const Order = ({
                 <styles.Label>{pickupPointsRangeCost}</styles.Label>
               </styles.SelectBlockRow>
             </styles.SelectBlock>}
-            {order.sendType === "selftake" && <styles.Column animationHeight>
+            {order.sendType === "pickupPoint" && <styles.Column animationHeight>
               <styles.YMapWrapper>
                 <YMaps>
                   <Map state={mapState} width={1000} height={600}>
@@ -276,14 +281,18 @@ const Order = ({
               setObjectMultiAttr([{
                   field: "sendType",
                   val: val
-                },
-                {
+                }, {
                   field: "sendOrgId",
                   val: val === "" ? "" : order.sendOrgId
-                },
-                {
+                }, {
                   field: "sendPrice",
                   val: val === "" ? "" : order.sendPrice
+                }, {
+                  field: "totalCost",
+                  val: val === "" ? order.orderItemList.reduce((accumulator, item) => ((item.book.price * item.count) + accumulator), 0) - order.discount : order.orderItemList.reduce((accumulator, item) => ((item.book.price * item.count) + accumulator), 0) + order.sendPrice - order.discount,
+                }, {
+                  field: "toPay",
+                  val: val === "" ? order.orderItemList.reduce((accumulator, item) => ((item.book.price * item.count) + accumulator), 0) - order.discount : order.orderItemList.reduce((accumulator, item) => ((item.book.price * item.count) + accumulator), 0) + order.sendPrice - order.discount,
                 }]);
             }}>
               <styles.SelectBlockRow>
@@ -313,6 +322,12 @@ const Order = ({
                                                                       field: "sendPrice",
                                                                       val: courier.sendPrice
                                                                     }, {
+                                                                      field: "totalCost",
+                                                                      val: order.orderItemList.reduce((accumulator, item) => ((item.book.price * item.count) + accumulator), 0) + courier.sendPrice - order.discount,
+                                                                    }, {
+                                                                      field: "toPay",
+                                                                      val: order.orderItemList.reduce((accumulator, item) => ((item.book.price * item.count) + accumulator), 0) + courier.sendPrice - order.discount,
+                                                                    }, {
                                                                       field: "sendOrg",
                                                                       val: courier
                                                                     }]);
@@ -326,6 +341,12 @@ const Order = ({
                                   }, {
                                     field: "sendPrice",
                                     val: ""
+                                  }, {
+                                    field: "totalCost",
+                                    val: order.orderItemList.reduce((accumulator, item) => ((item.book.price * item.count) + accumulator), 0) - order.discount,
+                                  }, {
+                                    field: "toPay",
+                                    val: order.orderItemList.reduce((accumulator, item) => ((item.book.price * item.count) + accumulator), 0) - order.discount,
                                   }, {
                                     field: "sendOrg",
                                     val: ""
@@ -353,14 +374,18 @@ const Order = ({
               setObjectMultiAttr([{
                   field: "sendType",
                   val: val
-                },
-                {
+                }, {
                   field: "sendOrgId",
                   val: val === "" ? "" : order.sendOrgId
-                },
-                {
+                }, {
                   field: "sendPrice",
                   val: val === "" ? "" : order.sendPrice
+                }, {
+                  field: "totalCost",
+                  val: val === "" ? order.orderItemList.reduce((accumulator, item) => ((item.book.price * item.count) + accumulator), 0) - order.discount : order.orderItemList.reduce((accumulator, item) => ((item.book.price * item.count) + accumulator), 0) + order.sendPrice - order.discount,
+                }, {
+                  field: "toPay",
+                  val: val === "" ? order.orderItemList.reduce((accumulator, item) => ((item.book.price * item.count) + accumulator), 0) - order.discount : order.orderItemList.reduce((accumulator, item) => ((item.book.price * item.count) + accumulator), 0) + order.sendPrice - order.discount,
                 }]);
             }}>
               <styles.Label bold>Почта</styles.Label>
@@ -388,6 +413,12 @@ const Order = ({
                                                                          field: "sendPrice",
                                                                          val: mail.sendPrice
                                                                        }, {
+                                                                         field: "totalCost",
+                                                                         val: order.orderItemList.reduce((accumulator, item) => ((item.book.price * item.count) + accumulator), 0) + mail.sendPrice - order.discount,
+                                                                       }, {
+                                                                         field: "toPay",
+                                                                         val: order.orderItemList.reduce((accumulator, item) => ((item.book.price * item.count) + accumulator), 0) + mail.sendPrice - order.discount,
+                                                                       }, {
                                                                          field: "sendOrg",
                                                                          val: mail
                                                                        }]);
@@ -401,6 +432,12 @@ const Order = ({
                                   }, {
                                     field: "sendPrice",
                                     val: ""
+                                  }, {
+                                    field: "totalCost",
+                                    val: order.orderItemList.reduce((accumulator, item) => ((item.book.price * item.count) + accumulator), 0) - order.discount,
+                                  }, {
+                                    field: "toPay",
+                                    val: order.orderItemList.reduce((accumulator, item) => ((item.book.price * item.count) + accumulator), 0) - order.discount,
                                   }, {
                                     field: "sendOrg",
                                     val: ""
@@ -428,35 +465,21 @@ const Order = ({
             style={{color: "#26a9e0"}}/>), "На сайте или при получении заказа. Принимаем карты Visa, Mastercard", step, step === 3)}
           {step === 3 && <styles.Column>
             <styles.RadioBox>
+              {paymentMethod && paymentMethod.map((payment, indx) => (
               <styles.RadioRow>
-                {!(order.paymentMethod === 'card') &&
-                <FaCircleO style={{width: 60}} onClick={() => setObjectAttr('card', 'paymentMethod')}/>}
-                {order.paymentMethod === 'card' && <FaDotCircleO style={{color: "#26a9e0", width: 60}}
+                {!(order.paymentMethod === payment.value) &&
+                <FaCircleO style={{minWidth: 30}} onClick={() => setObjectAttr(payment.value, 'paymentMethod')}/>}
+                {order.paymentMethod === payment.value && <FaDotCircleO style={{color: "#26a9e0", minWidth: 30}}
                                                                  onClick={() => setObjectAttr('', 'paymentMethod')}/>}
-                <styles.RadioLabel active={order.paymentMethod === 'card'}>
-                  <styles.Label bold>Оплата на сайте</styles.Label>
-                  <styles.Label>Оплата банковской картой. После завершения оформления заказа Вы будете
-                    перенаправлены на страницу банка для оплаты.
-                    Также вы можете оплатить заказ в Личном кабинете.
+                <styles.RadioLabel active={order.paymentMethod === payment.value}>
+                  <styles.Label bold>{payment.name}</styles.Label>
+                  <styles.Label>{payment.comment}
                   </styles.Label>
                 </styles.RadioLabel>
               </styles.RadioRow>
-
-              <styles.RadioRow>
-                {!(order.paymentMethod === 'cash') &&
-                <FaCircleO style={{width: 30}} onClick={() => setObjectAttr('cash', 'paymentMethod')}/>}
-                {order.paymentMethod === 'cash' && <FaDotCircleO style={{color: "#26a9e0", width: 30}}
-                                                                 onClick={() => setObjectAttr('', 'paymentMethod')}/>}
-
-                <styles.RadioLabel active={order.paymentMethod === 'cash'}>
-                  <styles.Label bold>Оплата при получении заказа</styles.Label>
-                  <styles.Label>Оплата банковской картой или наличными (подставляется из информации
-                    после выбора доставки)
-                  </styles.Label>
-                </styles.RadioLabel>
-              </styles.RadioRow>
+              ))}
             </styles.RadioBox>
-            {(doValid && !(order.paymentMethod === 'cash' || order.paymentMethod === 'card')) &&
+            {doValid &&
             <styles.Label redAlert>выберите способ оплаты</styles.Label>}
             <styles.OrderButton onClick={nextStep}>Подтвердить данные</styles.OrderButton>
           </styles.Column>}
@@ -475,7 +498,7 @@ const Order = ({
                 <styles.CartTableHeaderItem price>Сумма</styles.CartTableHeaderItem>
               </styles.CartTableHeader>
               {(order.orderItemList && order.orderItemList.length !== 0) && order.orderItemList.map((item, indx) => (
-                <styles.SimpleLink to={"/book/" + item.book.id} key={"item" + indx}>
+                <styles.SimpleLink target="_blank" to={"/book/" + item.book.id} key={"item" + indx}>
                   <styles.CartOrderItem last={indx === (order.orderItemList.length - 1)}>
                     <styles.CartOrderItemDescription>
                       <styles.CartOrderItemDescriptionInfo>
@@ -483,7 +506,7 @@ const Order = ({
                       </styles.CartOrderItemDescriptionInfo>
                       <styles.CartOrderItemDescriptionRightInfo>
                         <styles.CartOrderItemDescriptionRightInfoCount>
-                          {item.count} шт.
+                          <styles.Label fs14>{item.count + " шт."}</styles.Label>
                         </styles.CartOrderItemDescriptionRightInfoCount>
                         <styles.CartOrderItemDescriptionRightInfoPrice>
                           <styles.Label fs14

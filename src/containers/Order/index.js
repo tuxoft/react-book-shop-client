@@ -36,6 +36,8 @@ class Order extends Component {
           {val: a.target.id, field: "sendOrgId"},
           {field: "sendPrice", val: pickupPoint && pickupPoint.sendPrice ? pickupPoint.sendPrice : 0},
           {field: "sendOrg", val: pickupPoint},
+          {field: "totalCost", val: this.props.order.orderItemList.reduce((accumulator, item) => ((item.book.price * item.count) + accumulator), 0) + pickupPoint.sendPrice - this.props.order.discount},
+          {field: "toPay", val: this.props.order.orderItemList.reduce((accumulator, item) => ((item.book.price * item.count) + accumulator), 0) + pickupPoint.sendPrice - this.props.order.discount}
         ]);
         this.nextStep();
     };
@@ -77,6 +79,7 @@ class Order extends Component {
                 });
                 return;
             }
+            this.props.actions.order.getPaymentMethod(this.props.order.sendType, this.props.order.sendOrgId);
         }
         if(this.state.step===3){
             if(this.validateStep3(this.props.order)){
@@ -121,7 +124,7 @@ class Order extends Component {
     };
 
     validateStep3 = (order)=>{
-        if(!(order.paymentMethod === 'cash' || order.paymentMethod === 'card'))return true;
+        if(order.paymentMethod == '' || this.props.paymentMethod.find((payment) => payment.value == order.paymentMethod) == null) return true;
         return false;
     };
 
@@ -216,6 +219,7 @@ const mapStateToProps = ({app, buscket, order, dictionary}) => ({
     mailService: orderSelectors.getMailService(order),
     pickupPointsRangeCost: orderSelectors.getPickupPointsRangeCost(order),
     courierServiceRangeCost: orderSelectors.getCourierServiceRangeCost(order),
+    paymentMethod: orderSelectors.getPaymentMethod(order),
     data: dictionary
 });
 

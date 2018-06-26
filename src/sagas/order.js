@@ -96,6 +96,24 @@ function* getMailService(action) {
 }
 
 // WORKERS
+function* getPaymentMethod(action) {
+  try {
+    console.log("getPaymentMethod ", action.payload);
+    const paymentMethod = yield call(Api.order.getPaymentMethod, action.payload);
+    yield put(orderActions.setPaymentMethod(paymentMethod.data));
+  } catch (error) {
+    console.log("getPaymentMethod error", error);
+    yield put(
+      flashActions.showFlash(
+        "Ошибка! Данные не получены",
+        "danger",
+        true,
+      ),
+    );
+  }
+}
+
+// WORKERS
 function* getPickupCities(action) {
     try {
         console.log("getPickupCities ");
@@ -187,6 +205,9 @@ function* getCourierServiceFlow() {
 function* getMailServiceFlow() {
   yield takeLatest(orderActions.GET_MAIL_SERVICE, getMailService);
 }
+function* getPaymentMethodFlow() {
+  yield takeLatest(orderActions.GET_PAYMENT_METHOD, getPaymentMethod);
+}
 function* getPickupCitiesFlow() {
     yield takeLatest(orderActions.GET_PICKUP_CITIES, getPickupCities);
 }
@@ -205,6 +226,7 @@ export default function* order() {
       getPickupPointFlow(),
       getCourierServiceFlow(),
       getMailServiceFlow(),
+      getPaymentMethodFlow(),
       getPickupCitiesFlow(),
       makeOrderFlow(),
       selectCityFlow()
