@@ -27,6 +27,9 @@ function* initOrder(action) {
         console.log("initOrder ");
         const order = yield call(Api.order.getInit);
         yield put(orderActions.setOrder(order.data));
+        if (order.data && order.data.shopCity && order.data.shopCity.id) {
+          yield put(orderActions.selectCity(order.data.shopCity.id));
+        }
     } catch (error) {
         console.log("initOrder error", error);
         yield put(
@@ -55,15 +58,67 @@ function* getPickupPoint(action) {
         );
     }
 }
+
+// WORKERS
+function* getCourierService(action) {
+  try {
+    console.log("getCourierService ", action.payload.cityId);
+    const courierService = yield call(Api.order.getCourierService, action.payload.cityId);
+    yield put(orderActions.setCourierService(courierService.data));
+  } catch (error) {
+    console.log("getCourierService error", error);
+    yield put(
+      flashActions.showFlash(
+        "Ошибка! Данные не получены",
+        "danger",
+        true,
+      ),
+    );
+  }
+}
+
+// WORKERS
+function* getMailService(action) {
+  try {
+    console.log("getMailService ", action.payload.cityId);
+    const mailService = yield call(Api.order.getMailService, action.payload.cityId);
+    yield put(orderActions.setMailService(mailService.data));
+  } catch (error) {
+    console.log("getMailService error", error);
+    yield put(
+      flashActions.showFlash(
+        "Ошибка! Данные не получены",
+        "danger",
+        true,
+      ),
+    );
+  }
+}
+
+// WORKERS
+function* getPaymentMethod(action) {
+  try {
+    console.log("getPaymentMethod ", action.payload);
+    const paymentMethod = yield call(Api.order.getPaymentMethod, action.payload);
+    yield put(orderActions.setPaymentMethod(paymentMethod.data));
+  } catch (error) {
+    console.log("getPaymentMethod error", error);
+    yield put(
+      flashActions.showFlash(
+        "Ошибка! Данные не получены",
+        "danger",
+        true,
+      ),
+    );
+  }
+}
+
 // WORKERS
 function* getPickupCities(action) {
     try {
         console.log("getPickupCities ");
         const cities = yield call(Api.order.getCities);
         yield put(orderActions.setPickupCities(cities.data));
-        if(cities.data.length && cities.data.length>0){
-            yield put(orderActions.getPickupPoint(cities.data[0].id));
-        }
     } catch (error) {
         console.log("getPickupCities error", error);
         yield put(
@@ -94,6 +149,24 @@ function* makeOrder(action) {
         );
     }
 }
+
+// WORKERS
+function* selectCity(action) {
+  try {
+    yield put(orderActions.getPickupPoint(action.payload.cityId));
+    yield put(orderActions.getCourierService(action.payload.cityId));
+    yield put(orderActions.getMailService(action.payload.cityId));
+  } catch (error) {
+    yield put(
+      flashActions.showFlash(
+        "Ошибка! Данные не получены",
+        "danger",
+        true,
+      ),
+    );
+  }
+}
+
 // WORKERS
 function* fetchOrderList(action) {
     try {
@@ -110,6 +183,7 @@ function* fetchOrderList(action) {
             ),
         );
     }
+
 }
 
 // WATCHERS
@@ -125,11 +199,23 @@ function* initOrderFlow() {
 function* getPickupPointFlow() {
     yield takeLatest(orderActions.GET_PICKUP_POINT, getPickupPoint);
 }
+function* getCourierServiceFlow() {
+  yield takeLatest(orderActions.GET_COURIER_SERVICE, getCourierService);
+}
+function* getMailServiceFlow() {
+  yield takeLatest(orderActions.GET_MAIL_SERVICE, getMailService);
+}
+function* getPaymentMethodFlow() {
+  yield takeLatest(orderActions.GET_PAYMENT_METHOD, getPaymentMethod);
+}
 function* getPickupCitiesFlow() {
     yield takeLatest(orderActions.GET_PICKUP_CITIES, getPickupCities);
 }
 function* makeOrderFlow() {
     yield takeLatest(orderActions.MAKE_ORDER, makeOrder);
+}
+function* selectCityFlow() {
+  yield takeLatest(orderActions.SELECT_CITY, selectCity);
 }
 
 export default function* order() {
@@ -138,7 +224,11 @@ export default function* order() {
       fetchOrderListFlow(),
       initOrderFlow(),
       getPickupPointFlow(),
+      getCourierServiceFlow(),
+      getMailServiceFlow(),
+      getPaymentMethodFlow(),
       getPickupCitiesFlow(),
       makeOrderFlow(),
+      selectCityFlow()
   ]);
 }

@@ -39,6 +39,34 @@ export const setPickupPoint = (pickupPoint) => ({
         pickupPoint
     }
 });
+export const GET_MAIL_SERVICE = "GET_MAIL_SERVICE";
+export const getMailService = (cityId) => ({
+  type: GET_MAIL_SERVICE,
+  payload: {
+    cityId
+  }
+});
+export const SET_MAIL_SERVICE = "SET_MAIL_SERVICE";
+export const setMailService = (mailService) => ({
+  type: SET_MAIL_SERVICE,
+  payload: {
+    mailService
+  }
+});
+export const GET_COURIER_SERVICE = "GET_COURIER_SERVICE";
+export const getCourierService = (cityId) => ({
+  type: GET_COURIER_SERVICE,
+  payload: {
+    cityId
+  }
+});
+export const SET_COURIER_SERVICE = "SET_COURIER_SERVICE";
+export const setCourierService = (courierService) => ({
+  type: SET_COURIER_SERVICE,
+  payload: {
+    courierService
+  }
+});
 export const GET_PICKUP_CITIES = "GET_PICKUP_CITIES";
 export const getPickupCities = () => ({
     type: GET_PICKUP_CITIES,
@@ -52,11 +80,26 @@ export const setPickupCities = (cities) => ({
     }
 });
 export const SELECT_CITY = "SELECT_CITY";
-export const selectCity = (city) => ({
+export const selectCity = (cityId) => ({
     type: SELECT_CITY,
     payload: {
-        city
+        cityId
     }
+});
+export const GET_PAYMENT_METHOD = "GET_PAYMENT_METHOD";
+export const getPaymentMethod = (sendType, sendOrgId) => ({
+  type: GET_PAYMENT_METHOD,
+  payload: {
+    sendType,
+    sendOrgId,
+  }
+});
+export const SET_PAYMENT_METHOD = "SET_PAYMENT_METHOD";
+export const setPaymentMethod = (paymentMethod) => ({
+  type: SET_PAYMENT_METHOD,
+  payload: {
+    paymentMethod
+  }
 });
 export const SET_ORDER_ORDER = "SET_ORDER_ORDER";
 export const setOrder = (order) => ({
@@ -73,4 +116,5 @@ export const makeOrder = (order) => ({
         order
     }
 });
+
 

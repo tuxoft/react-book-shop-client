@@ -5,12 +5,12 @@ export default {
 
   searchDictionary: (params) => {
     const ENDPOINT = Contur.get().API;
-    return axios.get(ENDPOINT + "/api/admin/dictionary/search", {params: params});
+    return axios.get(ENDPOINT + "/api/dictionary/search", {params: params});
   },
 
   getDictionary: (params) => {
     const ENDPOINT = Contur.get().API;
-    return axios.get(ENDPOINT + "/api/admin/dictionary", {params: params});
+    return axios.get(ENDPOINT + "/api/dictionary", {params: params});
   },
 
   saveObject: (params, type) => {

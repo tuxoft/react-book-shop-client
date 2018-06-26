@@ -1,9 +1,10 @@
 import React from "react";
-import styled from "styled-components";
+import styled, {keyframes} from "styled-components";
 import {Link} from "react-router-dom";
 import ButtonComponent from "../simpleComponents/Button";
-
 import UploadButtonComponent from "../simpleComponents/UploadButton";
+
+const ymapBackground = require("../../assets/images/yandex_cart.png");
 
 export const ContentWrapper = styled.div`
         margin-top: 15px;
@@ -20,12 +21,20 @@ export const RadioBox = styled.div`
         align-items: start;
 `;
 
+export const RadioRowWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
 export const RadioRow = styled.div`
         display: flex;
         flex-direction: row;
         align-items: start;
         ${props => props.big && `
             
+        `}
+        ${props => props.active && `
+            color:#26a9e0;
         `}
 `;
 
@@ -93,6 +102,9 @@ export const Label = styled.div`
     ${props => props.bold && `
        font-weight: 700;
     `}
+    ${props => props.notBold && `
+       font-weight: 400;
+    `}
     ${props => props.fs12 && `
        font-size: 12px;
     `}
@@ -101,6 +113,9 @@ export const Label = styled.div`
     `}
     ${props => props.gray && `
        color: gray;
+    `}
+    ${props => props.black && `
+       color: black;
     `}
     ${props => props.white && `
        color: white;
@@ -114,6 +129,9 @@ export const Label = styled.div`
     ${props => props.redAlert && `
        font-size: 12px;
        color: red;
+    `}
+    ${props => props.justify && `
+       text-align: justify;
     `}
     
 `;
@@ -168,6 +186,17 @@ export const Select = styled.select`
   width: 600px;  
 `;
 
+export const keyFrameHeight = keyframes`
+  0% {
+    max-height: 0px;
+    opacity: 0;
+  }
+  100% {
+    max-height: 1000px;
+    opacity: 1;
+  }
+`;
+
 export const Column = styled.div`
         margin-top: 3px;
         display: flex;
@@ -178,7 +207,27 @@ export const Column = styled.div`
         ${props => props.leftside && `
             align-items: flex-start;
         `}
+        ${props => props.animationHeight && `
+            display: flex;
+            animation-name: ${keyFrameHeight};
+            animation-duration: 1.5s;
+            animation-timing-function: ease-out;
+            animation-delay: 0s;
+            animation-iteration-count: 1;
+            animation-direction: normal;
+            animation-fill-mode: forwards;
+            animation-play-state: running;             
+        `}       
+               
         
+`;
+
+export const YMapWrapper = styled.div`
+    margin-bottom: 10px;
+    background-image: url(${ymapBackground});
+    background-repeat: no-repeat;
+    width: 100%;
+    background-size: contain;
 `;
 
 export const Line = styled.div`
@@ -278,18 +327,20 @@ export const OrderRow = styled.div`
 
 export const OrderButton = styled.div`
     display: block;
-    width: 200px;
+    min-width: 200px;
     height: 50px;
     margin-top: 25px;
     margin-bottom: 0;
     font-size: 18px;
     line-height: 45px;
-    background-color: #fb7543;
+    background-color: #26a9e0;
     cursor: pointer;
     border-radius: 5px;
     color: #fff;
     text-align: center;
     padding-top: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
     margin-bottom: 25px;
     ${props => props.short && `
         width: 200px;
@@ -308,6 +359,9 @@ export const SelectBlock = styled.div`
     font-size: 14px;
     cursor: pointer;
     transition: .3s;
+    &:hover {
+        background-color: #fafafa;
+    }
 `;
 
 export const SelectBlockRow = styled.div`

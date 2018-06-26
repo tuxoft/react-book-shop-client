@@ -18,7 +18,7 @@ export default {
         const ENDPOINT = Contur.get().API;
         return axios.put(
             ENDPOINT + "/api/order",
-            {params}
+            params
         );
     },
     getCities: () => {
@@ -28,5 +28,17 @@ export default {
     getPickupPoint: (id) => {
         const ENDPOINT = Contur.get().API;
         return axios.get(ENDPOINT + "/api/pickupPoint/"+id);
+    },
+    getCourierService: (id) => {
+        const ENDPOINT = Contur.get().API;
+        return axios.get(ENDPOINT + "/api/courierService/"+id);
+    },
+    getMailService: (id) => {
+        const ENDPOINT = Contur.get().API;
+        return axios.get(ENDPOINT + "/api/mailService/"+id);
+    },
+    getPaymentMethod: (params) => {
+        const ENDPOINT = Contur.get().API;
+        return axios.get(ENDPOINT + "/api/paymentMethod", {params: params});
     },
 };

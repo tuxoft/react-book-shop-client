@@ -1,8 +1,10 @@
 import React, {Component} from "react";
+import ReactDOM from "react-dom";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import * as appActions from "../../store/app/actions";
 import * as orderActions from "../../store/order/actions";
+import * as dictionaryActions from "../../store/dictionary/actions";
 import OrderComponet from "../../components/Order";
 import * as appSelectors from "../../store/app/selectors";
 import * as cartSelectors from "../../store/bucket/selectors";
@@ -29,8 +31,14 @@ class Order extends Component {
     }
 
     mapSelectBalloon = (a) =>{
-        console.log("ok!!!", a.target.id);
-        this.setObjectAttr(a.target.id, "selfTakeOrgId");
+        const pickupPoint = this.props.pickupPoints.find((pickupPoint) => pickupPoint.id == a.target.id);
+        this.setObjectMultiAttr([
+          {val: a.target.id, field: "sendOrgId"},
+          {field: "sendPrice", val: pickupPoint && pickupPoint.sendPrice ? pickupPoint.sendPrice : 0},
+          {field: "sendOrg", val: pickupPoint},
+          {field: "totalCost", val: this.props.order.orderItemList.reduce((accumulator, item) => ((item.book.price * item.count) + accumulator), 0) + pickupPoint.sendPrice - this.props.order.discount},
+          {field: "toPay", val: this.props.order.orderItemList.reduce((accumulator, item) => ((item.book.price * item.count) + accumulator), 0) + pickupPoint.sendPrice - this.props.order.discount}
+        ]);
         this.nextStep();
     };
 
@@ -38,6 +46,9 @@ class Order extends Component {
         let order = {...this.props.order};
         order[field]=val;
         this.props.actions.order.setOrder(order);
+        if (field === "shopCity") {
+            this.props.actions.order.selectCity(order.shopCity.id);
+        }
     };
 
     setObjectMultiAttr = (arr)=> {
@@ -68,6 +79,7 @@ class Order extends Component {
                 });
                 return;
             }
+            this.props.actions.order.getPaymentMethod(this.props.order.sendType, this.props.order.sendOrgId);
         }
         if(this.state.step===3){
             if(this.validateStep3(this.props.order)){
@@ -91,6 +103,7 @@ class Order extends Component {
     };
 
     validateStep1 = (order)=>{
+        if(!this.validatorId(order.shopCity))return true;
         if(!this.validatorText(order.lastName))return true;
         if(!this.validatorText(order.firstName))return true;
         if(!this.validatorEmail(order.email))return true;
@@ -101,19 +114,17 @@ class Order extends Component {
     };
 
     validateStep2 = (order)=>{
-        if(order.sendType === "selftake")return false;
         if(!this.validatorText(order.addr.city))return true;
         if(!this.validatorText(order.addr.index))return true;
         if(!this.validatorText(order.addr.street))return true;
         if(!this.validatorText(order.addr.house))return true;
         if(!this.validatorText(order.addr.room))return true;
-        if(order.sendType === "curier" && (!order.curierService || order.curierService === ''))return true;
-        if(order.sendType === "ruMail" && (!order.mailService || order.mailService === ''))return true;
+        if(!order.sendOrgId || order.sendOrgId === "") return true;
         return false;
     };
 
     validateStep3 = (order)=>{
-        if(!(order.paymentMethod === 'cash' || order.paymentMethod === 'card'))return true;
+        if(order.paymentMethod == '' || this.props.paymentMethod.find((payment) => payment.value == order.paymentMethod) == null) return true;
         return false;
     };
 
@@ -121,10 +132,29 @@ class Order extends Component {
         console.log("make order", this.props.order);
         this.props.actions.order.makeOrder(this.props.order);
     };
-    selectCity = (city) => {
-        console.log("make city", city);
-        this.props.actions.order.selectCity(city);
-        this.props.actions.order.getPickupPoint(city.id);
+
+    searchInDictionary = (dictionary, query) => {
+        let params = { query };
+        this.props.actions.dictionary.searchDictionary( params, dictionary);
+    };
+
+    clearSuggest = (dictionary, id) => {
+        this.props.actions.dictionary.clearDictionary(dictionary);
+        if (document.getElementById) {
+          const inputElement = ReactDOM.findDOMNode(document.getElementById(id));
+          inputElement.value = "";
+        }
+    };
+
+    validatorId = (val) => {
+        if (!val) {
+          return false;
+        }
+        if (typeof val.id !== "undefined") {
+          return true
+        } else {
+          false
+        }
     };
 
     validatorText = (val) => {
@@ -153,8 +183,6 @@ class Order extends Component {
     };
 
     render() {
-        console.log("order", this.props.order);
-        console.log("selectCity", this.props.selectCity);
         return (
             <OrderComponet
                 {...this.state}
@@ -163,19 +191,21 @@ class Order extends Component {
                 setObjectAddr={this.setObjectAddr}
                 nextStep = {this.nextStep}
                 makeOrder = {this.makeOrder}
-                onCitySelect = {this.selectCity}
                 setStep={this.setStep}
                 doValid={this.state.doValid}
+                validatorId={this.validatorId}
                 validatorText={this.validatorText}
                 validatorEmail={this.validatorEmail}
                 validatorNumber={this.validatorNumber}
                 setObjectMultiAttr={this.setObjectMultiAttr}
+                searchInDictionary={this.searchInDictionary}
+                clearSuggest={this.clearSuggest}
             />
         );
     }
 }
 
-const mapStateToProps = ({app, buscket, order}) => ({
+const mapStateToProps = ({app, buscket, order, dictionary}) => ({
     keycloak: appSelectors.getKeyckloak(app),
     authenticated: appSelectors.isAuthenticated(app),
     cart: cartSelectors.getCart(buscket),
@@ -184,6 +214,13 @@ const mapStateToProps = ({app, buscket, order}) => ({
     selectCity: orderSelectors.getSelectCity(order),
     placemarks: orderSelectors.getPickupPoint(order),
     order: orderSelectors.getOrder(order),
+    pickupPoints: orderSelectors.getOriginalPickupPoints(order),
+    courierService: orderSelectors.getCourierService(order),
+    mailService: orderSelectors.getMailService(order),
+    pickupPointsRangeCost: orderSelectors.getPickupPointsRangeCost(order),
+    courierServiceRangeCost: orderSelectors.getCourierServiceRangeCost(order),
+    paymentMethod: orderSelectors.getPaymentMethod(order),
+    data: dictionary
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
@@ -191,6 +228,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
         ...ownProps.actions,
         app: bindActionCreators(appActions, dispatch),
         order: bindActionCreators(orderActions, dispatch),
+        dictionary: bindActionCreators(dictionaryActions, dispatch)
     },
 });
 

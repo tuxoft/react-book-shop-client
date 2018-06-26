@@ -12,7 +12,7 @@ export const Flash = styled.div`
   top: 0;
   left: 0;
   right: 0;
-  z-index: 100;  
+  z-index: 1000;  
 
   ${props => props.type === "success" && `
     background-color: var(--flash-background-color-success);
