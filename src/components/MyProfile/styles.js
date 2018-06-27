@@ -59,6 +59,9 @@ export const SimpleLink = styled((props) => <Link {...props} />)`
 
 export const Label = styled.div`
     font-size: 18px;
+    ${props => props.fs22 && `
+       font-size: 22px;
+    `}
     ${props => props.fs16 && `
        font-size: 16px;
     `}
@@ -167,14 +170,20 @@ export const CartTableHeaderItem = styled.div`
     font-size: 12px;
     line-height: 30px;
     color: gray;
-    ${props => props.w450 && `
-       width: 450px;
+    ${props => props.w250 && `
+       width: 250px;
     `}
-     ${props => props.w100 && `
-       width: 100px;
+     ${props => props.w200 && `
+       width: 200px;
     `}
-     ${props => props.w80 && `
-       width: 80px;
+     ${props => props.w180 && `
+       width: 180px;
+    `}
+    ${props => props.w220 && `
+       width: 220px;
+    `}
+    ${props => props.w150 && `
+       width: 150px;
     `}
 `;
 
@@ -182,7 +191,7 @@ export const CartTableHeader = styled.div`
     height: 30px;
     border-bottom: 1px solid #b3b3b3;
     font-size: 0;
-    width: 710px;
+    width: 1000px;
     display: flex;
     flex-direction: row;
     align-content: start;
@@ -192,28 +201,44 @@ export const CartOrderItem = styled.div`
     display: flex;
     flex-direction: row;
     align-content: flex-start;
-    padding: 20px 0;
+    padding-top: 15px;    
     font-size: 0;
     color: #333;
+    ${props => props.chet && `
+       background-color: #f2f2f2;
+    `}    
 `;
 
 export const CartTableBodyItem = styled.div`
     text-align: left;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-content: flex-start;
     justify-content: flex-start;
-    font-size: 12px;
-    line-height: 30px;
-    color: gray;
-    ${props => props.w450 && `
-       width: 450px;
+    line-height: 30px;   
+    ${props => props.vcenter && `
+       justify-content: center;
+    `} 
+   ${props => props.w250 && `
+       width: 235px;
     `}
-     ${props => props.w100 && `
-       width: 100px;
+     ${props => props.w200 && `
+       width: 200px;
     `}
-     ${props => props.w80 && `
-       width: 80px;
+     ${props => props.w180 && `
+       width: 180px;
+    `}
+    ${props => props.w220 && `
+       width: 220px;
+    `}
+    ${props => props.w150 && `
+       width: 150px;
+    `}
+    ${props => props.pl20 && `
+       padding-left: 20px;
+    `}
+    ${props => props.ml15 && `
+       margin-left: 15px;
     `}
 `;
 
@@ -233,5 +258,5 @@ export const CartWrapper = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 710px;
+    width: 1000px;
 `;

@@ -13,6 +13,7 @@ import {
 } from 'react-icons/lib/fa/';
 import Checkbox from "../simpleComponents/Checkbox";
 import {YMaps, Map, Placemark, Clusterer, ListBox, ListBoxItem,} from 'react-yandex-maps';
+import { getAddress, formatDate } from "../../utils"
 
 
 const Order = ({order, isAuthenticated, keycloak, actions, history, userMenu}) => {
@@ -23,14 +24,14 @@ const Order = ({order, isAuthenticated, keycloak, actions, history, userMenu}) =
                 <styles.Column rightside w220 rm25>
                     <styles.MenuWrapper>
                         <styles.MenuList>
-                            {userMenu && userMenu.map((menuItem) => {
+                            {userMenu && userMenu.map((menuItem, indx) => {
                                 const icon = menuItem.url === "/profile" ?
                                     <FaUser style={{verticalAlign: "text-top"}}/> :
                                     menuItem.url === "/home" ? <FaHome style={{verticalAlign: "text-top"}}/> :
                                         menuItem.url === "/admin" ?
                                             <FaEdit style={{verticalAlign: "text-top"}}/> : null;
                                 return (
-                                    <styles.MenuItem onClick={() => {
+                                    <styles.MenuItem key={"userMenu-"+indx} onClick={() => {
                                         history.push(menuItem.url)
                                     }}>
                                         {icon}{" "}{menuItem.name}
@@ -45,7 +46,7 @@ const Order = ({order, isAuthenticated, keycloak, actions, history, userMenu}) =
                 </styles.Column>
                 <styles.Column leftside w1000>
                     <styles.Label bold blue>Заказ №{order.id}</styles.Label>
-                    <styles.Label fs12 gray>(создан: 14.06.2018 11:24:34)</styles.Label>
+                    <styles.Label fs12 gray>(создан: {formatDate(order.createDate)})</styles.Label>
 
                     <styles.Row fromStart mb25 mt25><FaPhone style={{color: "#26a9e0"}}/>
                         <styles.Label lm15 bold blue>Контактные данные</styles.Label>
@@ -73,18 +74,18 @@ const Order = ({order, isAuthenticated, keycloak, actions, history, userMenu}) =
                     <styles.Row fromStart>
                         <styles.Column leftside w220 rm25>
                             <styles.Label fs12 gray>Способ доставки</styles.Label>
-                            {order.sendType === "selftake" &&
-                            <styles.Label fs14>Пункт выдачи {order.orgName}</styles.Label>}
-                            {order.sendType === "curier" && <styles.Label fs14>Курьером</styles.Label>}
-                            {order.sendType === "ruMail" && <styles.Label fs14>Почтой</styles.Label>}
+                            {order.sendType === "pickupPoint" &&
+                            <styles.Label fs14>Пункт выдачи ({order.sendOrgName})</styles.Label>}
+                            {order.sendType === "courierService" && <styles.Label fs14>Курьером ({order.sendOrgName})</styles.Label>}
+                            {order.sendType === "mailService" && <styles.Label fs14>Почтой ({order.sendOrgName})</styles.Label>}
                         </styles.Column>
                         <styles.Column leftside w220 rm25>
                             <styles.Label fs12 gray>Дата и время</styles.Label>
-                            <styles.Label fs14>{order.sendDate}</styles.Label>
+                            <styles.Label fs14>{formatDate(order.deliveryDate)}</styles.Label>
                         </styles.Column>
                         <styles.Column leftside w220 rm25>
                             <styles.Label fs12 gray>Адрес</styles.Label>
-                            {order.isTakeStatusSMS && <styles.Label fs14>{order.shippingAddress}</styles.Label>}
+                            <styles.Label fs14>{getAddress(order.addr)}</styles.Label>
                         </styles.Column>
                     </styles.Row>
 
@@ -94,15 +95,13 @@ const Order = ({order, isAuthenticated, keycloak, actions, history, userMenu}) =
                     <styles.Row fromStart>
                         <styles.Column leftside w220 rm25>
                             <styles.Label fs12 gray>Способ оплаты</styles.Label>
-                            {order.sendType === "card" && <styles.Label fs14>Оплата картой</styles.Label>}
-                            {order.sendType === "cash" &&
-                            <styles.Label fs14>оплата наличными при получении заказа</styles.Label>}
+                            <styles.Label fs14>{order.paymentMethodText}</styles.Label>
                         </styles.Column>
                         <styles.Column leftside w220 rm25>
                             <styles.Label fs12 gray>стоимость доставки</styles.Label>
-                            <styles.Label fs14>{order.sendPrice}</styles.Label>
+                            <styles.Label fs14>{order.sendPrice} ₽</styles.Label>
                             <styles.Label fs12 gray>Итого к оплате</styles.Label>
-                            <styles.Label fs14>{order.totalPrice + order.sendPrice - order.discount}</styles.Label>
+                            <styles.Label fs14>{order.totalCost} ₽</styles.Label>
                         </styles.Column>
                     </styles.Row>
 
@@ -114,7 +113,7 @@ const Order = ({order, isAuthenticated, keycloak, actions, history, userMenu}) =
                             <styles.CartTableHeaderItem w450>Товар</styles.CartTableHeaderItem>
                             <styles.CartTableHeaderItem w100>Вес</styles.CartTableHeaderItem>
                             <styles.CartTableHeaderItem w80>Количество</styles.CartTableHeaderItem>
-                            <styles.CartTableHeaderItem w80>Сумма</styles.CartTableHeaderItem>
+                            <styles.CartTableHeaderItem w100>Сумма</styles.CartTableHeaderItem>
                         </styles.CartTableHeader>
                         {(order.orderItemList && order.orderItemList.length !== 0) && order.orderItemList.map((item, indx) => (
                             <styles.SimpleLink to={"/book/" + item.book.id} key={"item" + indx}>
@@ -136,11 +135,13 @@ const Order = ({order, isAuthenticated, keycloak, actions, history, userMenu}) =
                                         <styles.Label fs14>{item.book.weight} г</styles.Label>
                                     </styles.CartTableBodyItem>
                                     <styles.CartTableBodyItem w80>
-                                        <styles.Label fs14>{item.book.count} шт.</styles.Label>
+                                        <styles.Label fs14>{item.count} шт.</styles.Label>
                                     </styles.CartTableBodyItem>
-                                    <styles.CartTableBodyItem w80>
-                                        <styles.Label fs14 bold>{item.book.price} ₽</styles.Label>
-                                        <styles.Label fs12 gray>{item.book.price} ₽ х {item.count} шт.</styles.Label>
+                                    <styles.CartTableBodyItem w100>
+                                        <styles.Column>
+                                            <styles.Label fs14 bold>{item.book.price*item.count} ₽</styles.Label>
+                                            <styles.Label fs12 gray>{item.book.price} ₽ х {item.count} шт.</styles.Label>
+                                        </styles.Column>
                                     </styles.CartTableBodyItem>
                                 </styles.CartOrderItem>
                             </styles.SimpleLink>))
@@ -150,15 +151,22 @@ const Order = ({order, isAuthenticated, keycloak, actions, history, userMenu}) =
                         <styles.Row fromEnd>
                             <styles.Label fs14>Общая сумма:</styles.Label>
                             <styles.Column rightside w100>
-                                <styles.Label fs14>{order.totalPrice} ₽</styles.Label>
+                                <styles.Label fs14>{order.orderItemList.reduce((accumulator, item) => ((item.book.price * item.count) + accumulator), 0)} ₽</styles.Label>
                             </styles.Column>
                         </styles.Row>
+                        {order && order.discount != "" && <styles.Row fromEnd mb25>
+                        <styles.Label fs14>Скидка:</styles.Label>
+                            <styles.Column rightside w100>
+                                <styles.Label
+                                  fs14>{order.discount} ₽
+                                </styles.Label>
+                            </styles.Column>
+                        </styles.Row>}
                         <styles.Row fromEnd mb25>
                             <styles.Label fs14>Общий вес:</styles.Label>
                             <styles.Column rightside w100>
                                 <styles.Label
-                                    fs14>{order.orderItemList.reduce((accumulator, item) => ((item.book.weight * item.count) + accumulator), 0)}
-                                    г
+                                    fs14>{order.orderItemList.reduce((accumulator, item) => ((item.book.weight * item.count) + accumulator), 0)} г
                                 </styles.Label>
                             </styles.Column>
                         </styles.Row>
@@ -166,7 +174,7 @@ const Order = ({order, isAuthenticated, keycloak, actions, history, userMenu}) =
                         <styles.Row fromEnd>
                             <styles.Label fs14 bold>Итого без доставки:</styles.Label>
                             <styles.Column rightside w100>
-                                <styles.Label fs14 bold>{order.totalPrice + order.sendPrice} ₽</styles.Label>
+                                <styles.Label fs14 bold>{order.orderItemList.reduce((accumulator, item) => ((item.book.price * item.count) + accumulator), 0) - order.discount} ₽</styles.Label>
                             </styles.Column>
                         </styles.Row>
                     </styles.Column>

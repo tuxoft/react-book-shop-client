@@ -57,3 +57,33 @@ export const getAddress = (address) => {
   return result;
 };
 
+export const formatDate = (date) => {
+  if (date != null) {
+
+    date = new Date(date);
+
+    var dd = date.getDate();
+    if (dd < 10) dd = '0' + dd;
+
+    var mm = date.getMonth() + 1;
+    if (mm < 10) mm = '0' + mm;
+
+    var yy = date.getFullYear();
+
+    var hh = date.getHours();
+    if (hh < 10) hh = '0' + hh;
+
+    var minut = date.getMinutes();
+    if (minut < 10) minut = '0' + minut;
+
+    var ss = date.getSeconds();
+    if (ss < 10) ss = '0' + ss;
+
+    return dd + '.' + mm + '.' + yy + " " + hh + ":" + minut + ":" + ss;
+
+  } else {
+    return "";
+  }
+
+
+};

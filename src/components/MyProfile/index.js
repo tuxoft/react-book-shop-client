@@ -11,6 +11,9 @@ import {
     FaEdit,
     FaHome
 } from 'react-icons/lib/fa/';
+import {
+  TiContacts
+} from 'react-icons/lib/ti/';
 import Checkbox from "../simpleComponents/Checkbox";
 
 
@@ -22,14 +25,14 @@ const MyProfile = ({profile, isAuthenticated, keycloak, actions, history, userMe
                 <styles.Column rightside w220 rm25>
                     <styles.MenuWrapper>
                         <styles.MenuList>
-                            {userMenu && userMenu.map((menuItem) => {
+                            {userMenu && userMenu.map((menuItem, indx) => {
                                 const icon = menuItem.url === "/profile" ?
                                     <FaUser style={{verticalAlign: "text-top"}}/> :
                                     menuItem.url === "/home" ? <FaHome style={{verticalAlign: "text-top"}}/> :
                                         menuItem.url === "/admin" ?
                                             <FaEdit style={{verticalAlign: "text-top"}}/> : null;
                                 return (
-                                    <styles.MenuItem onClick={() => {
+                                    <styles.MenuItem key={"userMenu-"+indx} onClick={() => {
                                         history.push(menuItem.url)
                                     }}>
                                         {icon}{" "}{menuItem.name}
@@ -43,14 +46,12 @@ const MyProfile = ({profile, isAuthenticated, keycloak, actions, history, userMe
                     </styles.MenuWrapper>
                 </styles.Column>
                 <styles.Column leftside w1000>
-                    <styles.Row fromStart mb25 mt25><FaUser style={{color: "#26a9e0"}}/>
-                        <styles.Label lm15 bold blue fs18>Мой профиль</styles.Label>
+                    <styles.Row fromStart mt25><FaUser style={{fontSize: "22px", color: "#26a9e0"}}/>
+                        <styles.Label lm15 bold blue fs22>Мой профиль</styles.Label>
                     </styles.Row>
-
-                    <styles.Row fromStart mb25 mt25><FaListAlt style={{color: "#26a9e0"}}/>
+                    <styles.Row fromStart mb25 mt25><TiContacts style={{fontSize: "18px", color: "#26a9e0"}}/>
                         <styles.Label lm15 bold blue fs16>Личные данные</styles.Label>
                     </styles.Row>
-
                     <styles.Label fs14>{profile.lastName} {profile.firstName} {profile.middleName}</styles.Label>
 
                     <styles.Row fromStart mt25>
@@ -72,29 +73,22 @@ const MyProfile = ({profile, isAuthenticated, keycloak, actions, history, userMe
                             <styles.CartTableHeaderItem w150></styles.CartTableHeaderItem>
                         </styles.CartTableHeader>
                         {orderList.map((order, indx) => (
-                            <styles.CartOrderItem chet={((indx+1)%2)==0} key={"item" + indx} last={indx === (profile.activeOrders.length - 1)}>
+                            <styles.CartOrderItem chet={((indx+1)%2)==0} key={"item" + indx} last={indx === (orderList.length - 1)}>
                                 <styles.CartTableBodyItem ml15 w250>
                                     <styles.Label bold fs14>{order.id}</styles.Label>
                                     <styles.Label fs12>Товаров: {order.orderItemList &&
                                     order.orderItemList.reduce((accumulator, item) => (item.count + accumulator), 0)}</styles.Label>
                                 </styles.CartTableBodyItem>
                                 <styles.CartTableBodyItem w200>
-                                    {order.status === 'canceled' && <styles.Label bold gray fs14>Отменен</styles.Label>}
-                                    {order.status === 'shipping' &&
-                                    <styles.Label bold gray fs14>Отправлен</styles.Label>}
-                                    {order.status === 'unpaiment' &&
-                                    <styles.Label bold gray fs14>Неоплачен</styles.Label>}
+                                    <styles.Label bold gray fs14>{order.status}</styles.Label>
                                 </styles.CartTableBodyItem>
 
                                 <styles.CartTableBodyItem w180>
-                                    <styles.Label fs14>{order.totalPrice} ₽</styles.Label>
+                                    <styles.Label fs14>{order.totalCost} ₽</styles.Label>
                                 </styles.CartTableBodyItem>
 
                                 <styles.CartTableBodyItem w220>
-                                    {order.paymentMethod==='cash' && <styles.Label fs14>наличными</styles.Label>}
-                                    {order.paymentMethod==='card' && <styles.Label fs14>по карте</styles.Label>}
-                                    {order.paymentMethod==='visa' && <styles.Label fs14>карта виза</styles.Label>}
-                                    {order.paymentMethod==='' && <styles.Label fs14>не указан</styles.Label>}
+                                    <styles.Label fs14>{order.paymentMethodText}</styles.Label>
                                 </styles.CartTableBodyItem>
 
                                 <styles.CartTableBodyItem w150>

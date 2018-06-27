@@ -61,9 +61,6 @@ const OrderListStatus = ({orderList, isAuthenticated, keycloak, actions, history
                         <styles.CartTableBodyItem pl20 vcenter><styles.SimpleLink to={"/order-list/canceled"} >
                             <styles.Label fs14 black underline active={match.params.id==='canceled'}>Отмененные</styles.Label>
                         </styles.SimpleLink></styles.CartTableBodyItem>
-                        <styles.CartTableBodyItem pl20 vcenter><styles.SimpleLink to={"/order-list/archived"} >
-                            <styles.Label fs14 black underline active={match.params.id==='archived'}>Архивные</styles.Label>
-                        </styles.SimpleLink></styles.CartTableBodyItem>
                     </styles.TopTab>
 
                     <styles.CartWrapper>
@@ -82,22 +79,15 @@ const OrderListStatus = ({orderList, isAuthenticated, keycloak, actions, history
                                     order.orderItemList.reduce((accumulator, item) => (item.count + accumulator), 0)}</styles.Label>
                                 </styles.CartTableBodyItem>
                                 <styles.CartTableBodyItem w200>
-                                    {order.status === 'canceled' && <styles.Label bold gray fs14>Отменен</styles.Label>}
-                                    {order.status === 'shipping' &&
-                                    <styles.Label bold gray fs14>Отправлен</styles.Label>}
-                                    {order.status === 'unpaiment' &&
-                                    <styles.Label bold gray fs14>Неоплачен</styles.Label>}
+                                    <styles.Label bold gray fs14>{order.status}</styles.Label>
                                 </styles.CartTableBodyItem>
 
                                 <styles.CartTableBodyItem w180>
-                                    <styles.Label fs14>{order.totalPrice} ₽</styles.Label>
+                                    <styles.Label fs14>{order.totalCost} ₽</styles.Label>
                                 </styles.CartTableBodyItem>
 
                                 <styles.CartTableBodyItem w220>
-                                    {order.paymentMethod==='cash' && <styles.Label fs14>наличными</styles.Label>}
-                                    {order.paymentMethod==='card' && <styles.Label fs14>по карте</styles.Label>}
-                                    {order.paymentMethod==='visa' && <styles.Label fs14>карта виза</styles.Label>}
-                                    {order.paymentMethod==='' && <styles.Label fs14>не указан</styles.Label>}
+                                    <styles.Label fs14>{order.paymentMethodText}</styles.Label>
                                 </styles.CartTableBodyItem>
 
                                 <styles.CartTableBodyItem w150>

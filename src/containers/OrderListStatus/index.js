@@ -20,6 +20,12 @@ class OrderListStatus extends Component {
         //this.props.actions.order.fetchOrder("1");
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.match.params.id !== this.props.match.params.id) {
+          this.props.actions.order.fetchOrderList(nextProps.match.params.id);
+        }
+    }
+
     render() {
 
         return (
