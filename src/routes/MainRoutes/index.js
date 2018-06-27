@@ -104,6 +104,7 @@ const Routes = (props) => {
             render={(props) => <Redirect to={"/order-list/all"} {...props} />}
             {...props}
         />
+
         <Route
             exact
             path="/order/:id"
