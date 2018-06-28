@@ -133,20 +133,20 @@ const Routes = (props) => {
         />
         <Route
             exact
-            path="/work-order-list/:id"
+            path="/seller/order-list/:id"
             render={(props) => <WorkOrderListStatusScreen {...props} />}
             {...props}
         />
         <Route
             exact
-            path="/work-order-list"
-            render={(props) => <Redirect to={"/work-order-list/all"} {...props} />}
+            path="/seller/order/:id"
+            render={(props) => <WorkOrderStatusScreen {...props} />}
             {...props}
         />
         <Route
             exact
-            path="/work-order/:id"
-            render={(props) => <WorkOrderStatusScreen {...props} />}
+            path="/seller"
+            render={(props) => <Redirect to={"/seller/order-list/all"} {...props} />}
             {...props}
         />
         <Route component={NotFound}/>

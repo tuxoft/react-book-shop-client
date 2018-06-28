@@ -223,3 +223,110 @@ export const CartWrapper = styled.div`
     align-items: center;
     width: 710px;
 `;
+
+export const OrderButton = styled.div`
+    display: block;
+    min-width: 200px;
+    height: 50px;
+    margin-top: 25px;
+    margin-bottom: 0;
+    font-size: 18px;
+    line-height: 45px;
+    background-color: #26a9e0;
+    cursor: pointer;
+    border-radius: 5px;
+    color: #fff;
+    text-align: center;
+    padding-top: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-bottom: 25px;
+    ${props => props.short && `
+        width: 200px;
+    `}
+`;
+
+export const Input = styled.input.attrs({ type: props => props.valueType ? props.valueType : "text" })`
+    width: 300px;
+    font-size: 16px;
+    font-family: 'PT Sans', sans-serif;
+    font-weight: 400;
+    line-height: 31px;
+    vertical-align: top;
+    color: #333;
+    height: 30px;
+    box-sizing: border-box;
+    border: 1px solid #b3b3b3;
+    border-radius: 3px;
+    background-color: #fff;
+    padding-left: 5px;
+    text-align: start;
+    background-color: ${({ disabled }) => disabled ? '#ccc' : '#fff'};
+`;
+
+export const Line = styled.div`
+        margin-top: 5px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        width: 100%;
+        justify-content: start;
+        cursor: pointer;
+        &:hover {
+            color: blue;
+        }
+`;
+
+export const InputWrapper = styled.div`
+        width: 300px;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: stretch;        
+        justify-content: flex-start;        
+`;
+
+export const Container = styled.div`
+        min-width: 0px;
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: start;
+`;
+export const Item = styled.div`
+        border: 1px solid #e2e2e2;
+        border-radius: 6px;
+        color: #fff;
+        background-color: #26a9e0;
+        padding: 5px;
+        margin-right: 5px;
+        margin-bottom: 5px;
+        display: flex;
+        flex: row;
+`;
+export const InputSuggest = styled.input.attrs({ type: props => props.valueType ? props.valueType : "text" })`
+    width: 300px;
+    font-size: 16px;
+    font-family: 'PT Sans', sans-serif;
+    font-weight: 400;
+    line-height: 31px;
+    vertical-align: top;
+    color: #333;
+    height: 30px;
+    background-color: #fff;
+    padding-left: 5px;
+    text-align: start;
+    box-sizing: border-box;
+    border: 1px solid #b3b3b3;
+    border-radius: 3px;
+`;
+export const Select = styled.select`
+  display: block;
+  height: 40px;
+  border-radius: 4px;
+  border: 1px solid #b3b3b3;
+  background-color: #fff;
+  font-size: 16px;
+  font-family: 'PT Sans', sans-serif;
+  font-weight: 400;
+  width: 300px;  
+`;

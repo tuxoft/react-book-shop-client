@@ -18,24 +18,31 @@ class WorkOrderStatus extends Component {
         this.props.actions.order.fetchOrder(this.props.match.params.id);
     }
 
-    setWorkStatus = (orderId, orderStatus)=>{
-        this.props.actions.order.setWorkStatus(orderId, orderStatus);
+    setWorkStatus = (orderStatus)=>{
+        this.props.actions.order.setWorkStatus(this.props.match.params.id, orderStatus);
     };
 
-    setOrderStatus = (orderId, orderStatus, note)=>{
-        this.props.actions.order.setOrderStatus(orderId, orderStatus, note);
+    setOrderStatus = (orderStatus, note)=>{
+        this.props.actions.order.setOrderStatus(this.props.match.params.id, orderStatus, note);
     };
 
-    setOrderWorker = (orderId, workerId)=>{
-        this.props.actions.order.setOrderWorker(orderId, workerId);
+    setOrderWorker = (workerId)=>{
+        this.props.actions.order.setOrderWorker(this.props.match.params.id, workerId);
     };
 
-    setOrderPay = (orderId, pay)=>{
-        this.props.actions.order.setOrderPay(orderId, pay);
+    setOrderPay = (pay)=>{
+        this.props.actions.order.setOrderPay(this.props.match.params.id, pay);
     };
 
     searchWorkers = (query)=>{
         this.props.actions.order.searchWorkers({query});
+    };
+
+    setObjAttr = (attr, val) => {
+        this.props.actions.order.setOrder({
+            ...this.props.order,
+            [attr]: val,
+        })
     };
 
     render() {
@@ -48,6 +55,7 @@ class WorkOrderStatus extends Component {
                 setOrderWorker={this.setOrderWorker}
                 setOrderStatus={this.setOrderStatus}
                 setWorkStatus={this.setWorkStatus}
+                setObjAttr={this.setObjAttr}
             />
         );
     }

@@ -88,7 +88,7 @@ const WorkOrderListStatus = ({orderList, isAuthenticated, keycloak, actions, his
                                 </styles.CartTableBodyItem>
 
                                 <styles.CartTableBodyItem w150>
-                                    <styles.SimpleLink to={"/order/" + order.id} >
+                                    <styles.SimpleLink to={"/seller/order/" + order.id} >
                                         <styles.Label fs12 gray underline>Подробнее</styles.Label>
                                     </styles.SimpleLink>
                                 </styles.CartTableBodyItem>
