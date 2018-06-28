@@ -13,6 +13,8 @@ import OrderStatusScreen from "../../Screens/OrderStatusScreen/index";
 import MyProfileScreen from "../../Screens/MyProfileScreen/index";
 import EditMyProfileScreen from "../../Screens/EditMyProfileScreen/index";
 import OrderListStatusScreen from "../../Screens/OrderListStatusScreen/index";
+import WorkOrderListStatusScreen from "../../Screens/WorkOrderListStatusScreen/index";
+import WorkOrderStatusScreen from "../../Screens/WorkOrderStatusScreen/index";
 import AdminScreen from "../../Screens/AdminScreen/index";
 import NotFound from "../../Screens/NotFoundScreen/index";
 
@@ -127,6 +129,24 @@ const Routes = (props) => {
             exact
             path="/edit-profile"
             render={(props) => <EditMyProfileScreen {...props} />}
+            {...props}
+        />
+        <Route
+            exact
+            path="/work-order-list/:id"
+            render={(props) => <WorkOrderListStatusScreen {...props} />}
+            {...props}
+        />
+        <Route
+            exact
+            path="/work-order-list"
+            render={(props) => <Redirect to={"/work-order-list/all"} {...props} />}
+            {...props}
+        />
+        <Route
+            exact
+            path="/work-order/:id"
+            render={(props) => <WorkOrderStatusScreen {...props} />}
             {...props}
         />
         <Route component={NotFound}/>

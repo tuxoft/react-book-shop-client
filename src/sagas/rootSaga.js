@@ -9,6 +9,7 @@ import admin from "./admin";
 import authentication from "./authentication";
 import order from "./order";
 import profile from "./profile";
+import workOrder from "./workOrder";
 
 export default function* rootSaga() {
   yield all([
@@ -22,5 +23,6 @@ export default function* rootSaga() {
       authentication(),
       order(),
       profile(),
+      workOrder(),
   ]);
 }
