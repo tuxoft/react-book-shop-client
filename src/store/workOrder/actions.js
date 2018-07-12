@@ -13,9 +13,10 @@ export const setOrder = (order) => ({
     }
 });
 export const FETCH_WORK_ORDER_LIST = "FETCH_WORK_ORDER_LIST";
-export const fetchOrderList = () => ({
+export const fetchOrderList = (workStatus) => ({
     type: FETCH_WORK_ORDER_LIST,
     payload: {
+        workStatus
     }
 });
 export const SET_WORK_ORDER_LIST = "SET_WORK_ORDER_LIST";
@@ -72,4 +73,12 @@ export const setWorkers = (workers) => ({
         workers
     }
 });
+export const GET_ORDER_IN_WORK = "GET_ORDER_IN_WORK";
+export const getOrderInWork = (orderId) => ({
+  type: GET_ORDER_IN_WORK,
+  payload: {
+    orderId
+  }
+});
+
 

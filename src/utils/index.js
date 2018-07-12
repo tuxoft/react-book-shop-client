@@ -1,3 +1,10 @@
+import React from "react";
+import {
+  FaUser,
+  FaEdit,
+  FaHome,
+  FaDropbox
+} from 'react-icons/lib/fa/';
 
 export const getCookie = (name)=> {
     const matches = document.cookie.match(new RegExp(
@@ -87,3 +94,10 @@ export const formatDate = (date) => {
 
 
 };
+
+export const getMenuItemIcon = (menuItem) => {
+  return menuItem.url === "/profile" ? <FaUser style={{verticalAlign: "text-top"}}/> :
+    menuItem.url === "/home" ? <FaHome style={{verticalAlign: "text-top"}}/> :
+      menuItem.url === "/admin" ? <FaEdit style={{verticalAlign: "text-top"}}/> :
+        menuItem.url === "/seller" ? <FaDropbox style={{verticalAlign: "text-top"}}/> : null;
+}

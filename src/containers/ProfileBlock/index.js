@@ -12,12 +12,14 @@ import Keycloak from "keycloak-js";
 import axios from "axios";
 import * as appActions from "../../store/app/actions";
 import * as contentActions from "../../store/content/actions";
+import * as profileActions from "../../store/profile/actions";
 import Button from "../../components/simpleComponents/Button";
 import * as appSelectors from "../../store/app/selectors";
 import * as contentSelectors from "../../store/content/selectors";
 import {Link} from "react-router-dom";
 import Contur from "../../constants/contur";
-import {FaSignIn, FaSignOut, FaChevronCircleDown, FaUser, FaHome, FaEdit} from 'react-icons/lib/fa/';
+import {FaSignIn, FaSignOut, FaChevronCircleDown, FaUser, FaHome, FaEdit, FaDropbox} from 'react-icons/lib/fa/';
+import {getMenuItemIcon} from "../../utils";
 
 export const Control = styled.div`
     height: 100%;
@@ -152,6 +154,7 @@ class ProfileBlock extends Component {
                 if (authenticated) {
                     this.props.actions.app.authenticationToken(kc);
                     this.props.actions.content.fetchUserMenu();
+                    this.props.actions.profile.fetchProfile();
                 }
             }).error(function () {
                 console.log("kc failed", kc);
@@ -184,11 +187,7 @@ class ProfileBlock extends Component {
                         </UserMenuTitle>
                         <UserMenuItemWrapper>
                             {this.props.userMenu && this.props.userMenu.map((menuItem, indx) => {
-                                const icon = menuItem.url === "/profile" ?
-                                    <FaUser style={{verticalAlign: "text-top"}}/> :
-                                    menuItem.url === "/home" ? <FaHome style={{verticalAlign: "text-top"}}/> :
-                                        menuItem.url === "/admin" ?
-                                            <FaEdit style={{verticalAlign: "text-top"}}/> : null;
+                                const icon = getMenuItemIcon(menuItem);
                                 return (
                                     <UserMenuItem key={"menuItem-"+indx} onClick={() => {
                                         this.props.history.push(menuItem.url)
@@ -231,7 +230,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     actions: {
         ...ownProps.actions,
         app: bindActionCreators(appActions, dispatch),
-        content: bindActionCreators(contentActions, dispatch)
+        content: bindActionCreators(contentActions, dispatch),
+        profile: bindActionCreators(profileActions, dispatch),
     },
 });
 

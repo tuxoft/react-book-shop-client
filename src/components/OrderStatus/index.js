@@ -13,7 +13,7 @@ import {
 } from 'react-icons/lib/fa/';
 import Checkbox from "../simpleComponents/Checkbox";
 import {YMaps, Map, Placemark, Clusterer, ListBox, ListBoxItem,} from 'react-yandex-maps';
-import { getAddress, formatDate } from "../../utils"
+import { getAddress, formatDate, getMenuItemIcon} from "../../utils"
 
 
 const Order = ({order, isAuthenticated, keycloak, actions, history, userMenu}) => {
@@ -25,12 +25,8 @@ const Order = ({order, isAuthenticated, keycloak, actions, history, userMenu}) =
                     <styles.MenuWrapper>
                         <styles.MenuList>
                             {userMenu && userMenu.map((menuItem, indx) => {
-                                const icon = menuItem.url === "/profile" ?
-                                    <FaUser style={{verticalAlign: "text-top"}}/> :
-                                    menuItem.url === "/home" ? <FaHome style={{verticalAlign: "text-top"}}/> :
-                                        menuItem.url === "/admin" ?
-                                            <FaEdit style={{verticalAlign: "text-top"}}/> : null;
-                                return (
+                                const icon = getMenuItemIcon(menuItem);
+                              return (
                                     <styles.MenuItem key={"userMenu-"+indx} onClick={() => {
                                         history.push(menuItem.url)
                                     }}>

@@ -155,6 +155,21 @@ export const CartTableHeaderItem = styled.div`
     font-size: 12px;
     line-height: 30px;
     color: gray;
+    ${props => props.w250 && `
+       width: 250px;
+    `}
+     ${props => props.w200 && `
+       width: 200px;
+    `}
+     ${props => props.w180 && `
+       width: 180px;
+    `}
+    ${props => props.w220 && `
+       width: 220px;
+    `}
+    ${props => props.w150 && `
+       width: 150px;
+    `}
     ${props => props.w450 && `
        width: 450px;
     `}
@@ -164,16 +179,19 @@ export const CartTableHeaderItem = styled.div`
      ${props => props.w80 && `
        width: 80px;
     `}
+    
 `;
 
 export const CartTableHeader = styled.div`
     height: 30px;
     border-bottom: 1px solid #b3b3b3;
     font-size: 0;
-    width: 710px;
     display: flex;
     flex-direction: row;
     align-content: start;
+    ${props => props.w710 && `
+       width: 710px;
+    `}
 `;
 
 export const CartOrderItem = styled.div`
@@ -183,17 +201,38 @@ export const CartOrderItem = styled.div`
     padding: 20px 0;
     font-size: 0;
     color: #333;
+    ${props => props.chet && `
+       background-color: #f2f2f2;
+    `}
 `;
 
 export const CartTableBodyItem = styled.div`
     text-align: left;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-content: flex-start;
     justify-content: flex-start;
     font-size: 12px;
     line-height: 30px;
     color: gray;
+    ${props => props.w250 && `
+       width: 250px;
+    `}
+     ${props => props.w200 && `
+       width: 200px;
+    `}
+     ${props => props.w180 && `
+       width: 180px;
+    `}
+    ${props => props.w220 && `
+       width: 220px;
+    `}
+    ${props => props.w150 && `
+       width: 150px;
+    `}
+    ${props => props.ml15 && `
+       margin-left: 15px;
+    `}
     ${props => props.w450 && `
        width: 450px;
     `}
@@ -222,6 +261,9 @@ export const CartWrapper = styled.div`
     flex-direction: column;
     align-items: center;
     width: 710px;
+    ${props => props.w980 && `
+        width: 980px;
+    `}
 `;
 
 export const OrderButton = styled.div`

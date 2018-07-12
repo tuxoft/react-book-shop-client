@@ -4,15 +4,15 @@ import Contur from "../constants/contur";
 export default {
     getById: (id) => {
         const ENDPOINT = Contur.get().API;
-        return axios.get(ENDPOINT + "/api/work/order/"+id);
+        return axios.get(ENDPOINT + "/api/work/orders/"+id);
     },
-    getList: () => {
+    getList: (params) => {
         const ENDPOINT = Contur.get().API;
-        return axios.get(ENDPOINT + "/api/work/orders");
+        return axios.get(ENDPOINT + "/api/work/orders/", {params: params });
     },
-    setWorkStatus: (orderId, orderStatus) => {
+    setWorkStatus: (orderId, workStatus) => {
         const ENDPOINT = Contur.get().API;
-        return axios.get(ENDPOINT + "/api/work/orders/work-status", {params: {id: orderId, status: orderStatus}});
+        return axios.get(ENDPOINT + "/api/work/orders/work-status", {params: {id: orderId, status: workStatus}});
     },
     setOrderStatus: (orderId, orderStatus, note) => {
         const ENDPOINT = Contur.get().API;
@@ -28,7 +28,11 @@ export default {
     },
     searchWorkers: (params) => {
         const ENDPOINT = Contur.get().API;
-        return axios.get(ENDPOINT + "/api/dictionary/search", {params: params});
+        return axios.get(ENDPOINT + "/api/work/orders/worker/search", {params: params});
+    },
+    getOrderInWork: (orderId) => {
+        const ENDPOINT = Contur.get().API;
+        return axios.get(ENDPOINT + "/api/work/orders/getInWork", {params: {id: orderId}});
     },
 
 };

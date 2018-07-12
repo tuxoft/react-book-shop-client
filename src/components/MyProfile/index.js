@@ -7,15 +7,12 @@ import {
     FaShoppingCart,
     FaListAlt,
     FaSignOut,
-    FaUser,
-    FaEdit,
-    FaHome
+    FaUser
 } from 'react-icons/lib/fa/';
 import {
   TiContacts
 } from 'react-icons/lib/ti/';
-import Checkbox from "../simpleComponents/Checkbox";
-
+import {getMenuItemIcon} from "../../utils";
 
 
 const MyProfile = ({profile, isAuthenticated, keycloak, actions, history, userMenu, orderList}) => {
@@ -26,11 +23,7 @@ const MyProfile = ({profile, isAuthenticated, keycloak, actions, history, userMe
                     <styles.MenuWrapper>
                         <styles.MenuList>
                             {userMenu && userMenu.map((menuItem, indx) => {
-                                const icon = menuItem.url === "/profile" ?
-                                    <FaUser style={{verticalAlign: "text-top"}}/> :
-                                    menuItem.url === "/home" ? <FaHome style={{verticalAlign: "text-top"}}/> :
-                                        menuItem.url === "/admin" ?
-                                            <FaEdit style={{verticalAlign: "text-top"}}/> : null;
+                                const icon = getMenuItemIcon(menuItem);
                                 return (
                                     <styles.MenuItem key={"userMenu-"+indx} onClick={() => {
                                         history.push(menuItem.url)

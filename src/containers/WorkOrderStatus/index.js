@@ -7,15 +7,27 @@ import WorkOrderStatusComponet from "../../components/WorkOrderStatus";
 import * as appSelectors from "../../store/app/selectors";
 import * as contentSelectors from "../../store/content/selectors";
 import * as orderSelectors from "../../store/workOrder/selectors";
+import * as dictionaryActions from "../../store/dictionary/actions";
+import * as dictionarySelectors from "../../store/dictionary/selectors";
 
 
 class WorkOrderStatus extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state={
+          step: 1,
+          doValid: false,
+          suggestValues:[]
+        }
+    }
 
     componentDidMount() {
         if(!this.props.authenticated){
             this.props.actions.app.authenticationLogin(this.props.keycloak, this.props.authenticated);
         }
         this.props.actions.order.fetchOrder(this.props.match.params.id);
+        this.props.actions.dictionary.fetchDictionary({}, "orderStatus");
     }
 
     setWorkStatus = (orderStatus)=>{
@@ -45,6 +57,19 @@ class WorkOrderStatus extends Component {
         })
     };
 
+    setSuggestValue= (val, name)=>{
+        this.setState({
+          suggestValues: {
+            ...this.state.suggestValues,
+            [name]: val,
+          }
+        });
+    };
+
+    getOrderInWork = () =>{
+        this.props.actions.order.getOrderInWork(this.props.match.params.id);
+    }
+
     render() {
         return (
             <WorkOrderStatusComponet
@@ -56,18 +81,21 @@ class WorkOrderStatus extends Component {
                 setOrderStatus={this.setOrderStatus}
                 setWorkStatus={this.setWorkStatus}
                 setObjAttr={this.setObjAttr}
+                setSuggestValue={this.setSuggestValue}
+                getOrderInWork={this.getOrderInWork}
             />
         );
     }
 }
 
-const mapStateToProps = ({app, buscket, workOrder, content}) => ({
+const mapStateToProps = ({app, buscket, workOrder, content, dictionary}) => ({
     keycloak: appSelectors.getKeyckloak(app),
     authenticated: appSelectors.isAuthenticated(app),
     isInitialized: appSelectors.isInitialized(app),
     order: orderSelectors.getOrder(workOrder),
     workers: orderSelectors.getWorkers(workOrder),
-    userMenu: contentSelectors.getUserMenu(content)
+    userMenu: contentSelectors.getUserMenu(content),
+    statusList: dictionarySelectors.getDictionary(dictionary, "orderStatus")
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
@@ -75,6 +103,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
         ...ownProps.actions,
         app: bindActionCreators(appActions, dispatch),
         order: bindActionCreators(orderActions, dispatch),
+        dictionary: bindActionCreators(dictionaryActions, dispatch),
     },
 });
 

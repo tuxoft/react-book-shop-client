@@ -9,7 +9,8 @@ const initialState = {
     coverType: [],
     city: [],
     language: [],
-    shopCity: []
+    shopCity: [],
+    orderStatus: [],
 };
 
 const dictionary = (state = initialState, action) => {

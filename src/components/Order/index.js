@@ -131,7 +131,7 @@ const Order = ({
             <styles.Label>
               <styles.Label fs14 bold black>{"Самовывоз из пунктов выдачи"}</styles.Label>
               <styles.Label fs14 bold black>{"Стоимость доставки: " + order.sendPrice + " ₽"}</styles.Label>
-              <styles.Label fs14 notBold black><FaHome style={{verticalAlign: "text-top"}}/>{" "}{order.sendOrg.addr}</styles.Label>
+              <styles.Label fs14 notBold black><FaHome style={{verticalAlign: "text-top"}}/>{" "}{getAddress(order.sendOrg.addr)}</styles.Label>
               <styles.Label fs14 notBold black><FaClockO style={{verticalAlign: "text-top"}}/>{" "}{order.sendOrg.workPeriod}</styles.Label>
             </styles.Label>
           )
@@ -505,7 +505,7 @@ const Order = ({
           {step === 3 && <styles.Column>
             <styles.RadioBox>
               {paymentMethod && paymentMethod.map((payment, indx) => (
-              <styles.RadioRow>
+              <styles.RadioRow key={"paymentMethod-"+indx}>
                 {!(order.paymentMethod === payment.value) &&
                 <FaCircleO style={{minWidth: 30}} onClick={() => setObjectAttr(payment.value, 'paymentMethod')}/>}
                 {order.paymentMethod === payment.value && <FaDotCircleO style={{color: "#26a9e0", minWidth: 30}}

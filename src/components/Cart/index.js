@@ -3,7 +3,7 @@ import * as styles from "./styles";
 import Checkbox from "../simpleComponents/Checkbox";
 
 
-const Cart = ({cart, block, boxItemsCount, setBookCount, selectedBooks, selectAll, deselectAll, selectId, removeBookFromCart,}) => (
+const Cart = ({cart, block, boxItemsCount, setBookCount, selectedBooks, selectAll, deselectAll, selectId, removeBookFromCart, checkoutOrder}) => (
     <styles.CartWrapper>
         {(selectedBooks && selectedBooks.length > 0) &&
         <styles.SelectPanel>
@@ -111,7 +111,7 @@ const Cart = ({cart, block, boxItemsCount, setBookCount, selectedBooks, selectAl
                             <styles.Label bold>Итого без доставки:</styles.Label>
                             <styles.Label bold>{cart.cartItemList.reduce((accumulator ,item)=>((item.book.price* item.count)+accumulator),0)} ₽</styles.Label>
                         </styles.OrderRow>
-                        <styles.SimpleLink to="/order"><styles.OrderButton>Оформить заказ</styles.OrderButton></styles.SimpleLink>
+                        <styles.OrderButton onClick={checkoutOrder}>Оформить заказ</styles.OrderButton>
                     </styles.OrderBlock>
                 </styles.OrderBlockRow>
                 }

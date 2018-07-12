@@ -14,6 +14,7 @@ import DatePicker from 'react-datepicker';
 
 import 'react-datepicker/dist/react-datepicker.css';
 import './custom-styles.css';
+import {getMenuItemIcon} from "../../utils";
 
 
 const EditMyProfile = ({profile, isAuthenticated, keycloak, actions, history, userMenu, setObjectAttr, validatorEmail, validatorNumber, saveProfile}) => {
@@ -37,12 +38,9 @@ const EditMyProfile = ({profile, isAuthenticated, keycloak, actions, history, us
                     <styles.MenuWrapper>
                         <styles.MenuList>
                             {userMenu && userMenu.map((menuItem) => {
-                                const icon = menuItem.url === "/profile" ?
-                                    <FaUser style={{verticalAlign: "text-top"}}/> :
-                                    menuItem.url === "/home" ? <FaHome style={{verticalAlign: "text-top"}}/> :
-                                        menuItem.url === "/admin" ?
-                                            <FaEdit style={{verticalAlign: "text-top"}}/> : null;
-                                return (
+                                const icon = getMenuItemIcon(menuItem);
+
+                              return (
                                     <styles.MenuItem key={menuItem.name} onClick={() => {
                                         history.push(menuItem.url)
                                     }}>

@@ -1,3 +1,5 @@
+import { getAddress } from "../../utils"
+
 export const getOrder = (state) => {
     return state.order;
 };
@@ -27,7 +29,7 @@ export const getPickupPoint = (state) => {
             orgName: point.name,
             orgWorkPeriod: point.workPeriod,
             orgIconUrl: point.iconUrl,
-            orgAddr: point.addr,
+            orgAddr: getAddress(point.addr),
             payCase: point.payCase
         },
         "options": {

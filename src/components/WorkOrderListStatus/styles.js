@@ -207,6 +207,10 @@ export const CartOrderItem = styled.div`
     ${props => props.chet && `
        background-color: #f2f2f2;
     `}    
+    ${props => props.last && `
+        border-bottom: 1px solid #b3b3b3;
+        margin-bottom: 25px;
+    `} 
 `;
 
 export const TopTab = styled.div`

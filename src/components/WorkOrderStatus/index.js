@@ -12,7 +12,7 @@ import {
     FaHome
 } from 'react-icons/lib/fa/';
 import Autosuggest from 'react-autosuggest';
-import {getAddress, formatDate} from "../../utils"
+import {getAddress, formatDate, getMenuItemIcon} from "../../utils";
 
 
 const WorkOrder = ({
@@ -31,12 +31,10 @@ const WorkOrder = ({
                        setObjAttr,
                        suggestValues,
                        setSuggestValue,
+                       statusList,
+                       getOrderInWork
                    }) => {
     if (!order || !order.orderItemList) return null;
-    const statusList = [{id: "payd", name: "Оплачено"}, {id: "shipping", name: "Отправлено"}, {
-        id: "delivery",
-        name: "Доставлено"
-    }, {id: "unPayd", name: "Не оплачено"}, {id: "canceled", name: "Отменен"}];
     const getSelect = (indx, name, statusList, parametrName, object, setObjAttr) => {
         return (<styles.Row key={indx ? "row" + indx : "row"}>
             <styles.RowItem>
@@ -47,8 +45,8 @@ const WorkOrder = ({
                     }
                     value={object[name] ? object[name] : ""}>
                     <option disabled value={""}>выберите значение</option>
-                    {statusList.map((item, indx) =>
-                        <option key={item.id} value={item.id}>
+                    {statusList.map((item, indx1) =>
+                        <option key={indx1} value={item.id?item.id:item.name}>
                             {item.name}
                         </option>)}
                 </styles.Select>
@@ -139,12 +137,8 @@ const WorkOrder = ({
                     <styles.MenuWrapper>
                         <styles.MenuList>
                             {userMenu && userMenu.map((menuItem, indx) => {
-                                const icon = menuItem.url === "/profile" ?
-                                    <FaUser style={{verticalAlign: "text-top"}}/> :
-                                    menuItem.url === "/home" ? <FaHome style={{verticalAlign: "text-top"}}/> :
-                                        menuItem.url === "/admin" ?
-                                            <FaEdit style={{verticalAlign: "text-top"}}/> : null;
-                                return (
+                                const icon = getMenuItemIcon(menuItem);
+                              return (
                                     <styles.MenuItem key={"userMenu-" + indx} onClick={() => {
                                         history.push(menuItem.url)
                                     }}>
@@ -218,7 +212,11 @@ const WorkOrder = ({
                             <styles.Label fs12 gray>стоимость доставки</styles.Label>
                             <styles.Label fs14>{order.sendPrice} ₽</styles.Label>
                             <styles.Label fs12 gray>Итого к оплате</styles.Label>
-                            <styles.Label fs14>{order.totalCost} ₽</styles.Label>
+                            <styles.Label fs14>{order.totalCost - order.discount} ₽</styles.Label>
+                            <styles.Label fs12 gray>Оплачено</styles.Label>
+                            <styles.Label fs14>{order.payFor} ₽</styles.Label>
+                            <styles.Label fs12 gray>Осталось</styles.Label>
+                            <styles.Label fs14>{order.toPay} ₽</styles.Label>
                         </styles.Column>
                     </styles.Row>
 
@@ -226,7 +224,7 @@ const WorkOrder = ({
                         <styles.Label lm15 bold blue>Состав заказа</styles.Label>
                     </styles.Row>
                     <styles.CartWrapper>
-                        <styles.CartTableHeader>
+                        <styles.CartTableHeader w710>
                             <styles.CartTableHeaderItem w450>Товар</styles.CartTableHeaderItem>
                             <styles.CartTableHeaderItem w100>Вес</styles.CartTableHeaderItem>
                             <styles.CartTableHeaderItem w80>Количество</styles.CartTableHeaderItem>
@@ -310,10 +308,10 @@ const WorkOrder = ({
                     </styles.Row>
 
                     {order.changeHistory &&
-                    <styles.CartWrapper w980>
+                    <styles.CartWrapper>
                         <styles.CartTableHeader>
                             <styles.CartTableHeaderItem w250>Пользователь</styles.CartTableHeaderItem>
-                            <styles.CartTableHeaderItem w150>Именение</styles.CartTableHeaderItem>
+                            <styles.CartTableHeaderItem w150>Изменение</styles.CartTableHeaderItem>
                             <styles.CartTableHeaderItem w180>Старое значение</styles.CartTableHeaderItem>
                             <styles.CartTableHeaderItem w180>Новое значение</styles.CartTableHeaderItem>
                             <styles.CartTableHeaderItem w220>Примечание</styles.CartTableHeaderItem>
@@ -325,7 +323,7 @@ const WorkOrder = ({
                                     <styles.Label fs12>дата: {record.changeDate}</styles.Label>
                                 </styles.CartTableBodyItem>
                                 <styles.CartTableBodyItem w150>
-                                    <styles.Label fs14>{record.field}</styles.Label>
+                                    <styles.Label fs14>{record.changeField}</styles.Label>
                                 </styles.CartTableBodyItem>
 
                                 <styles.CartTableBodyItem w180>
@@ -345,17 +343,17 @@ const WorkOrder = ({
                 </styles.Column>
 
                 <styles.Column rightside w220 rm25>
-                    {order.workStatus == "unworked" &&
+                    {order.workStatus == "new" &&
                     <styles.Column>
                         <styles.Label gray>НЕ В РАБОТЕ</styles.Label>
                         <styles.OrderButton onClick={() => {
-                            setWorkStatus("inworked");
+                            getOrderInWork();
                         }}>Взять в работу
                         </styles.OrderButton>
                     </styles.Column>
                     }
 
-                    {order.workStatus == "inworked" &&
+                    {order.workStatus == "inWork" &&
                     <styles.Column>
                         <styles.Label blue>В РАБОТЕ</styles.Label>
                         <styles.Label blue fs14>Состояние заказа</styles.Label>
@@ -381,12 +379,12 @@ const WorkOrder = ({
                         </styles.OrderButton>
 
                         <styles.Label blue fs14>Указать оплату</styles.Label>
-                        {getInput("4", "payFor", "Примечание к статусу", order, setObjAttr, "number")}
+                        {getInput("4", "payment", "Примечание к статусу", order, setObjAttr, "number")}
                         <styles.OrderButton
                             disabled={!order.payFor}
                             onClick={() => {
-                                if (!order.payFor) return;
-                                setOrderPay(order.payFor);
+                                if (!order.payment) return;
+                                setOrderPay(order.payment);
                             }}>Указать
                         </styles.OrderButton>
 
@@ -394,17 +392,17 @@ const WorkOrder = ({
                             disabled={!order.payFor || order.payFor!==order.toPay || order.status!=="delivery"}
                             onClick={() => {
                                 if (!order.payFor) return;
-                                setWorkStatus("finished");
+                                setWorkStatus("finish");
                             }}>Закрыть заказ
                         </styles.OrderButton>
                     </styles.Column>
                     }
 
-                    {order.workStatus == "finished" &&
+                    {order.workStatus == "finish" &&
                     <styles.Column>
                         <styles.Label gray>Завершен</styles.Label>
                         <styles.OrderButton onClick={() => {
-                            setWorkStatus("inworked");
+                            getOrderInWork();
                         }}>Вернуть в работу
                         </styles.OrderButton>
                     </styles.Column>

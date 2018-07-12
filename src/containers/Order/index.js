@@ -38,7 +38,8 @@ class Order extends Component {
           {field: "sendPrice", val: pickupPoint && pickupPoint.sendPrice ? pickupPoint.sendPrice : 0},
           {field: "sendOrg", val: pickupPoint},
           {field: "totalCost", val: this.props.order.orderItemList.reduce((accumulator, item) => ((item.book.price * item.count) + accumulator), 0) + pickupPoint.sendPrice - this.props.order.discount},
-          {field: "toPay", val: this.props.order.orderItemList.reduce((accumulator, item) => ((item.book.price * item.count) + accumulator), 0) + pickupPoint.sendPrice - this.props.order.discount}
+          {field: "toPay", val: this.props.order.orderItemList.reduce((accumulator, item) => ((item.book.price * item.count) + accumulator), 0) + pickupPoint.sendPrice - this.props.order.discount},
+          {field: "addr", val: pickupPoint.addr}
         ]);
         this.nextStep();
     };
@@ -90,6 +91,7 @@ class Order extends Component {
                 return;
             }
         }
+        console.log("this.state.step", this.state.step)
         this.setState({
             step: this.state.step+1,
             doValid: false,
@@ -119,7 +121,6 @@ class Order extends Component {
         if(!this.validatorText(order.addr.index))return true;
         if(!this.validatorText(order.addr.street))return true;
         if(!this.validatorText(order.addr.house))return true;
-        if(!this.validatorText(order.addr.room))return true;
         if(!order.sendOrgId || order.sendOrgId === "") return true;
         return false;
     };
@@ -130,7 +131,6 @@ class Order extends Component {
     };
 
     makeOrder = () => {
-        console.log("make order", this.props.order);
         this.props.actions.order.makeOrder(this.props.order);
     };
 

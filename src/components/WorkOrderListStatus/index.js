@@ -13,6 +13,7 @@ import {
 } from 'react-icons/lib/fa/';
 import Checkbox from "../simpleComponents/Checkbox";
 import {YMaps, Map, Placemark, Clusterer, ListBox, ListBoxItem,} from 'react-yandex-maps';
+import {getMenuItemIcon} from "../../utils";
 
 
 const WorkOrderListStatus = ({orderList, isAuthenticated, keycloak, actions, history, userMenu, match}) => {
@@ -25,12 +26,8 @@ const WorkOrderListStatus = ({orderList, isAuthenticated, keycloak, actions, his
                     <styles.MenuWrapper>
                         <styles.MenuList>
                             {userMenu && userMenu.map((menuItem) => {
-                                const icon = menuItem.url === "/profile" ?
-                                    <FaUser style={{verticalAlign: "text-top"}}/> :
-                                    menuItem.url === "/home" ? <FaHome style={{verticalAlign: "text-top"}}/> :
-                                        menuItem.url === "/admin" ?
-                                            <FaEdit style={{verticalAlign: "text-top"}}/> : null;
-                                return (
+                                const icon = getMenuItemIcon(menuItem);
+                              return (
                                     <styles.MenuItem onClick={() => {
                                         history.push(menuItem.url)
                                     }}>
@@ -49,14 +46,20 @@ const WorkOrderListStatus = ({orderList, isAuthenticated, keycloak, actions, his
                 <styles.Column leftside w1000>
                     <styles.Label bold blue mb25><FaShoppingCart style={{color: "#26a9e0"}}/>{" "}Обработка заказов</styles.Label>
                     <styles.TopTab>
-                        <styles.CartTableBodyItem pl20 vcenter ><styles.SimpleLink to={"/order-list/unworked"} >
-                            <styles.Label fs14 black underline active={match.params.id==='active'}>Не назначенные</styles.Label>
+                        <styles.CartTableBodyItem pl20 vcenter ><styles.SimpleLink to={"/seller/order-list/all"} >
+                            <styles.Label fs14 black underline active={match.params.id==='all'}>Все</styles.Label>
                         </styles.SimpleLink></styles.CartTableBodyItem>
-                        <styles.CartTableBodyItem pl20 vcenter><styles.SimpleLink to={"/order-list/inworked"} >
-                            <styles.Label fs14 black underline active={match.params.id==='all'}>В работе</styles.Label>
+                        <styles.CartTableBodyItem pl20 vcenter ><styles.SimpleLink to={"/seller/order-list/new"} >
+                            <styles.Label fs14 black underline active={match.params.id==='new'}>Новые</styles.Label>
                         </styles.SimpleLink></styles.CartTableBodyItem>
-                        <styles.CartTableBodyItem pl20 vcenter ><styles.SimpleLink to={"/order-list/finished"} >
-                            <styles.Label fs14 black underline active={match.params.id==='closed'}>Завершённые</styles.Label>
+                        <styles.CartTableBodyItem pl20 vcenter><styles.SimpleLink to={"/seller/order-list/inWork"} >
+                            <styles.Label fs14 black underline active={match.params.id==='inWork'}>В работе</styles.Label>
+                        </styles.SimpleLink></styles.CartTableBodyItem>
+                        <styles.CartTableBodyItem pl20 vcenter ><styles.SimpleLink to={"/seller/order-list/defer"} >
+                            <styles.Label fs14 black underline active={match.params.id==='defer'}>Отложенные</styles.Label>
+                        </styles.SimpleLink></styles.CartTableBodyItem>
+                        <styles.CartTableBodyItem pl20 vcenter ><styles.SimpleLink to={"/seller/order-list/finish"} >
+                            <styles.Label fs14 black underline active={match.params.id==='finish'}>Завершённые</styles.Label>
                         </styles.SimpleLink></styles.CartTableBodyItem>
                     </styles.TopTab>
 

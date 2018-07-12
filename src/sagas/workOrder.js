@@ -24,7 +24,7 @@ function* fetchOrder(action) {
 function* fetchOrderList(action) {
     try {
         console.log("fetchOrderList ");
-        const orderList = yield call(Api.workOrder.getList);
+        const orderList = yield call(Api.workOrder.getList, action.payload);
         yield put(orderActions.setOrderList(orderList.data));
     } catch (error) {
         console.log("fetchOrderList error", error);
@@ -109,8 +109,8 @@ function* setOrderPay(action) {
 function* searchWorkers(action) {
     try {
         console.log("searchWorkers ", action.payload.params);
-        const order = yield call(Api.workOrder.searchWorkers, action.payload.params);
-        yield put(orderActions.setOrder(order.data));
+        const workers = yield call(Api.workOrder.searchWorkers, action.payload.params);
+        yield put(orderActions.setWorkers(workers.data));
     } catch (error) {
         console.log("searchWorkers error", error);
         yield put(
@@ -122,6 +122,24 @@ function* searchWorkers(action) {
         );
     }
 }
+// WORKERS
+function* getOrderInWork(action) {
+  try {
+    console.log("getOrderInWork ", action.payload.orderId);
+    const order = yield call(Api.workOrder.getOrderInWork, action.payload.orderId);
+    yield put(orderActions.setOrder(order.data));
+  } catch (error) {
+    console.log("getOrderInWork error", error);
+    yield put(
+      flashActions.showFlash(
+        "Ошибка! Данные не получены",
+        "danger",
+        true,
+      ),
+    );
+  }
+}
+
 
 // WATCHERS
 function* fetchOrderFlow() {
@@ -151,6 +169,10 @@ function* setOrderPayFlow() {
 function* searchWorkersFlow() {
     yield takeLatest(orderActions.SEARCH_WORKERS, searchWorkers);
 }
+// WATCHERS
+function* getOrderInWorkFlow() {
+  yield takeLatest(orderActions.GET_ORDER_IN_WORK, getOrderInWork);
+}
 
 export default function* workOrder() {
   yield all([
@@ -161,5 +183,6 @@ export default function* workOrder() {
       setOrderWorkerFlow(),
       setOrderPayFlow(),
       searchWorkersFlow(),
+      getOrderInWorkFlow()
   ]);
 }

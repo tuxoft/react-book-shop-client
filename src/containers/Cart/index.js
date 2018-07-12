@@ -1,9 +1,12 @@
 import React, {Component} from "react";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
+import * as appActions from "../../store/app/actions";
 import * as cartActions from "../../store/bucket/actions";
 import CartComponet from "../../components/Cart";
+import * as appSelectors from "../../store/app/selectors";
 import * as cartSelectors from "../../store/bucket/selectors";
+
 
 class Cart extends Component {
 
@@ -67,6 +70,14 @@ class Cart extends Component {
         });
     };
 
+    checkoutOrder = () => {
+      if(!this.props.authenticated){
+        this.props.actions.app.authenticationLogin(this.props.keycloak, this.props.authenticated)
+      } else {
+        this.props.history.push("/order");
+      }
+    }
+
     render() {
         console.log("Cart", this.props.cart);
         return (
@@ -79,7 +90,7 @@ class Cart extends Component {
                 selectId={this.selectId}
                 selectAll={this.selectAll}
                 deselectAll={this.deselectAll}
-
+                checkoutOrder={this.checkoutOrder}
             />
         );
     }
@@ -88,12 +99,15 @@ class Cart extends Component {
 const mapStateToProps = ({app, buscket}) => ({
     cart: cartSelectors.getCart(buscket),
     boxItemsCount: cartSelectors.getCartItemsCount(buscket),
+    keycloak: appSelectors.getKeyckloak(app),
+    authenticated: appSelectors.isAuthenticated(app),
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
     actions: {
         ...ownProps.actions,
         cart: bindActionCreators(cartActions, dispatch),
+        app: bindActionCreators(appActions, dispatch),
     },
 });
 
